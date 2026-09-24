@@ -1,0 +1,51 @@
+UNAI — Universal Supply-Chain Agent (Cognitive Runtime)
+PROPRIETARY SOFTWARE LICENSE
+Copyright (c) 2026 Ravin Angara / Bristlecone. All rights reserved.
+
+1. OWNERSHIP. This software, its source code, documentation, designs, models,
+   data schemas, and the architecture, methods, and ideas it embodies
+   (collectively, the "Work") are the exclusive property of the copyright
+   holders. The Work is proprietary and confidential.
+
+2. NO LICENSE GRANTED. No license, express or implied, is granted by making the
+   Work available to you. Access to the Work does not transfer any ownership or
+   intellectual-property rights.
+
+3. RESTRICTIONS. Except with the prior written permission of the copyright
+   holders, you may NOT, in whole or in part:
+     (a) copy, reproduce, publish, or distribute the Work;
+     (b) modify, adapt, translate, or create derivative works from it;
+     (c) reverse-engineer, decompile, or attempt to derive the underlying ideas
+         or methods except to the limited extent this restriction is prohibited
+         by applicable law;
+     (d) use the Work, or the ideas or architecture it embodies, to build a
+         competing or similar product or service;
+     (e) sublicense, sell, rent, lease, or otherwise commercialize the Work;
+     (f) remove, alter, or obscure any copyright, proprietary, or attribution
+         notice.
+
+4. CONFIDENTIALITY. The Work is shared in confidence. You must protect it with
+   at least the same care you use for your own confidential information and must
+   not disclose it to any third party without prior written permission.
+
+5. FEEDBACK. Any feedback, suggestions, or contributions you provide may be used
+   by the copyright holders without obligation or compensation to you.
+
+6. NO WARRANTY. THE WORK IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+   EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT.
+
+7. LIMITATION OF LIABILITY. IN NO EVENT SHALL THE COPYRIGHT HOLDERS BE LIABLE
+   FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM OR IN CONNECTION WITH
+   THE WORK OR ITS USE.
+
+8. TERMINATION. Any breach of this License immediately terminates your right to
+   access or use the Work; upon termination you must destroy all copies in your
+   possession or control.
+
+9. INTEGRITY / PROVENANCE. The authentic contents of the Work are recorded in
+   copyright/MANIFEST.sha256 (a SHA-256 hash of every file), which may be
+   cryptographically signed by the copyright holders. Any file whose hash does
+   not match, or any copy lacking these notices, is not an authorized copy.
+
+For permissions or licensing inquiries, contact: ravin.angara@bristlecone.com

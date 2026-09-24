@@ -1,0 +1,3 @@
+sku,carrier,transit_days,freight_cost,otif_pct
+FG-1001,Maersk,12,4200.0,0.94
+FG-1003,DHL,5,1800.0,0.88

@@ -1,0 +1,4 @@
+sku,dc,forecast_qty,consensus_qty,promo_uplift,fcst_accuracy
+FG-1001,DC-EAST,1450,1500,0.18,0.86
+FG-1002,DC-EAST,380,400,0.05,0.78
+FG-1003,DC-WEST,720,900,0.22,0.71

@@ -1,0 +1,118 @@
+{
+  "source": "databricks",
+  "version": 1,
+  "tables": {
+    "inv_silver": {
+      "mappings": [
+        {
+          "column": "prod_id",
+          "concept": "sku",
+          "confidence": 0.86,
+          "auto_accepted": true,
+          "needs_review": false,
+          "rationale": "name contains 'prod' -> sku"
+        },
+        {
+          "column": "wh",
+          "concept": "location",
+          "confidence": 0.92,
+          "auto_accepted": true,
+          "needs_review": false,
+          "rationale": "column name matches 'wh' -> location"
+        },
+        {
+          "column": "units_on_hand",
+          "concept": "on_hand_qty",
+          "confidence": 0.86,
+          "auto_accepted": true,
+          "needs_review": false,
+          "rationale": "name contains 'onhand' -> on_hand_qty"
+        },
+        {
+          "column": "safety",
+          "concept": "safety_stock",
+          "confidence": 0.92,
+          "auto_accepted": true,
+          "needs_review": false,
+          "rationale": "column name matches 'safety' -> safety_stock"
+        },
+        {
+          "column": "cost_each",
+          "concept": "unit_cost",
+          "confidence": 0.86,
+          "auto_accepted": true,
+          "needs_review": false,
+          "rationale": "name contains 'cost' -> unit_cost"
+        },
+        {
+          "column": "vendor",
+          "concept": "supplier",
+          "confidence": 0.98,
+          "auto_accepted": true,
+          "needs_review": false,
+          "rationale": "native field 'vendor' is already in the ontology"
+        },
+        {
+          "column": "lt",
+          "concept": "lead_time_days",
+          "confidence": 0.8,
+          "auto_accepted": false,
+          "needs_review": true,
+          "rationale": "comment matches 'lead_time' -> lead_time_days"
+        }
+      ],
+      "summary": {
+        "columns": 7,
+        "mapped": 7,
+        "auto_accepted": 6,
+        "needs_review": 1,
+        "coverage_pct": 100,
+        "auto_pct": 86
+      }
+    },
+    "demand_silver": {
+      "mappings": [
+        {
+          "column": "prod_id",
+          "concept": "sku",
+          "confidence": 0.86,
+          "auto_accepted": true,
+          "needs_review": false,
+          "rationale": "name contains 'prod' -> sku"
+        },
+        {
+          "column": "wh",
+          "concept": "location",
+          "confidence": 0.92,
+          "auto_accepted": true,
+          "needs_review": false,
+          "rationale": "column name matches 'wh' -> location"
+        },
+        {
+          "column": "yhat",
+          "concept": "forecast_qty",
+          "confidence": 0.98,
+          "auto_accepted": true,
+          "needs_review": false,
+          "rationale": "native field 'yhat' is already in the ontology"
+        },
+        {
+          "column": "yr_mo",
+          "concept": "period",
+          "confidence": 0.8,
+          "auto_accepted": false,
+          "needs_review": true,
+          "rationale": "comment matches 'period' -> period"
+        }
+      ],
+      "summary": {
+        "columns": 4,
+        "mapped": 4,
+        "auto_accepted": 3,
+        "needs_review": 1,
+        "coverage_pct": 100,
+        "auto_pct": 75
+      }
+    }
+  }
+}

@@ -1,0 +1,340 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UNAI — How It Works</title>
+<style>
+  :root{--navy:#0B1224;--navy2:#0E1A33;--panel:#16264A;--teal:#22D3AA;--teal2:#18C5B4;--gold:#E9C46A;--coral:#E2574C;--ink:#EAF0FB;--mut:#9FB2D0;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:#05070f;overflow:hidden;font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:var(--ink)}
+  #stage{position:fixed;inset:0;overflow:hidden;background:
+     radial-gradient(1200px 800px at 75% -10%,#16234a 0%,rgba(11,18,36,0) 60%),
+     radial-gradient(1000px 700px at 10% 110%,#0d2b2a 0%,rgba(11,18,36,0) 55%),
+     linear-gradient(180deg,#0B1224,#05070f)}
+  .kick{font-size:clamp(11px,1.4vw,16px);font-weight:800;letter-spacing:.28em;text-transform:uppercase;color:var(--teal)}
+  .big{font-family:Georgia,'Cambria',serif;font-weight:800;line-height:1.08;font-size:clamp(30px,5.4vw,76px);letter-spacing:-.01em}
+  .sub{font-size:clamp(16px,2.1vw,28px);color:#C7D3EC;line-height:1.4;font-weight:400}
+  .muted{color:var(--mut)}
+  .accent{color:var(--teal)} .gold{color:var(--gold)} .coral{color:var(--coral)}
+
+  /* scene system */
+  .scene{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 8vw;opacity:0;pointer-events:none;transition:opacity .7s ease}
+  .scene.on{opacity:1}
+  .scene .kick,.scene .big,.scene .sub,.scene .viz{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+  .scene.on .kick{opacity:1;transform:none;transition-delay:.15s}
+  .scene.on .big{opacity:1;transform:none;transition-delay:.4s}
+  .scene.on .sub{opacity:1;transform:none;transition-delay:.9s}
+  .scene.on .viz{opacity:1;transform:none;transition-delay:.5s}
+  .big{margin:.18em 0 .28em}
+
+  /* cost chart */
+  .chart{width:min(60vw,720px);height:auto;margin-top:18px}
+  .cpath{stroke:var(--coral);stroke-width:5;fill:none;stroke-linecap:round;stroke-dasharray:1400;stroke-dashoffset:1400;transition:stroke-dashoffset 2.6s ease-in-out .6s}
+  .scene.on .cpath{stroke-dashoffset:0}
+  .carea{fill:url(#cg);opacity:0;transition:opacity 1.6s ease 1.6s}.scene.on .carea{opacity:.5}
+
+  /* levers */
+  .levers{display:flex;gap:22px;margin-top:26px;flex-wrap:wrap}
+  .lever{background:rgba(255,255,255,.04);border:1px solid #24365f;border-radius:16px;padding:18px 22px;min-width:200px}
+  .lever h4{font-size:clamp(15px,1.8vw,22px);margin-bottom:8px}
+  .lever .d{font-size:13px;color:var(--mut)}
+  .qbar{margin-top:12px;height:8px;border-radius:6px;background:#22345a;overflow:hidden}
+  .qbar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,var(--teal),var(--coral));transform-origin:left;transform:scaleX(1);transition:transform 1.8s ease .8s}
+  .scene.on .qbar i{transform:scaleX(.55)}
+
+  /* fuse */
+  .fuse{position:relative;width:min(70vw,760px);height:min(34vh,320px);margin-top:10px}
+  .dot{position:absolute;left:50%;top:50%;width:16px;height:16px;border-radius:50%;background:var(--teal2);
+       transform:translate(-50%,-50%) translate(var(--x),var(--y)) scale(1);opacity:.85;
+       transition:transform 1.9s cubic-bezier(.6,.05,.2,1) .3s,opacity 1.9s ease .3s;box-shadow:0 0 12px rgba(34,211,170,.5)}
+  .scene.on .dot{transform:translate(-50%,-50%) translate(0,0) scale(.5);opacity:0}
+  .core{position:absolute;left:50%;top:50%;width:150px;height:150px;border-radius:50%;transform:translate(-50%,-50%) scale(.2);opacity:0;
+        background:radial-gradient(circle at 50% 40%,#8ffbe6,#22D3AA 45%,#0f8c7e 80%);box-shadow:0 0 70px rgba(34,211,170,.65);
+        transition:transform 1.2s cubic-bezier(.2,.8,.2,1) 1.6s,opacity 1s ease 1.6s;display:flex;align-items:center;justify-content:center;text-align:center}
+  .scene.on .core{transform:translate(-50%,-50%) scale(1);opacity:1}
+  .core b{color:#07231d;font-weight:800;font-size:15px;padding:0 12px;font-family:'Segoe UI',sans-serif}
+
+  /* vertical spine */
+  .spine{display:flex;align-items:center;gap:26px;margin-top:26px;flex-wrap:wrap}
+  .pill{border:1px solid var(--teal2);color:var(--teal);border-radius:24px;padding:10px 18px;font-weight:700;font-size:clamp(13px,1.5vw,18px);background:rgba(34,211,170,.06)}
+
+  /* stats */
+  .stats{display:flex;gap:40px;margin-top:22px;flex-wrap:wrap;align-items:flex-end}
+  .stat .n{font-family:Georgia,serif;font-weight:800;font-size:clamp(40px,7vw,96px);color:var(--teal);line-height:1}
+  .stat .l{font-size:clamp(13px,1.6vw,19px);color:#C7D3EC;margin-top:6px}
+
+  /* cover + controls */
+  #cover{position:fixed;inset:0;z-index:40;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
+         background:radial-gradient(900px 600px at 50% 30%,#132348,#05070f);text-align:center;padding:20px}
+  #cover .logo{width:78px;height:78px;border-radius:20px;background:linear-gradient(135deg,#4f8cff,#22D3AA);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:40px;color:#07101f;font-family:Georgia,serif;box-shadow:0 12px 40px rgba(34,211,170,.35)}
+  #play{cursor:pointer;border:none;border-radius:40px;padding:16px 34px;font-size:18px;font-weight:800;color:#07101f;
+        background:linear-gradient(90deg,#22D3AA,#18C5B4);box-shadow:0 10px 30px rgba(34,211,170,.4)}
+  #cover .hint{color:var(--mut);font-size:13px}
+  #cover.hide{opacity:0;pointer-events:none;transition:opacity .6s ease}
+
+  #bar{position:fixed;left:0;bottom:0;height:4px;width:0;background:linear-gradient(90deg,#18C5B4,#22D3AA,#E9C46A);z-index:30}
+  #ctl{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:31;display:flex;gap:10px;align-items:center;
+       background:rgba(9,15,30,.6);backdrop-filter:blur(8px);border:1px solid #24365f;border-radius:30px;padding:8px 12px;opacity:0;transition:opacity .3s}
+  #stage:hover ~ #ctl,#ctl:hover{opacity:1}
+  #ctl button{cursor:pointer;background:rgba(255,255,255,.08);border:1px solid #2c4372;color:var(--ink);border-radius:20px;padding:7px 12px;font-size:13px}
+  #ctl select{background:rgba(255,255,255,.08);border:1px solid #2c4372;color:var(--ink);border-radius:16px;padding:6px 8px;font-size:12px;max-width:150px}
+  #vo,#mus{display:none}
+  #ctl .dots{display:flex;gap:6px;margin:0 6px}
+  #ctl .dots i{width:8px;height:8px;border-radius:50%;background:#33456e;display:block}
+  #ctl .dots i.on{background:var(--teal)}
+  .foot{position:fixed;right:16px;top:14px;z-index:30;color:#6b7ba0;font-size:11px;font-style:italic;letter-spacing:.03em}
+</style></head>
+<body>
+<div id="stage">
+  <!-- 1 TITLE -->
+  <section class="scene" data-dur="7000" style="align-items:center;text-align:center">
+    <div class="kick">UNAI · How it works</div>
+    <div class="big">Build the layers <span class="accent">once.</span><br>Share them with every agent.</div>
+    <div class="sub muted">The simplest way to understand UNAI.</div>
+  </section>
+  <!-- 2 OLD WAY -->
+  <section class="scene" data-dur="10000">
+    <div class="kick coral">The old way</div>
+    <div class="big">Every agent builds its <span class="coral">own full stack.</span></div>
+    <div class="viz levers">
+      <div class="lever"><h4>Agent A</h4><div class="d">its own 7-layer stack</div></div>
+      <div class="lever"><h4>Agent B</h4><div class="d">its own 7-layer stack</div></div>
+      <div class="lever"><h4>Agent C</h4><div class="d">its own 7-layer stack</div></div>
+    </div>
+    <div class="sub muted">Duplicated. Expensive. It's exactly why cost explodes.</div>
+  </section>
+  <!-- 3 FUSE -->
+  <section class="scene" data-dur="11000" style="align-items:center;text-align:center">
+    <div class="kick">UNAI's move</div>
+    <div class="big">Fuse them into <span class="accent">one.</span></div>
+    <div class="viz fuse" id="fuse"><div class="core"><b>UNAI · one shared runtime</b></div></div>
+    <div class="sub muted">Consolidation, not orchestration.</div>
+  </section>
+  <!-- 4 SEVEN SHARED LAYERS -->
+  <section class="scene" data-dur="13000">
+    <div class="kick">One shared building, built once</div>
+    <div class="big">Seven <span class="accent">shared</span> layers.</div>
+    <div class="viz spine">
+      <span class="pill">Perception</span><span class="pill">Memory</span><span class="pill">Reasoning</span><span class="pill">Evidence</span>
+      <span class="pill">Action</span><span class="pill">Collaboration</span><span class="pill">Explainability</span>
+    </div>
+    <div class="sub muted">Like a hospital's shared facilities — one reception, one records room, one lab — used by every specialist.</div>
+  </section>
+  <!-- 5 THIN PACKS -->
+  <section class="scene" data-dur="11000">
+    <div class="kick">The specialists</div>
+    <div class="big">Just thin packs that <span class="accent">use</span> the building.</div>
+    <div class="viz spine">
+      <span class="pill">Demand Planning</span><span class="pill">Inventory · MEIO</span><span class="pill">Spares · RMA · …</span>
+    </div>
+    <div class="sub muted">Each pack carries only its one domain step — it borrows every layer beneath it.</div>
+  </section>
+  <!-- 6 RUNTIME -->
+  <section class="scene" data-dur="13000" style="align-items:center;text-align:center">
+    <div class="kick">At runtime — for one goal</div>
+    <div class="big">Plan once. Read once.<br>Ride the shared layers.</div>
+    <div class="sub muted">One planner lays out the steps · perception reads each source once · every capability then reuses the same layers.</div>
+  </section>
+  <!-- 7 HOW IT KNOWS -->
+  <section class="scene" data-dur="13000">
+    <div class="kick gold">The question everyone asks</div>
+    <div class="big">“How does it know which<br>agents exist?”</div>
+    <div class="viz spine">
+      <span class="pill">Declared manifests</span><span class="pill">A catalog</span><span class="pill">Reasoning picks what's needed</span>
+    </div>
+    <div class="sub muted">No hard-wired list. Each capability is a declared manifest; Reasoning selects the ones a goal needs. <span class="gold">Add one = register a manifest.</span></div>
+  </section>
+  <!-- 8 PAYOFF -->
+  <section class="scene" data-dur="10000">
+    <div class="kick">Why it matters</div>
+    <div class="viz stats">
+      <div class="stat"><div class="n">once</div><div class="l">layers paid for</div></div>
+      <div class="stat"><div class="n" style="color:var(--gold)">config</div><div class="l">new use case = a manifest</div></div>
+      <div class="stat"><div class="n" style="color:#4f8cff">~50%</div><div class="l">fewer tokens · same work</div></div>
+    </div>
+    <div class="sub" style="margin-top:18px">Cost scales with <span class="accent">value</span> — not the number of agents.</div>
+  </section>
+  <!-- 9 CLOSE -->
+  <section class="scene" data-dur="8000" style="align-items:center;text-align:center">
+    <div class="big" style="font-size:clamp(46px,9vw,110px);color:var(--teal)">UNAI</div>
+    <div class="sub">One set of layers. Every capability rides them.</div>
+    <div class="kick gold" style="margin-top:18px;letter-spacing:.12em">Build once. Reuse everywhere.</div>
+  </section>
+</div>
+
+<div class="foot">Bristlecone · Confidential</div>
+<div id="bar"></div>
+<div id="ctl">
+  <button id="pp">❚❚</button>
+  <button id="rp">↺ Replay</button>
+  <button id="mu">🔊</button>
+  <select id="vsel" title="Narration voice"></select>
+  <div class="dots" id="dots"></div>
+  <button id="fs">⤢</button>
+</div>
+<audio id="vo" preload="auto" crossorigin="anonymous"></audio>
+<audio id="mus" preload="auto" loop crossorigin="anonymous"></audio>
+
+<div id="cover">
+  <div class="logo">U</div>
+  <div class="kick">Bristlecone · UNAI Studio</div>
+  <div class="big" style="font-size:clamp(30px,6vw,64px);text-align:center">How UNAI works<br>in 90 seconds</div>
+  <button id="play">▶  Play the explainer (with sound)</button>
+  <div class="hint">~95 seconds · best full-screen with sound on</div>
+</div>
+
+<script>
+(function(){
+  const scenes=[...document.querySelectorAll('.scene')];
+  const durs=scenes.map(s=>+s.dataset.dur);
+  const TOTAL=durs.reduce((a,b)=>a+b,0);
+  const bar=document.getElementById('bar'), dotsEl=document.getElementById('dots');
+  scenes.forEach(()=>{const i=document.createElement('i');dotsEl.appendChild(i);});
+  const dotEls=[...dotsEl.children];
+
+  // fuse dots
+  const fuse=document.getElementById('fuse');
+  for(let i=0;i<16;i++){const d=document.createElement('div');d.className='dot';
+    const a=Math.random()*6.283, r=120+Math.random()*220;
+    d.style.setProperty('--x',(Math.cos(a)*r).toFixed(0)+'px');
+    d.style.setProperty('--y',(Math.sin(a)*r*0.6).toFixed(0)+'px');
+    fuse.insertBefore(d,fuse.firstChild);}
+
+  let idx=-1,timer=null,startedAt=0,remaining=0,playing=false,muted=false,elapsedBefore=0;
+
+  // ---------- music: Beethoven, "Für Elise" — synthesized in-browser (self-contained).
+  // Soft piano-style underscore that fades down on each slide transition and swells
+  // back between narration. To use a REAL recording instead, set MUSIC_SRC to an .mp3
+  // (e.g. a public-domain Beethoven recording) — everything else still works.
+  const MUSIC_SRC="";
+  const musEl=document.getElementById('mus');
+  let AC,master,rev,musicGain,started=false,loopTimer=null,musicOn=false;
+  const MB=0.14, MD=0.05;                 // music base / ducked levels
+  const A2=110,E2=82.41,A3=220,E4=329.63,Gs4=415.30,A4=440,B4=493.88,C5=523.25,D5=587.33,Ds5=622.25,E5=659.25,C4=261.63;
+  const e=0.23,q=0.46,r=0.12;             // eighth / quarter / rest (seconds)
+  const PHRASE=[
+    [E5,e],[Ds5,e],[E5,e],[Ds5,e],[E5,e],[B4,e],[D5,e],[C5,e],[A4,q],[0,r],
+    [C4,e],[E4,e],[A4,e],[B4,q],[0,r],
+    [E4,e],[Gs4,e],[B4,e],[C5,q],[0,r],
+    [E4,e],[E5,e],[Ds5,e],[E5,e],[Ds5,e],[E5,e],[B4,e],[D5,e],[C5,e],[A4,q],[0,r],
+    [C4,e],[E4,e],[A4,e],[B4,q],[0,r],
+    [E4,e],[C5,e],[B4,e],[A4,q],[0,q]
+  ];
+  function makeIR(sec,decay){ const n=(AC.sampleRate*sec)|0,b=AC.createBuffer(2,n,AC.sampleRate);
+    for(let c=0;c<2;c++){const d=b.getChannelData(c);for(let i=0;i<n;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/n,decay);} return b; }
+  function initAudio(){
+    AC=new (window.AudioContext||window.webkitAudioContext)();
+    master=AC.createGain();master.gain.value=0.9;master.connect(AC.destination);
+    rev=AC.createConvolver();rev.buffer=makeIR(2.6,2.6);const rg=AC.createGain();rg.gain.value=0.30;rev.connect(rg).connect(master);
+    musicGain=AC.createGain();musicGain.gain.value=0.0;musicGain.connect(master);musicGain.connect(rev);
+  }
+  function note(t,f,dur){ if(!f)return;
+    const o=AC.createOscillator();o.type='triangle';o.frequency.value=f;
+    const o2=AC.createOscillator();o2.type='sine';o2.frequency.value=f*2;
+    const g=AC.createGain(),g2=AC.createGain(),peak=0.5;
+    g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(peak,t+0.012);g.gain.exponentialRampToValueAtTime(0.0001,t+Math.max(0.25,dur*1.7));
+    g2.gain.setValueAtTime(0.0001,t);g2.gain.exponentialRampToValueAtTime(peak*0.22,t+0.012);g2.gain.exponentialRampToValueAtTime(0.0001,t+Math.max(0.2,dur*1.3));
+    o.connect(g).connect(musicGain);o2.connect(g2).connect(musicGain);
+    o.start(t);o.stop(t+dur*1.8+0.06);o2.start(t);o2.stop(t+dur*1.5+0.06);
+  }
+  function playPhrase(t0){ let t=t0; note(t0,A2,1.2);                 // soft bass at the phrase start
+    PHRASE.forEach(n=>{ if(n[0])note(t,n[0],n[1]); t+=n[1]; }); return t; }
+  function schedNext(){ if(!musicOn||!AC||MUSIC_SRC)return; const end=playPhrase(AC.currentTime+0.06);
+    loopTimer=setTimeout(schedNext, Math.max(300,(end-AC.currentTime-0.15)*1000)); }
+  function fadeEl(to,sec){ if(!musEl)return; const from=musEl.volume||0,steps=24;let k=0;
+    const id=setInterval(()=>{k++;musEl.volume=Math.max(0,Math.min(1,from+(to-from)*k/steps));if(k>=steps){clearInterval(id);if(to===0)try{musEl.pause();}catch(e){}}},sec*1000/steps); }
+  function musicStart(){ musicOn=true;
+    if(MUSIC_SRC){ musEl.src=MUSIC_SRC;musEl.loop=true;musEl.volume=0;musEl.play().catch(()=>{});fadeEl(0.5,2.2);return; }
+    musicGain.gain.setTargetAtTime(MB,AC.currentTime,2.2); schedNext(); }
+  function musicPause(){ musicOn=false; clearTimeout(loopTimer);
+    if(MUSIC_SRC){fadeEl(0,0.4);return;} if(musicGain&&AC)musicGain.gain.setTargetAtTime(0,AC.currentTime,0.35); }
+  function musicResume(){ musicOn=true;
+    if(MUSIC_SRC){musEl.play().catch(()=>{});fadeEl(0.5,1.2);return;} musicGain.gain.setTargetAtTime(MB,AC.currentTime,1.0); schedNext(); }
+  function musicStop(){ musicOn=false; clearTimeout(loopTimer);
+    if(MUSIC_SRC){fadeEl(0,2);return;} if(musicGain&&AC)musicGain.gain.setTargetAtTime(0,AC.currentTime,2.0); }
+  // fade the music down (transition / while narrating) and back up (between lines)
+  function duck(on){ if(MUSIC_SRC){fadeEl(on?0.14:0.5,on?0.4:1.3);return;}
+    if(musicGain&&AC)musicGain.gain.setTargetAtTime(on?MD:MB,AC.currentTime,on?0.4:1.3); }
+
+  // ---------- narration ----------
+  const NARR=[
+   "Here's the simplest way to understand ooh-nye. Build the layers once, and share them with every agent.",
+   "The old way? Every agent builds its own full stack — its own perception, memory, reasoning, everything. Duplicated, and expensive. That's exactly why cost explodes.",
+   "Ooh-nye's move is to fuse them into one. Consolidation, not orchestration.",
+   "It builds seven shared layers, once: perception, memory, reasoning, evidence, action, collaboration, and explainability. Think of a hospital's shared facilities — one reception, one records room, one lab — used by every specialist.",
+   "The specialists are just thin packs that use the shared building. Each pack carries only its own domain step. It borrows every layer beneath it.",
+   "So at runtime, for one goal: the planner lays out the steps once. Perception reads each source once. And then every capability simply reuses the same shared layers.",
+   "Which answers the question everyone asks. How does it know which agents exist? It doesn't hard-wire a list. Each capability is a declared manifest in a catalog, and reasoning picks the ones a goal needs. Adding a new specialist is just registering a manifest.",
+   "And that's why it matters. The layers are paid for once. Every new capability is a light add-on. So cost scales with the value delivered, not the number of agents.",
+   "Ooh-nye. One set of layers. Every capability rides them. Build once — reuse everywhere."
+  ];
+  // Optional: drop in pre-recorded / neural voice-over (one file per scene) and the
+  // reel uses it instead of the browser voice, e.g. VO_SRC=["s1.mp3", ... 9 files].
+  const VO_SRC=[];
+  const voEl=document.getElementById('vo');
+  let voice=null, allVoices=[];
+  function fillVoices(){ if(!('speechSynthesis'in window))return; allVoices=speechSynthesis.getVoices();
+    const sel=document.getElementById('vsel'); if(!sel)return;
+    const list=allVoices.filter(v=>/^en/i.test(v.lang)); if(!list.length)return;
+    const pref=v=>/en-(US|GB)/.test(v.lang)&&/(Natural|Neural|Google|Samantha|Aria|Jenny|Guy|Libby|Sonia|Enhanced|Premium|Siri|Daniel)/i.test(v.name);
+    const best=list.find(pref)||list.find(v=>/en-US/.test(v.lang))||list[0]; voice=best;
+    if(sel.dataset.filled) return;
+    sel.innerHTML=list.map(v=>`<option value="${allVoices.indexOf(v)}">${v.name.replace(/^(Microsoft|Google)\s+/,'')}${/en-US/i.test(v.lang)?' · US':''}</option>`).join('');
+    sel.value=allVoices.indexOf(best); sel.dataset.filled='1';
+  }
+  if('speechSynthesis' in window){ fillVoices(); speechSynthesis.onvoiceschanged=fillVoices; }
+  function speak(i){ if(muted)return;
+    if(VO_SRC[i]&&voEl){ try{speechSynthesis.cancel&&speechSynthesis.cancel();}catch(e){}
+      voEl.src=VO_SRC[i]; voEl.onplay=()=>duck(true); voEl.onended=()=>duck(false); voEl.currentTime=0; voEl.play().catch(()=>{}); return; }
+    if(!('speechSynthesis'in window))return; try{speechSynthesis.cancel();}catch(e){}
+    const u=new SpeechSynthesisUtterance(NARR[i]); if(voice)u.voice=voice; u.rate=0.9;u.pitch=1.0;u.volume=1.0;
+    u.onstart=()=>duck(true); u.onend=()=>duck(false);
+    speechSynthesis.speak(u); }
+
+  // ---------- timeline ----------
+  function show(i){ idx=i;
+    scenes.forEach((s,k)=>s.classList.toggle('on',k===i));
+    dotEls.forEach((d,k)=>d.classList.toggle('on',k===i));
+    if(started && i>0) duck(true);         // fade music down on each slide transition
+    speak(i);
+  }
+  function schedule(ms){ clearTimeout(timer); startedAt=performance.now(); remaining=ms;
+    timer=setTimeout(()=>{ if(idx<scenes.length-1){ elapsedBefore+=durs[idx]; show(idx+1); schedule(durs[idx]); } else { finish(); } }, ms); }
+  function setBar(){ // rAF-driven bar
+    if(!playing)return;
+    const inScene=performance.now()-startedAt;
+    const el=Math.min(TOTAL,elapsedBefore+(durs[idx]-remaining)+inScene);
+    bar.style.width=(el/TOTAL*100)+'%';
+    raf=requestAnimationFrame(setBar);
+  }
+  let raf=null;
+  function play(){ playing=true; document.getElementById('pp').textContent='❚❚';
+    if(AC&&AC.state==='suspended')AC.resume(); if('speechSynthesis'in window){try{speechSynthesis.resume();}catch(e){}}
+    if(started) musicResume();
+    schedule(remaining||durs[idx]); cancelAnimationFrame(raf); raf=requestAnimationFrame(setBar); }
+  function pause(){ playing=false; document.getElementById('pp').textContent='►';
+    clearTimeout(timer); remaining=remaining-(performance.now()-startedAt); musicPause();
+    if(voEl)try{voEl.pause();}catch(e){} if('speechSynthesis'in window){try{speechSynthesis.pause();}catch(e){}} cancelAnimationFrame(raf); }
+  function finish(){ playing=false; document.getElementById('pp').textContent='►'; bar.style.width='100%'; musicStop();
+    if('speechSynthesis'in window){try{speechSynthesis.cancel();}catch(e){}} cancelAnimationFrame(raf); }
+  function start(){ started=true; initAudio(); musicStart(); elapsedBefore=0; idx=-1; show(0); startedAt=performance.now(); remaining=durs[0]; playing=true;
+    schedule(durs[0]); raf=requestAnimationFrame(setBar); }
+  function replay(){ clearTimeout(timer); clearTimeout(loopTimer); cancelAnimationFrame(raf); if('speechSynthesis'in window){try{speechSynthesis.cancel();}catch(e){}}
+    elapsedBefore=0; playing=true; document.getElementById('pp').textContent='❚❚'; if(AC&&AC.state==='suspended')AC.resume();
+    musicStart(); show(0); startedAt=performance.now(); remaining=durs[0]; schedule(durs[0]); raf=requestAnimationFrame(setBar); }
+
+  // controls
+  document.getElementById('pp').onclick=()=>{ if(!started)return; playing?pause():play(); };
+  document.getElementById('rp').onclick=()=>{ if(!started){document.getElementById('play').click();return;} replay(); };
+  document.getElementById('mu').onclick=(e)=>{ muted=!muted; e.target.textContent=muted?'🔇':'🔊';
+    if(master&&AC)master.gain.setTargetAtTime(muted?0:0.9,AC.currentTime,0.2);
+    if(musEl&&MUSIC_SRC){ muted?musEl.pause():musEl.play().catch(()=>{}); }
+    if(muted){ if(voEl)try{voEl.pause();}catch(e){} if('speechSynthesis'in window){try{speechSynthesis.cancel();}catch(e){}} } };
+  document.getElementById('vsel').onchange=(e)=>{ voice=allVoices[+e.target.value]||voice;
+    if(started&&!muted&&idx>=0&&!VO_SRC[idx]) speak(idx); };
+  document.getElementById('fs').onclick=()=>{ const el=document.documentElement;
+    if(!document.fullscreenElement){(el.requestFullscreen||el.webkitRequestFullscreen).call(el);}else{document.exitFullscreen();} };
+  document.getElementById('play').onclick=()=>{ document.getElementById('cover').classList.add('hide'); start(); };
+  addEventListener('keydown',e=>{ if(e.code==='Space'){e.preventDefault(); if(started)(playing?pause():play());}
+    if(e.key==='f')document.getElementById('fs').click(); if(e.key==='r')document.getElementById('rp').click(); });
+})();
+</script>
+</body></html>

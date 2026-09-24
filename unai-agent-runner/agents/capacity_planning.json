@@ -1,0 +1,31 @@
+{
+  "unai_agent": "1.0",
+  "id": "capacity_planning",
+  "name": "Capacity Planning Agent",
+  "module": "Production",
+  "description": "SAP IBP Production use case on the UNAI shared runtime.",
+  "concepts": [
+    "resource_capacity",
+    "capacity_qty",
+    "work_order"
+  ],
+  "domainStep": {
+    "method": "capacity planning",
+    "decision": "Balance load to resource capacity",
+    "formula": null
+  },
+  "governance": {
+    "autonomyThresholdPct": 85,
+    "valueLimitUsd": 50000
+  },
+  "runtime": "UNAI shared cognitive runtime (7 layers, canonical ontology)",
+  "plan": [
+    {
+      "capability": "cap_capacity_planning",
+      "agentEquiv": "capacity planning",
+      "systems": [
+        "ANALYTICS"
+      ]
+    }
+  ]
+}

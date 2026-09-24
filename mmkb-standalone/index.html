@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Token-Economics Knowledge Assistant</title>
+<style>
+  :root{
+    --bg:#0b0f16; --panel:#121826; --line:#232d42; --txt:#e7ecf7; --mut:#8c98b8;
+    --accent:#4f8cff; --good:#22d3aa; --bad:#ff8f87; --warn:#f5b942;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.5 ui-sans-serif,system-ui,Segoe UI,Roboto,Arial;}
+  .wrap{max-width:760px;margin:0 auto;padding:28px 20px 80px}
+  h1{font-size:20px;margin:0 0 2px}
+  .sub{color:var(--mut);font-size:13px;margin:0 0 22px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:16px}
+  .card h2{font-size:14px;margin:0 0 10px;color:var(--txt);font-weight:700}
+  .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  input[type=text],input[type=password]{flex:1;min-width:160px;padding:10px 12px;border-radius:9px;border:1px solid var(--line);background:#0c1220;color:var(--txt);font-size:14px}
+  button{padding:10px 16px;border:none;border-radius:9px;background:var(--accent);color:#08111f;font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap}
+  button.ghost{background:transparent;color:var(--mut);border:1px solid var(--line);font-weight:600}
+  button:disabled{opacity:.5;cursor:default}
+  .status{font-size:12px;color:var(--mut);margin-top:8px}
+  .status.ok{color:var(--good)} .status.bad{color:var(--bad)}
+  .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+  .chip{border:1px solid var(--line);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--mut);cursor:pointer;background:#0c1220}
+  .chip:hover{border-color:var(--accent);color:var(--txt)}
+  .answer{white-space:pre-wrap;font-size:14px;line-height:1.6}
+  .src{font-size:12px;color:var(--mut);margin-top:8px}
+  .badge{display:inline-block;font-size:11px;font-weight:700;border-radius:20px;padding:2px 9px;margin-left:6px}
+  .badge.live{background:rgba(34,211,170,.15);color:var(--good)}
+  .badge.modeled{background:rgba(245,185,66,.15);color:var(--warn)}
+  .econ-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+  .stat{background:#0c1220;border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+  .stat .k{font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.04em}
+  .stat .v{font-size:19px;font-weight:700;margin-top:3px}
+  .bars{margin-top:14px}
+  .bar-row{margin-bottom:10px}
+  .bar-label{display:flex;justify-content:space-between;font-size:12px;color:var(--mut);margin-bottom:4px}
+  .bar-track{background:#0c1220;border:1px solid var(--line);border-radius:6px;height:16px;overflow:hidden}
+  .bar-fill{height:100%;border-radius:6px}
+  .bar-fill.retrieved{background:var(--accent)}
+  .bar-fill.naive{background:var(--mut)}
+  .savings{display:flex;align-items:baseline;gap:10px;margin-top:12px;padding-top:12px;border-top:1px dashed var(--line)}
+  .savings .pct{font-size:30px;font-weight:800;color:var(--good)}
+  .savings .lbl{font-size:12px;color:var(--mut);max-width:420px}
+  .explain{font-size:12px;color:var(--mut);margin-top:12px;padding-top:12px;border-top:1px dashed var(--line)}
+  .explain b{color:var(--txt)}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
+  td{padding:6px 4px;border-bottom:1px solid var(--line)}
+  td:last-child{text-align:right;font-weight:700}
+  .empty{color:var(--mut);font-size:13px}
+  .foot{color:var(--mut);font-size:11px;text-align:center;margin-top:24px}
+  a{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Token-Economics Knowledge Assistant</h1>
+  <p class="sub">Ask a question across a SharePoint-style corpus (docs, images/slides, a meeting recording, a video). Every answer shows the <b>real, measured</b> tokens billed for the question you actually asked, next to what stuffing the <b>whole indexed corpus</b> into the prompt would have cost instead — so the retrieval savings are visible, not claimed.</p>
+
+  <div class="card">
+    <h2>1 · Model key</h2>
+    <div class="row">
+      <input type="password" id="keyInput" placeholder="Paste an API key (OpenAI / Gemini / Groq / OpenRouter / Mistral)">
+      <button onclick="setKey()" id="keyBtn">Save & test</button>
+    </div>
+    <div class="status" id="keyStatus">No key set — answers will use a deterministic extractive fallback (still real retrieval, no live model call, so tokens/cost show as 0).</div>
+  </div>
+
+  <div class="card">
+    <h2>2 · Index</h2>
+    <div class="row">
+      <button onclick="buildIndex()" id="idxBtn">Build / rebuild index</button>
+      <span class="status" id="idxStatus">Not indexed yet.</span>
+    </div>
+    <div class="row" style="margin-top:12px">
+      <input type="file" id="fileInput" style="flex:1">
+      <button class="ghost" onclick="uploadFile()" id="upBtn">Upload</button>
+    </div>
+    <div class="status" id="upStatus"></div>
+  </div>
+
+  <div class="card">
+    <h2>3 · Ask</h2>
+    <div class="row">
+      <input type="text" id="q" placeholder="e.g. what is BST? / why was FG-1003 held? / what does slide-1 say?" onkeydown="if(event.key==='Enter')ask()">
+      <button onclick="ask()" id="askBtn">Ask</button>
+    </div>
+    <div class="chips">
+      <span class="chip" onclick="askChip(this)">what is BST?</span>
+      <span class="chip" onclick="askChip(this)">why was FG-1003 held for approval?</span>
+      <span class="chip" onclick="askChip(this)">what does slide-1 say?</span>
+      <span class="chip" onclick="askChip(this)">what are the responsibilities of an RM Planner?</span>
+    </div>
+  </div>
+
+  <div class="card" id="answerCard" style="display:none">
+    <h2>Answer <span id="groundedBadge"></span></h2>
+    <div class="answer" id="answerText"></div>
+    <div class="src" id="answerSrc"></div>
+  </div>
+
+  <div class="card" id="econCard" style="display:none">
+    <h2>Token economics for this question</h2>
+    <div class="econ-grid" id="econGrid"></div>
+    <div class="bars" id="econBars"></div>
+    <div class="savings" id="econSavings"></div>
+    <div class="explain" id="econExplain"></div>
+  </div>
+
+  <div class="card" id="cumCard" style="display:none">
+    <h2>Session totals <button class="ghost" style="float:right;padding:4px 10px;font-size:11px" onclick="resetSession()">↺ Reset</button></h2>
+    <table id="cumTable"></table>
+  </div>
+
+  <div class="foot">Real measured tokens when a key is set and the call is grounded · estimated (chars÷4) only for the "whole corpus" comparison side, since that prompt is never actually sent.</div>
+</div>
+
+<script>
+async function post(url, body){
+  const r = await fetch(url, { method:"POST", headers:{"Content-Type":"application/json"}, body: body?JSON.stringify(body):undefined });
+  return r.json();
+}
+function fmt(n){ return (n||0).toLocaleString(); }
+function fmtUsd(n){ return "$" + (n||0).toFixed(5); }
+
+async function setKey(){
+  const key = document.getElementById("keyInput").value.trim();
+  if(!key) return;
+  const btn = document.getElementById("keyBtn"); btn.disabled = true; btn.textContent = "Testing…";
+  const r = await post("/api/set-key", { key });
+  btn.disabled = false; btn.textContent = "Save & test";
+  const el = document.getElementById("keyStatus");
+  if(r.ok){ el.className = "status ok"; el.textContent = `Live via ${r.provider} (${r.model}). Sample reply: "${r.sample}"`; }
+  else { el.className = "status bad"; el.textContent = `Detected as "${r.provider}" (${r.model}) from the key's prefix. ` + (r.reason || r.error || "Test call failed."); }
+}
+
+async function buildIndex(){
+  const btn = document.getElementById("idxBtn"); btn.disabled = true; btn.textContent = "Indexing…";
+  const el = document.getElementById("idxStatus");
+  el.textContent = "Ingesting docs + images/slides + meeting transcript + video (OCR/captioning a video can take ~1-2 min the first time)…";
+  const r = await post("/api/mmkb/ingest");
+  btn.disabled = false; btn.textContent = "Build / rebuild index";
+  el.textContent = r.ok ? `Indexed ${r.indexed} documents/chunks.` : ("Failed: " + r.error);
+}
+
+async function uploadFile(){
+  const input = document.getElementById("fileInput");
+  const f = input.files[0];
+  if(!f) return;
+  const btn = document.getElementById("upBtn"); btn.disabled = true; btn.textContent = "Uploading…";
+  const reader = new FileReader();
+  reader.onload = async () => {
+    const dataBase64 = reader.result.split(",")[1];
+    const r = await post("/api/mmkb/upload", { filename: f.name, dataBase64 });
+    btn.disabled = false; btn.textContent = "Upload";
+    document.getElementById("upStatus").textContent = r.ok ? r.note : ("Failed: " + r.error);
+  };
+  reader.readAsDataURL(f);
+}
+
+function askChip(el){ document.getElementById("q").value = el.textContent; ask(); }
+
+async function ask(){
+  const q = document.getElementById("q").value.trim();
+  if(!q) return;
+  const btn = document.getElementById("askBtn"); btn.disabled = true; btn.textContent = "Asking…";
+  const r = await post("/api/mmkb/ask", { question: q });
+  btn.disabled = false; btn.textContent = "Ask";
+  if(!r.ok){ alert(r.error || "Ask failed"); return; }
+
+  document.getElementById("answerCard").style.display = "block";
+  document.getElementById("answerText").textContent = (r.render || "").replace(/^Answer:\s*/, "").replace(/\nSource:.*$/s, "");
+  document.getElementById("answerSrc").textContent = r.sources ? ("Source: " + r.sources.join(", ")) : "";
+  document.getElementById("groundedBadge").innerHTML = r.grounded
+    ? '<span class="badge live">live · ' + r.provider + '</span>'
+    : '<span class="badge modeled">modeled / extractive' + (r.groundingFailure ? " — " + r.groundingFailure : " — no live key") + '</span>';
+
+  if (r.economics) renderEconomics(r.economics);
+}
+
+function renderEconomics(e){
+  document.getElementById("econCard").style.display = "block";
+  document.getElementById("econGrid").innerHTML = `
+    <div class="stat"><div class="k">Tokens in (real)</div><div class="v">${fmt(e.tokensIn)}</div></div>
+    <div class="stat"><div class="k">Tokens out (real)</div><div class="v">${fmt(e.tokensOut)}</div></div>
+    <div class="stat"><div class="k">Cost this call</div><div class="v">${fmtUsd(e.costUsd)}</div></div>
+    <div class="stat"><div class="k">Docs retrieved / corpus</div><div class="v">${e.docsRetrieved} / ${e.docsInCorpus}</div></div>
+  `;
+
+  const maxTok = Math.max(e.retrievalContextTokensEst, e.fullCorpusContextTokensEst, 1);
+  document.getElementById("econBars").innerHTML = `
+    <div class="bar-row">
+      <div class="bar-label"><span>What was actually sent (top-${e.docsRetrieved} retrieved chunks)</span><span>${fmt(e.retrievalContextTokensEst)} tok</span></div>
+      <div class="bar-track"><div class="bar-fill retrieved" style="width:${100*e.retrievalContextTokensEst/maxTok}%"></div></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label"><span>What the whole indexed corpus would have cost</span><span>${fmt(e.fullCorpusContextTokensEst)} tok (est.)</span></div>
+      <div class="bar-track"><div class="bar-fill naive" style="width:${100*e.fullCorpusContextTokensEst/maxTok}%"></div></div>
+    </div>
+  `;
+
+  document.getElementById("econSavings").innerHTML = `
+    <div class="pct">${e.contextSavingsPct}%</div>
+    <div class="lbl">smaller prompt context by retrieving only the relevant chunks instead of sending every indexed document every time. Naive-baseline cost at the same rate: ${fmtUsd(e.naiveCostUsd)} vs. ${fmtUsd(e.costUsd)} actually billed.</div>
+  `;
+
+  document.getElementById("econExplain").innerHTML = e.measured
+    ? `<b>How this is measured:</b> tokens in/out and cost above are the <b>real</b> numbers reported by the model provider for this exact call (model: ${e.model}). The "whole corpus" side is never actually sent — it's estimated at ~4 characters/token, the same convention used to size the retrieval side before the real call, applied to every document currently in the index.`
+    : `<b>No live call was made</b> for this answer (no key set, or the call failed) — tokens/cost above are genuinely 0, not modeled. Set a key above to see real measured numbers.`;
+
+  if (e.cumulative && e.cumulative.queries > 0){
+    document.getElementById("cumCard").style.display = "block";
+    const c = e.cumulative;
+    document.getElementById("cumTable").innerHTML = `
+      <tr><td>Questions asked this session</td><td>${fmt(c.queries)}</td></tr>
+      <tr><td>Total tokens in</td><td>${fmt(c.tokensIn)}</td></tr>
+      <tr><td>Total tokens out</td><td>${fmt(c.tokensOut)}</td></tr>
+      <tr><td>Total cost</td><td>${fmtUsd(c.costUsd)}</td></tr>
+      <tr><td>Average context savings vs. full-corpus baseline</td><td>${c.avgContextSavingsPct}%</td></tr>
+    `;
+  }
+}
+
+async function resetSession(){
+  await post("/api/mmkb/reset-economics");
+  document.getElementById("cumCard").style.display = "none";
+}
+
+(async () => {
+  const h = await fetch("/api/health").then(r=>r.json()).catch(()=>null);
+  if (h && h.keySet){
+    const el = document.getElementById("keyStatus");
+    el.className = "status ok"; el.textContent = `Live via ${h.provider} (${h.model}).`;
+  }
+})();
+</script>
+</body>
+</html>

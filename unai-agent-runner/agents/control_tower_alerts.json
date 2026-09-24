@@ -1,0 +1,31 @@
+{
+  "unai_agent": "1.0",
+  "id": "control_tower_alerts",
+  "name": "Control Tower Alerts Agent",
+  "module": "Control Tower",
+  "description": "SAP IBP Control Tower use case on the UNAI shared runtime.",
+  "concepts": [
+    "alert_count",
+    "kpi_value",
+    "otif"
+  ],
+  "domainStep": {
+    "method": "exception monitoring",
+    "decision": "Raise prioritized exceptions & KPIs",
+    "formula": null
+  },
+  "governance": {
+    "autonomyThresholdPct": 85,
+    "valueLimitUsd": 50000
+  },
+  "runtime": "UNAI shared cognitive runtime (7 layers, canonical ontology)",
+  "plan": [
+    {
+      "capability": "cap_control_tower_alerts",
+      "agentEquiv": "control tower alerts",
+      "systems": [
+        "ANALYTICS"
+      ]
+    }
+  ]
+}

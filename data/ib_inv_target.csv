@@ -1,0 +1,4 @@
+sku,dc,target_pos,safety_stock,service_level,forecast_qty
+GPU-H100,DC-EAST,720,240,0.98,505
+SSD-3840,DC-EAST,1100,300,0.97,864
+PSU-2200,DC-WEST,820,280,0.99,603

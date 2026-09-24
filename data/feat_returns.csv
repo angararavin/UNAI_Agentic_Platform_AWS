@@ -1,0 +1,4 @@
+sku,return_prob,return_lag_days,yield_rate
+GPU-H100,0.62,34,0.78
+SSD-3840,0.4,21,0.91
+PSU-2200,0.55,28,0.66

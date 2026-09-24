@@ -1,0 +1,115 @@
+use_case(s),table,column,data_type,canonical_concept,sample_rows
+Supplier Disruption Response,dim_product,sku,STRING,sku,3
+Supplier Disruption Response,dim_product,product_name,STRING,product_name,3
+Supplier Disruption Response,dim_product,category,STRING,category,3
+Supplier Disruption Response,dim_location,dc,STRING,location,2
+Supplier Disruption Response,dim_location,region,STRING,region,2
+Supplier Disruption Response,dim_location,echelon,STRING,echelon,2
+Supplier Disruption Response,dim_supplier,vendor,STRING,supplier,3
+Supplier Disruption Response,dim_supplier,supplier_name,STRING,product_name,3
+Supplier Disruption Response,dim_supplier,vendor_region,STRING,supplier_region,3
+Supplier Disruption Response; Demand Planning,fct_sales,sku,STRING,sku,3
+Supplier Disruption Response; Demand Planning,fct_sales,dc,STRING,location,3
+Supplier Disruption Response; Demand Planning,fct_sales,period,STRING,period,3
+Supplier Disruption Response; Demand Planning,fct_sales,sales_qty,INT64,sales_qty,3
+Supplier Disruption Response; Inventory Optimization; Production / Manufacturing Planning; Spares Planning (IBP),fct_inventory,sku,STRING,sku,3
+Supplier Disruption Response; Inventory Optimization; Production / Manufacturing Planning; Spares Planning (IBP),fct_inventory,dc,STRING,location,3
+Supplier Disruption Response; Inventory Optimization; Production / Manufacturing Planning; Spares Planning (IBP),fct_inventory,on_hand,INT64,on_hand_qty,3
+Supplier Disruption Response; Inventory Optimization; Production / Manufacturing Planning; Spares Planning (IBP),fct_inventory,in_transit,INT64,in_transit_qty,3
+Supplier Disruption Response; Inventory Optimization; Production / Manufacturing Planning; Spares Planning (IBP),fct_inventory,safety_stock,INT64,safety_stock,3
+Supplier Disruption Response; Inventory Optimization; Production / Manufacturing Planning; Spares Planning (IBP),fct_inventory,reorder_point,INT64,reorder_point,3
+Supplier Disruption Response; Inventory Optimization; Production / Manufacturing Planning; Spares Planning (IBP),fct_inventory,lead_time,INT64,lead_time_days,3
+Supplier Disruption Response; Inventory Optimization; Production / Manufacturing Planning; Spares Planning (IBP),fct_inventory,unit_cost,FLOAT64,unit_cost,3
+Supplier Disruption Response; Inventory Optimization; Production / Manufacturing Planning; Spares Planning (IBP),fct_inventory,vendor,STRING,supplier,3
+Supplier Disruption Response,fct_shipment,shipment_id,STRING,shipment_id,3
+Supplier Disruption Response,fct_shipment,sku,STRING,sku,3
+Supplier Disruption Response,fct_shipment,dc,STRING,location,3
+Supplier Disruption Response,fct_shipment,carrier,STRING,carrier,3
+Supplier Disruption Response,fct_shipment,status,STRING,ship_status,3
+Supplier Disruption Response,fct_shipment,eta_days,INT64,eta_days,3
+Supplier Disruption Response,fct_shipment,planned_eta,INT64,planned_eta,3
+Supplier Disruption Response,fct_shipment,in_transit,INT64,in_transit_qty,3
+Supplier Disruption Response,fct_po,po_id,STRING,purchase_order,0
+Supplier Disruption Response,fct_po,sku,STRING,sku,0
+Supplier Disruption Response,fct_po,dc,STRING,location,0
+Supplier Disruption Response,fct_po,vendor,STRING,supplier,0
+Supplier Disruption Response,fct_po,po_qty,INT64,po_qty,0
+Supplier Disruption Response,fct_po,unit_cost,FLOAT64,unit_cost,0
+Supplier Disruption Response,fct_po,status,STRING,ship_status,0
+Supplier Disruption Response; Demand Planning,feat_forecast,sku,STRING,sku,3
+Supplier Disruption Response; Demand Planning,feat_forecast,dc,STRING,location,3
+Supplier Disruption Response; Demand Planning,feat_forecast,period,STRING,period,3
+Supplier Disruption Response; Demand Planning,feat_forecast,yhat,INT64,forecast_qty,3
+Supplier Disruption Response,feat_supplier_risk,vendor,STRING,supplier,3
+Supplier Disruption Response,feat_supplier_risk,risk_score,FLOAT64,supplier_risk,3
+Supplier Disruption Response,feat_supplier_risk,disrupted,BOOL,disruption_flag,3
+Supplier Disruption Response,feat_supplier_risk,region,STRING,region,3
+Supplier Disruption Response,feat_supplier_risk,note,STRING,note,3
+Spares Planning (IBP),ib_install_base,sku,STRING,sku,3
+Spares Planning (IBP),ib_install_base,dc,STRING,location,3
+Spares Planning (IBP),ib_install_base,install_base,INT64,install_base_qty,3
+Spares Planning (IBP),ib_install_base,age_months,INT64,asset_age_months,3
+Spares Planning (IBP),ib_install_base,lead_time,INT64,lead_time_days,3
+Spares Planning (IBP),ib_inv_target,sku,STRING,sku,3
+Spares Planning (IBP),ib_inv_target,dc,STRING,location,3
+Spares Planning (IBP),ib_inv_target,target_pos,INT64,target_stock,3
+Spares Planning (IBP),ib_inv_target,safety_stock,INT64,safety_stock,3
+Spares Planning (IBP),ib_inv_target,service_level,FLOAT64,service_level,3
+Spares Planning (IBP),ib_inv_target,forecast_qty,INT64,forecast_qty,3
+Spares Planning (IBP),feat_failure,sku,STRING,sku,3
+Spares Planning (IBP),feat_failure,dc,STRING,location,3
+Spares Planning (IBP),feat_failure,fail_rate,FLOAT64,failure_rate,3
+Spares Planning (IBP),feat_failure,age_factor,FLOAT64,age_factor,3
+Spares Planning (IBP),feat_failure,install_base,INT64,install_base_qty,3
+Spares Planning (IBP),feat_spares_forecast,sku,STRING,sku,3
+Spares Planning (IBP),feat_spares_forecast,dc,STRING,location,3
+Spares Planning (IBP),feat_spares_forecast,forecast_qty,INT64,forecast_qty,3
+Spares Planning (IBP),feat_spares_forecast,variability,FLOAT64,demand_variability,3
+Spares Planning (IBP),feat_returns,sku,STRING,sku,3
+Spares Planning (IBP),feat_returns,return_prob,FLOAT64,return_prob,3
+Spares Planning (IBP),feat_returns,return_lag_days,INT64,return_lag_days,3
+Spares Planning (IBP),feat_returns,yield_rate,FLOAT64,yield_rate,3
+Spares Planning (IBP); RMA Execution,s4_refurb,dc,STRING,location,2
+Spares Planning (IBP); RMA Execution,s4_refurb,capacity,INT64,refurb_capacity,2
+Spares Planning (IBP); RMA Execution,s4_refurb,cost_per_unit,FLOAT64,refurb_cost,2
+RMA Execution,rma_case,rma_id,STRING,rma_id,2
+RMA Execution,rma_case,sku,STRING,sku,2
+RMA Execution,rma_case,status,STRING,rma_status,2
+RMA Execution,rma_case,warranty,STRING,warranty_status,2
+RMA Execution,rma_case,claim_value,FLOAT64,claim_value,2
+RMA Execution,rma_case,entitled,BOOL,entitlement,2
+RMA Execution,rma_case,oem,STRING,supplier,2
+RMA Execution,rma_case,symptom,STRING,symptom,2
+Demand Planning; Supply / S&OP Planning,pl_demand_plan,sku,STRING,sku,3
+Demand Planning; Supply / S&OP Planning,pl_demand_plan,dc,STRING,location,3
+Demand Planning; Supply / S&OP Planning,pl_demand_plan,forecast_qty,INT64,forecast_qty,3
+Demand Planning; Supply / S&OP Planning,pl_demand_plan,consensus_qty,INT64,consensus_demand,3
+Demand Planning; Supply / S&OP Planning,pl_demand_plan,promo_uplift,FLOAT64,promo_uplift,3
+Demand Planning; Supply / S&OP Planning,pl_demand_plan,fcst_accuracy,FLOAT64,forecast_accuracy,3
+Inventory Optimization,pl_inv_health,sku,STRING,sku,3
+Inventory Optimization,pl_inv_health,dc,STRING,location,3
+Inventory Optimization,pl_inv_health,inv_turns,FLOAT64,inv_turns,3
+Inventory Optimization,pl_inv_health,excess_qty,INT64,excess_qty,3
+Inventory Optimization,pl_inv_health,safety_stock,INT64,safety_stock,3
+Inventory Optimization,pl_inv_health,reorder_point,INT64,reorder_point,3
+Supply / S&OP Planning; Production / Manufacturing Planning,pl_supply_plan,sku,STRING,sku,2
+Supply / S&OP Planning; Production / Manufacturing Planning,pl_supply_plan,dc,STRING,location,2
+Supply / S&OP Planning; Production / Manufacturing Planning,pl_supply_plan,cap_qty,INT64,capacity_qty,2
+Supply / S&OP Planning; Production / Manufacturing Planning,pl_supply_plan,mps_qty,INT64,mps_qty,2
+Supply / S&OP Planning; Production / Manufacturing Planning,pl_supply_plan,alloc_qty,INT64,allocation_qty,2
+Procurement & Sourcing,pl_procurement,sku,STRING,sku,2
+Procurement & Sourcing,pl_procurement,vendor,STRING,supplier,2
+Procurement & Sourcing,pl_procurement,spend_amt,FLOAT64,spend_amount,2
+Procurement & Sourcing,pl_procurement,supplier_score,FLOAT64,supplier_score,2
+Procurement & Sourcing,pl_procurement,contract_id,STRING,contract_id,2
+Logistics & Transportation,pl_logistics,sku,STRING,sku,2
+Logistics & Transportation,pl_logistics,carrier,STRING,carrier,2
+Logistics & Transportation,pl_logistics,transit_days,INT64,transit_days,2
+Logistics & Transportation,pl_logistics,freight_cost,FLOAT64,freight_cost,2
+Logistics & Transportation,pl_logistics,otif_pct,FLOAT64,otif,2
+Production / Manufacturing Planning,pl_production,sku,STRING,sku,2
+Production / Manufacturing Planning,pl_production,dc,STRING,location,2
+Production / Manufacturing Planning,pl_production,work_order,STRING,work_order,2
+Production / Manufacturing Planning,pl_production,run_rate,INT64,run_rate,2
+Production / Manufacturing Planning,pl_production,oee_pct,FLOAT64,oee,2
+Production / Manufacturing Planning,pl_production,cap_qty,INT64,capacity_qty,2

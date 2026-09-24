@@ -1,0 +1,31 @@
+{
+  "unai_agent": "1.0",
+  "id": "curve_based_forecast",
+  "name": "Curve Based Forecast Agent",
+  "module": "Demand",
+  "description": "SAP IBP Demand use case on the UNAI shared runtime.",
+  "concepts": [
+    "sales_qty",
+    "forecast_qty",
+    "lifecycle_phase"
+  ],
+  "domainStep": {
+    "method": "curve-based lifecycle forecast",
+    "decision": "Fit lifecycle curve and project demand",
+    "formula": null
+  },
+  "governance": {
+    "autonomyThresholdPct": 85,
+    "valueLimitUsd": 50000
+  },
+  "runtime": "UNAI shared cognitive runtime (7 layers, canonical ontology)",
+  "plan": [
+    {
+      "capability": "cap_curve_based_forecast",
+      "agentEquiv": "curve based forecast",
+      "systems": [
+        "ANALYTICS"
+      ]
+    }
+  ]
+}

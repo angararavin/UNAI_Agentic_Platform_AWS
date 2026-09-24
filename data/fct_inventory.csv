@@ -1,0 +1,4 @@
+sku,dc,on_hand,in_transit,safety_stock,reorder_point,lead_time,unit_cost,vendor
+FG-1001,DC-EAST,540,120,600,900,21,42.5,V-2207
+FG-1002,DC-EAST,1180,0,400,700,14,18.0,V-2207
+FG-1003,DC-WEST,220,60,300,500,28,96.0,V-3310

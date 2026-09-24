@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<!--
+  UNAI - Universal Supply-Chain Agent (Cognitive Runtime)
+  Copyright (c) 2026 Ravin Angara / Bristlecone. All rights reserved.
+  PROPRIETARY & CONFIDENTIAL. See LICENSE.  [UNAI-COPYRIGHT v1]
+  Intro sizzle reel — autoplays (~75s) and is click/arrow navigable.
+  Play fullscreen (press F) and screen-record to export an MP4.
+-->
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UNAI — Intro</title>
+<style>
+:root{--bg:#080c18;--bg2:#0d1426;--txt:#eaf0ff;--mut:#8a97b8;--teal:#22d3aa;--teal2:#0e9e80;--coral:#e2574c;--acc:#4f8cff;--amber:#e6a52b;--line:#22314f}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:radial-gradient(1200px 700px at 50% 30%,#12203c 0%,var(--bg) 70%);color:var(--txt);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;overflow:hidden}
+#reel{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;cursor:pointer}
+.scene{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:6vh 8vw;opacity:0;pointer-events:none;transition:opacity .6s ease}
+.scene.on{opacity:1;pointer-events:auto}
+.serif{font-family:Cambria,"Times New Roman",Georgia,serif}
+.k{font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--teal);font-weight:800;margin-bottom:18px}
+h1{font-size:clamp(30px,6.2vw,86px);line-height:1.05;font-weight:800;letter-spacing:-.5px}
+h2{font-size:clamp(20px,3.2vw,40px);line-height:1.15;font-weight:700}
+.sub{font-size:clamp(15px,1.8vw,23px);color:var(--mut);margin-top:20px;max-width:60ch;line-height:1.5}
+.coral{color:var(--coral)} .teal{color:var(--teal)} .amber{color:var(--amber)} .acc{color:var(--acc)} .white{color:#fff}
+.up{opacity:0;transform:translateY(26px)}
+.on .up{animation:up .8s cubic-bezier(.2,.7,.2,1) forwards}
+.on .d1{animation-delay:.15s}.on .d2{animation-delay:.5s}.on .d3{animation-delay:.9s}.on .d4{animation-delay:1.3s}.on .d5{animation-delay:1.7s}.on .d6{animation-delay:2.1s}
+@keyframes up{to{opacity:1;transform:none}}
+.pop{opacity:0;transform:scale(.6)}
+.on .pop{animation:pop .7s cubic-bezier(.2,1.4,.3,1) forwards}
+@keyframes pop{to{opacity:1;transform:none}}
+.tally{display:flex;flex-direction:column;gap:14px;margin-top:26px;font-size:clamp(18px,2.4vw,30px);font-weight:700}
+.tally span{color:var(--coral)}
+/* agent grid + collapse */
+.grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin:24px auto 0;max-width:560px}
+.ag{height:44px;border-radius:8px;background:#2a1a1f;border:1px solid #6e3b45;opacity:0;transform:scale(.4)}
+.on .ag{animation:pop .5s cubic-bezier(.2,1.4,.3,1) forwards}
+.meter{margin:26px auto 0;width:min(60vw,520px);height:14px;border-radius:8px;background:#1a1330;border:1px solid #4a3a6e;overflow:hidden}
+.meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,#e2574c,#e6a52b)}
+.on .meter i{animation:fill 3.2s ease forwards}
+@keyframes fill{to{width:100%}}
+.one{width:120px;height:120px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#2affc7,#0e9e80);
+  box-shadow:0 0 0 0 rgba(34,211,170,.6);opacity:0;transform:scale(.3)}
+.on .one{animation:pop .8s cubic-bezier(.2,1.4,.3,1) forwards, pulse 2s ease 1s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,211,170,.45)}50%{box-shadow:0 0 0 26px rgba(34,211,170,0)}}
+.pipe{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:28px}
+.chip{padding:12px 20px;border-radius:999px;border:1px solid var(--teal2);background:#0f2a24;color:#dffaf2;font-weight:700;font-size:clamp(13px,1.5vw,18px);opacity:0;transform:translateY(14px)}
+.on .chip{animation:up .6s ease forwards}
+.steps{display:flex;flex-direction:column;gap:12px;margin-top:24px;font-size:clamp(16px,2vw,26px);font-weight:700}
+.steps div{opacity:0;transform:translateX(-24px)}
+.on .steps div{animation:slide .6s ease forwards}
+@keyframes slide{to{opacity:1;transform:none}}
+.stats{display:flex;gap:26px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+.stat{opacity:0;transform:scale(.5)}
+.on .stat{animation:pop .7s cubic-bezier(.2,1.4,.3,1) forwards}
+.stat b{display:block;font-family:Cambria,serif;font-size:clamp(38px,6vw,74px);color:var(--teal);line-height:1}
+.stat small{color:var(--mut);font-size:clamp(12px,1.4vw,16px);letter-spacing:.02em}
+.wares{display:flex;gap:18px;flex-wrap:wrap;justify-content:center;margin-top:26px;font-weight:700;color:#cfe0ff;font-size:clamp(14px,1.7vw,20px)}
+.wares span{opacity:.55}
+.fine{margin-top:22px;font-size:12px;color:#5d6b8c;letter-spacing:.02em}
+/* progress + controls */
+#bar{position:fixed;left:0;bottom:0;height:3px;background:var(--teal);width:0;z-index:5;box-shadow:0 0 12px var(--teal)}
+#hint{position:fixed;bottom:12px;right:16px;font-size:11px;color:#4a5878;z-index:5;letter-spacing:.04em}
+#replay{position:absolute;bottom:8vh;opacity:0;pointer-events:none;transition:opacity .5s;z-index:6}
+#replay.show{opacity:1;pointer-events:auto}
+#replay button{background:var(--teal);color:#04120d;border:none;border-radius:10px;padding:12px 22px;font-weight:800;font-size:15px;cursor:pointer}
+.logo{display:inline-flex;align-items:center;gap:12px;margin-top:26px;color:var(--mut);font-weight:700;letter-spacing:.04em}
+.dot{width:12px;height:12px;border-radius:50%;background:var(--teal)}
+.brand{position:fixed;top:18px;left:20px;font-size:11px;letter-spacing:.28em;color:#3f4d6e;text-transform:uppercase;z-index:5}
+</style></head>
+<body>
+<div class="brand">Bristlecone · UNAI</div>
+<div id="reel">
+
+  <!-- S1 -->
+  <section class="scene" data-dur="6000">
+    <div class="k up d1">Somewhere, right now</div>
+    <h1 class="serif up d2">2:47 AM.</h1>
+    <h2 class="coral up d4" style="margin-top:18px">A key port just closed.</h2>
+  </section>
+
+  <!-- S2 -->
+  <section class="scene" data-dur="9500">
+    <h2 class="up d1">For a global supply chain, by sunrise that's…</h2>
+    <div class="tally">
+      <div class="up d2">40+ SKUs about to go <span>short</span></div>
+      <div class="up d3">$2.4M of revenue <span>at risk</span></div>
+      <div class="up d4">1 supplier → <span>12 downstream decisions</span></div>
+    </div>
+  </section>
+
+  <!-- S3 -->
+  <section class="scene" data-dur="10500">
+    <div class="k up d1">The usual answer</div>
+    <h2 class="up d1">More agents.</h2>
+    <div class="grid">
+      <div class="ag"></div><div class="ag"></div><div class="ag"></div><div class="ag"></div><div class="ag"></div><div class="ag"></div>
+      <div class="ag"></div><div class="ag"></div><div class="ag"></div><div class="ag"></div><div class="ag"></div><div class="ag"></div>
+    </div>
+    <div class="meter"><i></i></div>
+    <div class="sub up d5">Each rebuilds the same seven layers. Each re-reads the same data.<br>Each one pays for it — again. Cost climbs. Coordination breaks.</div>
+  </section>
+
+  <!-- S4 -->
+  <section class="scene" data-dur="7000">
+    <h2 class="up d1" style="margin-bottom:8px">What if it were…</h2>
+    <div class="one"></div>
+    <h1 class="serif up d3" style="margin-top:26px">one mind?</h1>
+  </section>
+
+  <!-- S5 -->
+  <section class="scene" data-dur="10000">
+    <div class="k up d1">Introducing</div>
+    <h1 class="serif up d1 teal">UNAI</h1>
+    <h2 class="up d2">the Cognitive Runtime</h2>
+    <div class="sub up d3">Perception, memory, ontology, planning and governance — built <b class="white">once</b>, shared by every capability.</div>
+    <div class="pipe">
+      <div class="chip d3">Perceive · once</div><div class="chip d4">Plan · once</div><div class="chip d5">Evidence</div><div class="chip d6">Act · governed</div>
+    </div>
+  </section>
+
+  <!-- S6 -->
+  <section class="scene" data-dur="11000">
+    <div class="k up d1">So when the port closes</div>
+    <h2 class="up d1">One runtime handles the whole chain reaction:</h2>
+    <div class="steps">
+      <div class="d2">⟶ Detects the disruption</div>
+      <div class="d3">⟶ Re-forecasts demand</div>
+      <div class="d4">⟶ Rebalances inventory</div>
+      <div class="d5">⟶ Reroutes the POs to a backup supplier</div>
+    </div>
+    <div class="sub up d6">In minutes — not war-rooms. Every decision explained. Every high-value action gated to a human.</div>
+  </section>
+
+  <!-- S7 -->
+  <section class="scene" data-dur="9000">
+    <div class="k up d1">What that changes</div>
+    <div class="stats">
+      <div class="stat d1"><b>15 → 1</b><small>specialist agents → one runtime</small></div>
+      <div class="stat d2"><b>−64%</b><small>tokens per run</small></div>
+      <div class="stat d3"><b>100%</b><small>decisions governed &amp; audited</small></div>
+    </div>
+    <div class="fine up d5">Modeled on the live demonstrator · validated against real API usage counters.</div>
+  </section>
+
+  <!-- S8 -->
+  <section class="scene" data-dur="8000">
+    <h2 class="up d1">One ontology. <span class="teal">Any</span> warehouse. SAP-safe.</h2>
+    <div class="wares">
+      <span class="up d2">SAP</span><span class="up d3">Databricks</span><span class="up d4">Snowflake</span><span class="up d5">BigQuery</span><span class="up d6">ServiceNow</span>
+    </div>
+    <div class="sub up d6">Reads the governed lakehouse copy — in-tenant, read-only first, cloud- and model-neutral.</div>
+  </section>
+
+  <!-- S9 -->
+  <section class="scene" data-dur="9000">
+    <h1 class="serif up d1 teal">UNAI</h1>
+    <h2 class="up d2">one AI that does the work of many.</h2>
+    <div class="sub up d3 white" style="font-weight:700">The era of agent sprawl ends here.</div>
+    <div class="logo up d5"><span class="dot"></span> Bristlecone · Cognitive Runtime</div>
+    <div id="replay"><button onclick="startReel()">↻ Replay</button></div>
+  </section>
+
+</div>
+<style>
+  #ctl{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:22;display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center;
+    background:rgba(9,15,30,.74);backdrop-filter:blur(8px);border:1px solid #2c4372;border-radius:30px;padding:8px 12px;max-width:94vw}
+  #ctl button{cursor:pointer;background:rgba(255,255,255,.08);border:1px solid #2c4372;color:var(--txt);border-radius:20px;padding:7px 12px;font-size:13px;font-weight:700}
+  #ctl button#pp{background:var(--teal);color:#04120d;border-color:var(--teal);min-width:86px}
+  #ctl select{background:rgba(255,255,255,.08);border:1px solid #2c4372;color:var(--txt);border-radius:18px;padding:6px 8px;font-size:12px;max-width:160px}
+  #ctl .dots{display:flex;gap:6px;margin:0 6px}
+  #ctl .dots i{width:8px;height:8px;border-radius:50%;background:#33456e;display:block;cursor:pointer}
+  #ctl .dots i.on{background:var(--teal)}
+</style>
+<div id="ctl">
+  <button id="prevBtn" onclick="prev()" title="Previous (←)">◀</button>
+  <button id="pp" onclick="togglePP()" title="Play / Pause (space)">▶ Play</button>
+  <button id="nextBtn" onclick="next()" title="Next (→)">Next ▶</button>
+  <button id="rp" onclick="startReel()" title="Restart from the beginning">⟲</button>
+  <span class="dots" id="dots"></span>
+  <button id="mVoice" onclick="toggleVoice()" title="Narration on/off (M)">🔊 Voice</button>
+  <button id="mMusic" onclick="toggleMusic()" title="Music on/off">🎵 Music</button>
+  <select id="vselReel" title="Narration voice" onchange="setVoiceReel(this.value)"></select>
+</div>
+<div id="bar"></div>
+<div id="hint">▶ Play · space play/pause · ← / → step · F fullscreen</div>
+
+<script>
+const scenes=[...document.querySelectorAll('.scene')];
+const bar=document.getElementById('bar'), replay=document.getElementById('replay');
+let i=-1, timer=null, paused=false, t0=0, remain=0, curDur=0;
+let sceneTimeDone=false, sceneVoiceDone=false, advancing=false, muted=false, musicOn=true, started=false;
+
+// ---- narration (US voice; UNAI spoken as "Ooh nye") ----
+const NARR=[
+ "It's 2:47 AM. Somewhere, a key port just closed.",
+ "By sunrise, for a global supply chain, that's forty-plus SKUs about to go short, two point four million dollars of revenue at risk, and one supplier rippling into twelve downstream decisions.",
+ "The usual answer? More agents. But each one rebuilds the same seven layers, re-reads the same data, and pays for it again. Cost climbs, and coordination breaks.",
+ "What if, instead, it were one mind?",
+ "Introducing Ooh nye, the cognitive runtime. Perception, memory, ontology, planning and governance, built once, and shared by every capability.",
+ "So when the port closes, one runtime handles the whole chain reaction. It detects the disruption, re-forecasts demand, rebalances inventory, and reroutes the purchase orders to a backup supplier, in minutes, not war-rooms. Every decision explained, every high-value action gated to a human.",
+ "What changes? Fifteen specialist agents collapse to one runtime. Sixty-four percent fewer tokens per run. And one hundred percent of decisions governed and audited.",
+ "One ontology, any warehouse, and SAP-safe. It reads the governed lakehouse copy, in-tenant, read-only first, cloud and model neutral.",
+ "Ooh nye. One AI that does the work of many. The era of agent sprawl ends here."
+];
+
+// ---- Beethoven — Für Elise, synthesized; soft, ducks under the narration ----
+let AC=null, musGain=null, musTimer=null, musIdx=0;
+const FE=[659.25,622.25,659.25,622.25,659.25,493.88,587.33,523.25,440.00,0,
+  261.63,329.63,440.00,493.88,0,329.63,415.30,493.88,523.25,0,
+  329.63,659.25,622.25,659.25,622.25,659.25,493.88,587.33,523.25,440.00,0,
+  261.63,329.63,440.00,493.88,0,329.63,523.25,493.88,440.00,0,0];
+function initAudio(){ if(!AC){ try{AC=new (window.AudioContext||window.webkitAudioContext)();}catch(e){AC=null;return;} musGain=AC.createGain(); musGain.gain.value=0.07; musGain.connect(AC.destination);} if(AC.state==='suspended')AC.resume(); }
+function note(freq,dur){ if(!freq||!AC)return; const o=AC.createOscillator(),g=AC.createGain(),t=AC.currentTime; o.type='triangle'; o.frequency.value=freq; g.gain.setValueAtTime(0.0001,t); g.gain.linearRampToValueAtTime(0.9,t+0.02); g.gain.exponentialRampToValueAtTime(0.0008,t+dur*0.95); o.connect(g); g.connect(musGain); o.start(t); o.stop(t+dur); }
+function musTick(){ const step=0.20; note(FE[musIdx%FE.length], step*1.1); musIdx++; musTimer=setTimeout(musTick, step*1000); }
+function startMusic(){ if(!musicOn)return; initAudio(); if(musTimer||!AC)return; musIdx=0; musTick(); }
+function stopMusic(){ if(musTimer){clearTimeout(musTimer);musTimer=null;} }
+function duck(on){ if(musGain&&AC) musGain.gain.setTargetAtTime(on?0.022:0.07, AC.currentTime, 0.3); }
+
+// ---- voice (US English; complete-line reading via sentence chunks) ----
+let voice=null, voices=[];
+function loadVoices(){ if(!('speechSynthesis'in window))return; voices=speechSynthesis.getVoices();
+  const list=voices.filter(v=>/^en/i.test(v.lang)); if(!list.length)return;
+  voice=list.find(v=>/en[-_]US/i.test(v.lang)&&/(Samantha|Aria|Jenny|Google US|Zira|Guy|Daniel|Natural|Neural)/i.test(v.name))||list.find(v=>/en[-_]US/i.test(v.lang))||list[0]||voices[0];
+  const sel=document.getElementById('vselReel');
+  if(sel){ const ordered=[...list].sort((a,b)=>(/en[-_]US/i.test(b.lang)?1:0)-(/en[-_]US/i.test(a.lang)?1:0));
+    sel.innerHTML=ordered.map(v=>`<option value="${voices.indexOf(v)}">${v.name.replace(/^(Microsoft|Google|Apple)\s+/,'')}${/en[-_]US/i.test(v.lang)?' · US':''}</option>`).join('');
+    sel.value=voices.indexOf(voice); } }
+function setVoiceReel(i){ voice=voices[+i]||voice; }
+if('speechSynthesis'in window){ loadVoices(); speechSynthesis.onvoiceschanged=loadVoices; }
+function speak(n,onDone){ const done=()=>{duck(false); if(onDone)onDone();};
+  if(muted||!('speechSynthesis'in window)||!NARR[n]){ if(onDone)onDone(); return; }
+  try{speechSynthesis.cancel();}catch(e){}
+  const chunks=(NARR[n].match(/[^.!?]+[.!?]*/g)||[NARR[n]]).map(s=>s.trim()).filter(Boolean);
+  let k=0; duck(true);
+  const nx=()=>{ if(k>=chunks.length){done();return;} const u=new SpeechSynthesisUtterance(chunks[k++]); if(voice)u.voice=voice; u.rate=0.95;u.pitch=1.0;u.volume=1.0; u.onend=nx; u.onerror=nx; speechSynthesis.speak(u); };
+  nx(); }
+
+function clearT(){ if(timer){clearTimeout(timer);timer=null;} }
+// advance only when BOTH the min scene time AND the narration have finished
+function maybeAdvance(){ if(advancing||paused) return; if(!sceneTimeDone) return; if(!sceneVoiceDone && !muted) return; advancing=false; show(i+1); }
+function show(n){
+  clearT(); replay.classList.remove('show'); try{speechSynthesis.cancel();}catch(e){}
+  if(n>=scenes.length){ replay.classList.add('show'); bar.style.width='100%'; stopMusic(); const b=document.getElementById('pp'); if(b)b.textContent='⟲ Replay'; renderDots(); return; }
+  scenes.forEach(s=>s.classList.remove('on'));
+  i=n; const sc=scenes[i]; sc.classList.add('on');
+  curDur=+sc.dataset.dur||8000; remain=curDur; t0=Date.now();
+  bar.style.transition='none'; bar.style.width=((i)/scenes.length*100)+'%'; void bar.offsetWidth;
+  bar.style.transition='width '+curDur+'ms linear'; bar.style.width=((i+1)/scenes.length*100)+'%';
+  sceneTimeDone=false; sceneVoiceDone=false; renderDots();
+  if(started && !paused) timer=setTimeout(()=>{ sceneTimeDone=true; maybeAdvance(); }, curDur);
+  if(started) speak(i, ()=>{ sceneVoiceDone=true; maybeAdvance(); }); else sceneVoiceDone=true;
+}
+function startReel(){ started=true; paused=false; muted=false; musicOn=true;
+  const mv=document.getElementById('mVoice'); if(mv)mv.textContent='🔊 Voice';
+  const mm=document.getElementById('mMusic'); if(mm)mm.textContent='🎵 Music';
+  initAudio(); startMusic(); setPP(true); show(0); }
+function next(){ try{speechSynthesis.cancel();}catch(e){} if(started&&i<scenes.length) show(i+1); }
+function prev(){ try{speechSynthesis.cancel();}catch(e){} if(started&&i>0) show(i-1); }
+function pause(){
+  if(!started||i>=scenes.length) return;
+  paused=!paused;
+  if(paused){ clearT(); remain=Math.max(0,curDur-(Date.now()-t0));
+    const w=getComputedStyle(bar).width; bar.style.transition='none'; bar.style.width=w;
+    try{speechSynthesis.pause();}catch(e){} }
+  else { t0=Date.now()-(curDur-remain);
+    bar.style.transition='width '+remain+'ms linear'; bar.style.width=((i+1)/scenes.length*100)+'%';
+    sceneTimeDone=false; timer=setTimeout(()=>{ sceneTimeDone=true; maybeAdvance(); }, remain);
+    try{speechSynthesis.resume();}catch(e){} }
+  setPP(!paused);
+}
+function setPP(playing){ const b=document.getElementById('pp'); if(b)b.textContent=playing?'⏸ Pause':'▶ Play'; }
+function togglePP(){ if(!started || i>=scenes.length){ startReel(); return; } pause(); }
+function renderDots(){ const d=document.getElementById('dots'); if(!d)return; d.innerHTML=scenes.map((_,k)=>`<i class="${k===i?'on':''}" onclick="jumpTo(${k})"></i>`).join(''); }
+function jumpTo(k){ try{speechSynthesis.cancel();}catch(e){} if(!started) startReel(); paused=false; setPP(true); show(k); }
+function toggleVoice(){ muted=!muted; document.getElementById('mVoice').textContent=muted?'🔇 Voice':'🔊 Voice';
+  if(muted){ try{speechSynthesis.cancel();}catch(e){} duck(false); sceneVoiceDone=true; maybeAdvance(); }
+  else if(started&&i>=0){ speak(i, ()=>{sceneVoiceDone=true; maybeAdvance();}); } }
+function toggleMusic(){ musicOn=!musicOn; document.getElementById('mMusic').textContent=musicOn?'🎵 Music':'🔇 Music'; if(musicOn) startMusic(); else stopMusic(); }
+
+document.getElementById('reel').addEventListener('click',e=>{ if(e.target.tagName!=='BUTTON' && started) next(); });
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight') next();
+  else if(e.key==='ArrowLeft') prev();
+  else if(e.key===' '){ e.preventDefault(); togglePP(); }
+  else if(e.key.toLowerCase()==='r') startReel();
+  else if(e.key.toLowerCase()==='m') toggleVoice();
+  else if(e.key.toLowerCase()==='f'){ if(!document.fullscreenElement) document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen(); else document.exitFullscreen&&document.exitFullscreen(); }
+});
+/* show scene 1 statically with the bottom control bar visible; first ▶ starts audio (browser gesture) */
+show(0); setPP(false);
+</script>
+</body></html>

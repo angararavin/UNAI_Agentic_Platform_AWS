@@ -1,0 +1,32 @@
+{
+  "unai_agent": "1.0",
+  "id": "response_planning",
+  "name": "Response Planning Agent",
+  "module": "Response · order-based",
+  "description": "SAP IBP Response · order-based use case on the UNAI shared runtime.",
+  "concepts": [
+    "confirmed_qty",
+    "requested_qty",
+    "allocation_qty",
+    "projected_stock"
+  ],
+  "domainStep": {
+    "method": "order-based response",
+    "decision": "Confirm / re-promise orders against supply",
+    "formula": null
+  },
+  "governance": {
+    "autonomyThresholdPct": 85,
+    "valueLimitUsd": 50000
+  },
+  "runtime": "UNAI shared cognitive runtime (7 layers, canonical ontology)",
+  "plan": [
+    {
+      "capability": "cap_response_planning",
+      "agentEquiv": "response planning",
+      "systems": [
+        "ANALYTICS"
+      ]
+    }
+  ]
+}

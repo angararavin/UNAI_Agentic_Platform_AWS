@@ -1,0 +1,32 @@
+{
+  "unai_agent": "1.0",
+  "id": "safety_stock_planning",
+  "name": "Safety Stock Planning Agent",
+  "module": "Inventory",
+  "description": "SAP IBP Inventory use case on the UNAI shared runtime.",
+  "concepts": [
+    "safety_stock",
+    "demand_variability",
+    "lead_time_days",
+    "service_level"
+  ],
+  "domainStep": {
+    "method": "service-level safety stock",
+    "decision": "Set safety stock for the target service level",
+    "formula": "z·σ_demand·√lead_time"
+  },
+  "governance": {
+    "autonomyThresholdPct": 85,
+    "valueLimitUsd": 50000
+  },
+  "runtime": "UNAI shared cognitive runtime (7 layers, canonical ontology)",
+  "plan": [
+    {
+      "capability": "cap_safety_stock_planning",
+      "agentEquiv": "safety stock planning",
+      "systems": [
+        "ANALYTICS"
+      ]
+    }
+  ]
+}

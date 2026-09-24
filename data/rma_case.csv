@@ -1,0 +1,3 @@
+rma_id,sku,status,warranty,claim_value,entitled,oem,symptom
+RMA0012841,GPU-H100,RECEIVED,IN_WARRANTY,24500.0,True,NVIDIA,Xid 79 fall-off-bus
+RMA0012842,PSU-2200,RECEIVED,OUT_WARRANTY,890.0,False,Delta,No power-on

@@ -1,0 +1,4 @@
+sku,dc,fail_rate,age_factor,install_base
+GPU-H100,DC-EAST,0.042,1.35,12000
+SSD-3840,DC-EAST,0.018,1.1,48000
+PSU-2200,DC-WEST,0.067,1.6,9000

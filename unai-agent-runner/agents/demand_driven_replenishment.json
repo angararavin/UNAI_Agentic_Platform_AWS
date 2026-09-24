@@ -1,0 +1,32 @@
+{
+  "unai_agent": "1.0",
+  "id": "demand_driven_replenishment",
+  "name": "Demand Driven Replenishment Agent",
+  "module": "DDR · DDMRP",
+  "description": "SAP IBP DDR · DDMRP use case on the UNAI shared runtime.",
+  "concepts": [
+    "net_flow_position",
+    "buffer_level",
+    "average_daily_usage",
+    "decoupling_point"
+  ],
+  "domainStep": {
+    "method": "DDMRP",
+    "decision": "Replenish to top-of-green on a net-flow breach",
+    "formula": "buffer = ADU·LT·variability_factor"
+  },
+  "governance": {
+    "autonomyThresholdPct": 85,
+    "valueLimitUsd": 50000
+  },
+  "runtime": "UNAI shared cognitive runtime (7 layers, canonical ontology)",
+  "plan": [
+    {
+      "capability": "cap_demand_driven_replenishment",
+      "agentEquiv": "demand driven replenishment",
+      "systems": [
+        "ANALYTICS"
+      ]
+    }
+  ]
+}

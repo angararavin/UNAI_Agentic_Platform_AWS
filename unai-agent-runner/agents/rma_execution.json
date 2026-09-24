@@ -1,0 +1,31 @@
+{
+  "unai_agent": "1.0",
+  "id": "rma_execution",
+  "name": "Rma Execution Agent",
+  "module": "Aftermarket · RMA",
+  "description": "SAP IBP Aftermarket · RMA use case on the UNAI shared runtime.",
+  "concepts": [
+    "rma_id",
+    "warranty_status",
+    "claim_value"
+  ],
+  "domainStep": {
+    "method": "RMA triage",
+    "decision": "Triage RMA: repair vs replace vs credit",
+    "formula": null
+  },
+  "governance": {
+    "autonomyThresholdPct": 85,
+    "valueLimitUsd": 50000
+  },
+  "runtime": "UNAI shared cognitive runtime (7 layers, canonical ontology)",
+  "plan": [
+    {
+      "capability": "cap_rma_execution",
+      "agentEquiv": "rma execution",
+      "systems": [
+        "ANALYTICS"
+      ]
+    }
+  ]
+}

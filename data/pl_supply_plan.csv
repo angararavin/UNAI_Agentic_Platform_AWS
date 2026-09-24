@@ -1,0 +1,3 @@
+sku,dc,cap_qty,mps_qty,alloc_qty
+FG-1001,DC-EAST,1600,1500,1450
+FG-1003,DC-WEST,850,820,800

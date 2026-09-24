@@ -1,0 +1,32 @@
+{
+  "unai_agent": "1.0",
+  "id": "supply_planning",
+  "name": "Supply Planning Agent",
+  "module": "Supply",
+  "description": "SAP IBP Supply use case on the UNAI shared runtime.",
+  "concepts": [
+    "allocation_qty",
+    "capacity_qty",
+    "open_demand",
+    "on_hand_qty"
+  ],
+  "domainStep": {
+    "method": "constrained supply planning",
+    "decision": "Allocate constrained supply to demand",
+    "formula": null
+  },
+  "governance": {
+    "autonomyThresholdPct": 85,
+    "valueLimitUsd": 50000
+  },
+  "runtime": "UNAI shared cognitive runtime (7 layers, canonical ontology)",
+  "plan": [
+    {
+      "capability": "cap_supply_planning",
+      "agentEquiv": "supply planning",
+      "systems": [
+        "ANALYTICS"
+      ]
+    }
+  ]
+}

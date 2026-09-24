@@ -1,0 +1,4 @@
+shipment_id,sku,dc,carrier,status,eta_days,planned_eta,in_transit
+SHP-501,FG-1001,DC-EAST,Maersk,CUSTOMS,12,7,120
+SHP-502,FG-1003,DC-WEST,DHL,IN_TRANSIT,5,6,60
+SHP-503,FG-1002,DC-EAST,FedEx,IN_TRANSIT,9,4,200

@@ -1,0 +1,10 @@
+use_case_key,use_case,tables
+disruption_response,Supplier Disruption Response,dim_product; dim_location; dim_supplier; fct_sales; fct_inventory; fct_shipment; fct_po; feat_forecast; feat_supplier_risk
+demand_planning,Demand Planning,pl_demand_plan; fct_sales; feat_forecast
+inventory_optimization,Inventory Optimization,fct_inventory; pl_inv_health
+supply_planning,Supply / S&OP Planning,pl_supply_plan; pl_demand_plan
+procurement_sourcing,Procurement & Sourcing,pl_procurement
+logistics_transportation,Logistics & Transportation,pl_logistics
+production_planning,Production / Manufacturing Planning,pl_production; pl_supply_plan; fct_inventory
+spares_planning_ibp,Spares Planning (IBP),ib_install_base; ib_inv_target; feat_failure; feat_spares_forecast; feat_returns; s4_refurb; fct_inventory
+rma_execution,RMA Execution,rma_case; s4_refurb

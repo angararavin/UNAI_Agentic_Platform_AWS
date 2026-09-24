@@ -1,0 +1,74 @@
+{
+  "source": "sap",
+  "version": 1,
+  "tables": {
+    "I_ProductStock": {
+      "mappings": [
+        {
+          "column": "MATNR",
+          "concept": "sku",
+          "confidence": 0.98,
+          "auto_accepted": true,
+          "needs_review": false,
+          "rationale": "native field 'MATNR' is already in the ontology"
+        },
+        {
+          "column": "WERKS",
+          "concept": "location",
+          "confidence": 0.98,
+          "auto_accepted": true,
+          "needs_review": false,
+          "rationale": "native field 'WERKS' is already in the ontology"
+        },
+        {
+          "column": "LABST",
+          "concept": "on_hand_qty",
+          "confidence": 0.98,
+          "auto_accepted": true,
+          "needs_review": false,
+          "rationale": "native field 'LABST' is already in the ontology"
+        },
+        {
+          "column": "EISBE",
+          "concept": "safety_stock",
+          "confidence": 0.98,
+          "auto_accepted": true,
+          "needs_review": false,
+          "rationale": "native field 'EISBE' is already in the ontology"
+        },
+        {
+          "column": "LIFNR",
+          "concept": "supplier",
+          "confidence": 0.98,
+          "auto_accepted": true,
+          "needs_review": false,
+          "rationale": "native field 'LIFNR' is already in the ontology"
+        },
+        {
+          "column": "STPRS",
+          "concept": "unit_cost",
+          "confidence": 0.98,
+          "auto_accepted": true,
+          "needs_review": false,
+          "rationale": "native field 'STPRS' is already in the ontology"
+        },
+        {
+          "column": "ZZSCRAP",
+          "concept": null,
+          "confidence": 0.0,
+          "auto_accepted": false,
+          "needs_review": true,
+          "rationale": "no confident match \u2014 needs a human mapping"
+        }
+      ],
+      "summary": {
+        "columns": 7,
+        "mapped": 6,
+        "auto_accepted": 6,
+        "needs_review": 1,
+        "coverage_pct": 86,
+        "auto_pct": 86
+      }
+    }
+  }
+}

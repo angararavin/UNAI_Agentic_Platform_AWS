@@ -1,0 +1,4 @@
+vendor,risk_score,disrupted,region,note
+V-2207,0.78,True,APAC,Port strike — APAC lanes
+V-3310,0.2,False,EU,Nominal
+V-9001,0.1,False,US,"Backup, nominal"

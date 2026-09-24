@@ -1,0 +1,14 @@
+{
+  "name": "token-economics-knowledge-assistant",
+  "version": "1.0.0",
+  "description": "Standalone Multimodal Knowledge Assistant focused on real, measured token-economics explainability (retrieval vs. full-corpus baseline).",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "optionalDependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "pdf-parse": "^1.1.1",
+    "tesseract.js": "^7.0.0"
+  }
+}

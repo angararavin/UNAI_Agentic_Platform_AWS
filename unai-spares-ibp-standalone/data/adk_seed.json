@@ -1,0 +1,707 @@
+{
+  "approvals": {
+    "APR-00BD10CE": {
+      "amount": 12420,
+      "approval_id": "APR-00BD10CE",
+      "approved_at": "2026-07-29T07:11:14.017373+00:00",
+      "approver": "demo.manager",
+      "created_at": "2026-07-29T07:10:57.830790+00:00",
+      "reference_id": "IBP-8BB70BE3",
+      "status": "APPROVED",
+      "type": "IBP_REPLENISHMENT"
+    }
+  },
+  "assets": {
+    "LT-DEMO-001": {
+      "customer": "Demo Data Center Operations",
+      "part_id": "SSD-1TB",
+      "serial_number": "LT-DEMO-001",
+      "status": "DEPLOYED",
+      "warranty_end": "2027-12-31"
+    },
+    "LT-DEMO-002": {
+      "customer": "Demo Workplace Services",
+      "part_id": "SYSTEM-BOARD-X1",
+      "serial_number": "LT-DEMO-002",
+      "status": "DEPLOYED",
+      "warranty_end": "2027-06-30"
+    }
+  },
+  "ibp_runs": [
+    {
+      "approval_id": "APR-00BD10CE",
+      "created_at": "2026-07-29T07:10:57.830790+00:00",
+      "executed_at": "2026-07-29T07:11:40.714473+00:00",
+      "part_id": "SYSTEM-BOARD-X1",
+      "plan": {
+        "failure_rate": {
+          "adjusted_monthly_rate": 0.005445,
+          "age_factor": 1.21,
+          "base_monthly_rate": 0.0045,
+          "reliability_implied_monthly_demand": 11.98
+        },
+        "forecast": {
+          "monthly_demand": [
+            23,
+            25,
+            27
+          ],
+          "statistical_baseline": 21.17,
+          "trend_per_month": 1.2
+        },
+        "horizon_months": 3,
+        "inventory_policy": {
+          "demand_stddev": 2.27,
+          "lead_time_demand": 50,
+          "lead_time_months": 2,
+          "safety_stock": 7,
+          "service_level": 0.98,
+          "target_inventory_position": 57
+        },
+        "part_id": "SYSTEM-BOARD-X1",
+        "returns": {
+          "lag_months": 1,
+          "monthly_refurb_supply": [
+            9,
+            9,
+            9
+          ],
+          "monthly_returns": [
+            18,
+            18,
+            20
+          ],
+          "realization_rate": 0.81,
+          "refurb_yield": 0.56
+        },
+        "supply": {
+          "estimated_procurement_value": 12420,
+          "expected_refurb_during_lead": 18,
+          "inventory_position": 39,
+          "net_requirement": 18,
+          "on_hand": 18,
+          "open_orders": 3,
+          "procurement_quantity": 18,
+          "rebalancing": [
+            {
+              "from": "Bengaluru",
+              "quantity": 2,
+              "to": "Pune"
+            }
+          ]
+        }
+      },
+      "run_id": "IBP-8BB70BE3",
+      "status": "EXECUTED"
+    },
+    {
+      "approval_id": null,
+      "created_at": "2026-07-29T08:59:43.872624+00:00",
+      "executed_at": "2026-07-29T08:59:48.076179+00:00",
+      "part_id": "SSD-1TB",
+      "plan": {
+        "failure_rate": {
+          "adjusted_monthly_rate": 0.00663,
+          "age_factor": 1.105,
+          "base_monthly_rate": 0.006,
+          "reliability_implied_monthly_demand": 33.15
+        },
+        "forecast": {
+          "monthly_demand": [
+            48,
+            52,
+            51
+          ],
+          "statistical_baseline": 45.33,
+          "trend_per_month": 2
+        },
+        "horizon_months": 3,
+        "inventory_policy": {
+          "demand_stddev": 3.25,
+          "lead_time_demand": 76,
+          "lead_time_months": 1.5,
+          "safety_stock": 8,
+          "service_level": 0.97,
+          "target_inventory_position": 84
+        },
+        "part_id": "SSD-1TB",
+        "returns": {
+          "lag_months": 1,
+          "monthly_refurb_supply": [
+            18,
+            18,
+            18
+          ],
+          "monthly_returns": [
+            34,
+            34,
+            37
+          ],
+          "realization_rate": 0.72,
+          "refurb_yield": 0.68
+        },
+        "supply": {
+          "estimated_procurement_value": 260,
+          "expected_refurb_during_lead": 36,
+          "inventory_position": 83,
+          "net_requirement": 1,
+          "on_hand": 39,
+          "open_orders": 8,
+          "procurement_quantity": 1,
+          "rebalancing": [
+            {
+              "from": "Bengaluru",
+              "quantity": 1,
+              "to": "Pune"
+            }
+          ]
+        }
+      },
+      "run_id": "IBP-D2DBF2A6",
+      "status": "EXECUTED"
+    },
+    {
+      "approval_id": null,
+      "created_at": "2026-08-04T12:58:08.523620+00:00",
+      "executed_at": "2026-08-04T12:58:18.347532+00:00",
+      "part_id": "SSD-1TB",
+      "plan": {
+        "failure_rate": {
+          "adjusted_monthly_rate": 0.00663,
+          "age_factor": 1.105,
+          "base_monthly_rate": 0.006,
+          "reliability_implied_monthly_demand": 33.15
+        },
+        "forecast": {
+          "monthly_demand": [
+            48,
+            52,
+            51
+          ],
+          "statistical_baseline": 45.33,
+          "trend_per_month": 2
+        },
+        "horizon_months": 3,
+        "inventory_policy": {
+          "demand_stddev": 3.25,
+          "lead_time_demand": 76,
+          "lead_time_months": 1.5,
+          "safety_stock": 8,
+          "service_level": 0.97,
+          "target_inventory_position": 84
+        },
+        "part_id": "SSD-1TB",
+        "returns": {
+          "lag_months": 1,
+          "monthly_refurb_supply": [
+            18,
+            18,
+            18
+          ],
+          "monthly_returns": [
+            34,
+            34,
+            37
+          ],
+          "realization_rate": 0.72,
+          "refurb_yield": 0.68
+        },
+        "supply": {
+          "estimated_procurement_value": 0,
+          "expected_refurb_during_lead": 36,
+          "inventory_position": 84,
+          "net_requirement": 0,
+          "on_hand": 39,
+          "open_orders": 9,
+          "procurement_quantity": 0,
+          "rebalancing": []
+        }
+      },
+      "run_id": "IBP-2AF5F3F5",
+      "status": "EXECUTED"
+    }
+  ],
+  "knowledge_base": {
+    "KB-BOARD-001": {
+      "diagnostic_code": "NO_POWER",
+      "fault_classification": "HARDWARE",
+      "part_id": "SYSTEM-BOARD-X1",
+      "recommended_resolution": "Route to priority board-level confirmation and repair evaluation.",
+      "root_cause": "Power rail or system-board failure",
+      "symptom_keywords": [
+        "no power",
+        "does not power on",
+        "black screen",
+        "power rail"
+      ],
+      "telemetry_codes": [
+        "POWER_RAIL_FAULT",
+        "NO_POWER"
+      ],
+      "title": "System-board power rail failure",
+      "validated": true
+    },
+    "KB-SSD-001": {
+      "diagnostic_code": "SMART_FAIL",
+      "fault_classification": "HARDWARE",
+      "part_id": "SSD-1TB",
+      "recommended_resolution": "Fast-track SSD replacement after technician confirms the evidence package.",
+      "root_cause": "Storage media degradation",
+      "symptom_keywords": [
+        "SMART_FAIL",
+        "smart fail",
+        "intermittent boot",
+        "media error",
+        "bad blocks"
+      ],
+      "telemetry_codes": [
+        "SMART_FAIL",
+        "MEDIA_ERROR",
+        "BAD_BLOCKS"
+      ],
+      "title": "NVMe SMART failure with intermittent boot errors",
+      "validated": true
+    },
+    "KB-SSD-002": {
+      "diagnostic_code": "FIRMWARE",
+      "fault_classification": "SOFTWARE",
+      "part_id": "SSD-1TB",
+      "recommended_resolution": "Route to the approved remote firmware recovery procedure.",
+      "root_cause": "Firmware/software configuration",
+      "symptom_keywords": [
+        "firmware",
+        "boot loop",
+        "driver error"
+      ],
+      "telemetry_codes": [
+        "FIRMWARE",
+        "BOOT_LOOP",
+        "DRIVER_ERROR"
+      ],
+      "title": "NVMe firmware boot-loop recovery",
+      "validated": true
+    }
+  },
+  "parts": {
+    "SSD-1TB": {
+      "avg_age_months": 31,
+      "demand_history": [
+        31,
+        34,
+        30,
+        38,
+        36,
+        42,
+        40,
+        45,
+        43,
+        48,
+        46,
+        50
+      ],
+      "description": "Enterprise laptop 1 TB NVMe SSD",
+      "installed_base": 5000,
+      "lead_time_months": 1.5,
+      "locations": {
+        "Bengaluru": 59,
+        "Gurugram": 8,
+        "Pune": 7
+      },
+      "minimum_location_stock": 12,
+      "monthly_failure_rate": 0.006,
+      "on_hand": 39,
+      "open_orders": 44,
+      "part_id": "SSD-1TB",
+      "refurb_capacity_per_month": 18,
+      "refurb_yield": 0.68,
+      "return_lag_months": 1,
+      "return_realization_rate": 0.72,
+      "seasonality": [
+        1,
+        1.04,
+        0.98,
+        1.08
+      ],
+      "service_level": 0.97,
+      "unit_cost": 260
+    },
+    "SYSTEM-BOARD-X1": {
+      "avg_age_months": 38,
+      "demand_history": [
+        13,
+        15,
+        16,
+        14,
+        18,
+        19,
+        17,
+        21,
+        22,
+        20,
+        24,
+        23
+      ],
+      "description": "Laptop X1 replacement system board",
+      "installed_base": 2200,
+      "lead_time_months": 2,
+      "locations": {
+        "Bengaluru": 11,
+        "Gurugram": 4,
+        "Pune": 4
+      },
+      "minimum_location_stock": 5,
+      "monthly_failure_rate": 0.0045,
+      "on_hand": 18,
+      "open_orders": 22,
+      "part_id": "SYSTEM-BOARD-X1",
+      "refurb_capacity_per_month": 9,
+      "refurb_yield": 0.56,
+      "return_lag_months": 1,
+      "return_realization_rate": 0.81,
+      "seasonality": [
+        1,
+        1.02,
+        1.05,
+        0.97
+      ],
+      "service_level": 0.98,
+      "unit_cost": 690
+    }
+  },
+  "resolved_case_patterns": [
+    {
+      "diagnostic_code": "SMART_FAIL",
+      "fast_track_review_minutes": 8,
+      "median_diagnosis_minutes": 45,
+      "part_id": "SSD-1TB",
+      "pattern_id": "PAT-SSD-SMART-001",
+      "resolved_case_count": 86,
+      "successful_resolution_rate": 0.97
+    },
+    {
+      "diagnostic_code": "FIRMWARE",
+      "fast_track_review_minutes": 10,
+      "median_diagnosis_minutes": 35,
+      "part_id": "SSD-1TB",
+      "pattern_id": "PAT-SSD-FW-001",
+      "resolved_case_count": 41,
+      "successful_resolution_rate": 0.9
+    },
+    {
+      "diagnostic_code": "NO_POWER",
+      "fast_track_review_minutes": 12,
+      "median_diagnosis_minutes": 55,
+      "part_id": "SYSTEM-BOARD-X1",
+      "pattern_id": "PAT-BOARD-POWER-001",
+      "resolved_case_count": 29,
+      "successful_resolution_rate": 0.86
+    }
+  ],
+  "rmas": {
+    "RMA-887D39DD": {
+      "claim_valid": true,
+      "closure": {
+        "closed_at": "2026-07-29T07:15:11.960115+00:00",
+        "disposition": "REPLACE",
+        "inventory_delta": -1,
+        "label_and_coc_generated": true,
+        "movement": "SHIP_REPLACEMENT_TO_CUSTOMER"
+      },
+      "created_at": "2026-07-29T07:13:37.602099+00:00",
+      "customer": "Demo Data Center Operations",
+      "decision": {
+        "decided_at": "2026-07-29T07:15:02.870611+00:00",
+        "disposition": "REPLACE",
+        "human_approval_required": false,
+        "part_available": true,
+        "reason": "Replacement protects the SLA and inventory is available.",
+        "repair_cost": 170,
+        "repair_to_replace_ratio": 0.6538,
+        "replacement_cost": 260,
+        "sla_days_remaining": 3
+      },
+      "diagnosis": {
+        "confidence": 0.99,
+        "confirmed_at": "2026-07-29T07:14:54.914428+00:00",
+        "confirmed_by": "demo.technician",
+        "diagnostic_code": "SMART_FAIL",
+        "fault_classification": "HARDWARE",
+        "requires_deep_failure_analysis": false,
+        "root_cause": "Storage media degradation",
+        "source": "GROUND_TRUTH_PRECHECK"
+      },
+      "final_test": {
+        "passed": true,
+        "technician_notes": "",
+        "tested_at": "2026-07-29T07:15:11.960115+00:00"
+      },
+      "history": [
+        {
+          "at": "2026-07-29T07:13:37.602099+00:00",
+          "event": "RMA_REQUESTED"
+        },
+        {
+          "at": "2026-07-29T07:14:38.646418+00:00",
+          "confidence": 0.99,
+          "event": "SIMILAR_ISSUE_PRECHECKED",
+          "ticket_action": "FAST_TRACK_TECHNICIAN_CONFIRMATION"
+        },
+        {
+          "at": "2026-07-29T07:14:54.914428+00:00",
+          "event": "PRECHECK_DIAGNOSIS_CONFIRMED",
+          "result": {
+            "confidence": 0.99,
+            "confirmed_at": "2026-07-29T07:14:54.914428+00:00",
+            "confirmed_by": "demo.technician",
+            "diagnostic_code": "SMART_FAIL",
+            "fault_classification": "HARDWARE",
+            "requires_deep_failure_analysis": false,
+            "root_cause": "Storage media degradation",
+            "source": "GROUND_TRUTH_PRECHECK"
+          },
+          "reviewer": "demo.technician"
+        },
+        {
+          "at": "2026-07-29T07:15:02.870611+00:00",
+          "event": "DISPOSITION_DECIDED",
+          "result": {
+            "disposition": "REPLACE",
+            "human_approval_required": false,
+            "reason": "Replacement protects the SLA and inventory is available.",
+            "repair_to_replace_ratio": 0.6538
+          }
+        },
+        {
+          "at": "2026-07-29T07:15:11.960115+00:00",
+          "event": "RMA_CLOSED",
+          "movement": "SHIP_REPLACEMENT_TO_CUSTOMER"
+        }
+      ],
+      "issue_description": "Laptop SSD reports SMART_FAIL and intermittent boot errors",
+      "part_id": "SSD-1TB",
+      "requested_resolution": "repair_or_replace",
+      "rma_id": "RMA-887D39DD",
+      "serial_number": "LT-DEMO-001",
+      "similar_issue_precheck": {
+        "confidence": 0.99,
+        "confirmation": {
+          "confirmed_at": "2026-07-29T07:14:54.914428+00:00",
+          "reviewer": "demo.technician"
+        },
+        "confirmation_eligible": true,
+        "estimated_technician_minutes_saved": 37,
+        "evidence_sources": [
+          "RMA_TICKET",
+          "KNOWLEDGE_BASE",
+          "DEVICE_TELEMETRY",
+          "RESOLVED_CASE_DATABASE"
+        ],
+        "match_found": true,
+        "matched_kb_article_id": "KB-SSD-001",
+        "matched_pattern_id": "PAT-SSD-SMART-001",
+        "matched_symptoms": [
+          "SMART_FAIL",
+          "smart fail",
+          "intermittent boot"
+        ],
+        "prechecked_at": "2026-07-29T07:14:38.646418+00:00",
+        "provisional_diagnosis": {
+          "confidence": 0.99,
+          "fault_classification": "HARDWARE",
+          "requires_deep_failure_analysis": false,
+          "root_cause": "Storage media degradation",
+          "source": "GROUND_TRUTH_PRECHECK"
+        },
+        "reason": "Validated knowledge, telemetry, and resolved-case history strongly agree.",
+        "recommended_diagnostic_code": "SMART_FAIL",
+        "recommended_resolution": "Fast-track SSD replacement after technician confirms the evidence package.",
+        "telemetry_evidence": {
+          "diagnostic_code": "SMART_FAIL",
+          "health_status": "FAILED",
+          "last_seen_at": "2026-07-20T09:30:00Z",
+          "metrics": {
+            "available_spare_percent": 4,
+            "critical_warning": 1,
+            "media_errors": 187
+          }
+        },
+        "telemetry_match": true,
+        "ticket_action": "FAST_TRACK_TECHNICIAN_CONFIRMATION"
+      },
+      "status": "CLOSED",
+      "warranty_valid": true
+    }
+  },
+  "telemetry": {
+    "LT-DEMO-001": {
+      "diagnostic_code": "SMART_FAIL",
+      "health_status": "FAILED",
+      "last_seen_at": "2026-07-20T09:30:00Z",
+      "metrics": {
+        "available_spare_percent": 4,
+        "critical_warning": 1,
+        "media_errors": 187
+      }
+    },
+    "LT-DEMO-002": {
+      "diagnostic_code": "POWER_RAIL_FAULT",
+      "health_status": "CRITICAL",
+      "last_seen_at": "2026-07-20T11:15:00Z",
+      "metrics": {
+        "measured_voltage": 4.1,
+        "power_on_attempts": 6,
+        "successful_boots": 0
+      }
+    }
+  },
+  "transactions": [
+    {
+      "created_at": "2026-07-29T07:11:40.714473+00:00",
+      "part_id": "SYSTEM-BOARD-X1",
+      "quantity": 18,
+      "reference_id": "IBP-8BB70BE3",
+      "transaction_id": "TXN-5FEDF6E8",
+      "type": "IBP_PLAN_EXECUTION"
+    },
+    {
+      "created_at": "2026-07-29T07:15:11.960115+00:00",
+      "movement": "SHIP_REPLACEMENT_TO_CUSTOMER",
+      "part_id": "SSD-1TB",
+      "quantity": -1,
+      "reference_id": "RMA-887D39DD",
+      "transaction_id": "TXN-A27FD421",
+      "type": "RMA_INVENTORY_FEEDBACK"
+    },
+    {
+      "created_at": "2026-07-29T08:59:48.076179+00:00",
+      "part_id": "SSD-1TB",
+      "quantity": 1,
+      "reference_id": "IBP-D2DBF2A6",
+      "transaction_id": "TXN-12A20A68",
+      "type": "IBP_PLAN_EXECUTION"
+    },
+    {
+      "created_at": "2026-08-04T12:58:18.347532+00:00",
+      "part_id": "SSD-1TB",
+      "quantity": 0,
+      "reference_id": "IBP-2AF5F3F5",
+      "transaction_id": "TXN-F754079F",
+      "type": "IBP_PLAN_EXECUTION"
+    }
+  ],
+  "work_orders": {},
+  "unai_transactions": [
+    {
+      "type": "UNAI_STOCK_TRANSFER",
+      "part_id": "SSD-1TB",
+      "at": "2026-08-06T13:34:10.153Z",
+      "plant": "Bengaluru",
+      "qty": 35
+    },
+    {
+      "type": "UNAI_STOCK_TRANSFER",
+      "part_id": "SYSTEM-BOARD-X1",
+      "at": "2026-08-06T13:34:10.154Z",
+      "plant": "Bengaluru",
+      "qty": 1
+    },
+    {
+      "type": "UNAI_PO_CREATE",
+      "part_id": "SSD-1TB",
+      "at": "2026-08-06T13:34:10.179Z",
+      "qty": 35,
+      "unit_cost": 260
+    },
+    {
+      "type": "UNAI_REPAIR_ORDER",
+      "part_id": "SSD-1TB",
+      "at": "2026-08-06T13:34:10.180Z",
+      "qty": 13,
+      "rma": null
+    },
+    {
+      "type": "UNAI_PO_CREATE",
+      "part_id": "SYSTEM-BOARD-X1",
+      "at": "2026-08-06T13:34:10.181Z",
+      "qty": 1,
+      "unit_cost": 690
+    },
+    {
+      "type": "UNAI_REPAIR_ORDER",
+      "part_id": "SYSTEM-BOARD-X1",
+      "at": "2026-08-06T13:34:10.181Z",
+      "qty": 13,
+      "rma": null
+    },
+    {
+      "type": "UNAI_UPDATE_RMA",
+      "at": "2026-08-06T13:34:10.182Z",
+      "cmdb_ci": "SSD-1TB",
+      "qty": 28,
+      "op": "RETURN_TRIGGER"
+    },
+    {
+      "type": "UNAI_UPDATE_RMA",
+      "at": "2026-08-06T13:34:10.183Z",
+      "cmdb_ci": "SYSTEM-BOARD-X1",
+      "qty": 13,
+      "op": "RETURN_TRIGGER"
+    },
+    {
+      "type": "UNAI_REPAIR_ORDER",
+      "part_id": "SSD-1TB",
+      "at": "2026-08-06T13:35:12.741Z",
+      "qty": 13,
+      "rma": null
+    },
+    {
+      "type": "UNAI_REPAIR_ORDER",
+      "part_id": "SYSTEM-BOARD-X1",
+      "at": "2026-08-06T13:35:12.746Z",
+      "qty": 13,
+      "rma": null
+    },
+    {
+      "type": "UNAI_UPDATE_RMA",
+      "at": "2026-08-06T13:35:12.749Z",
+      "cmdb_ci": "SSD-1TB",
+      "qty": 28,
+      "op": "RETURN_TRIGGER"
+    },
+    {
+      "type": "UNAI_UPDATE_RMA",
+      "at": "2026-08-06T13:35:12.751Z",
+      "cmdb_ci": "SYSTEM-BOARD-X1",
+      "qty": 13,
+      "op": "RETURN_TRIGGER"
+    },
+    {
+      "type": "UNAI_REPAIR_ORDER",
+      "part_id": "SSD-1TB",
+      "at": "2026-08-06T13:35:18.401Z",
+      "qty": 13,
+      "rma": null
+    },
+    {
+      "type": "UNAI_REPAIR_ORDER",
+      "part_id": "SYSTEM-BOARD-X1",
+      "at": "2026-08-06T13:35:18.404Z",
+      "qty": 13,
+      "rma": null
+    },
+    {
+      "type": "UNAI_UPDATE_RMA",
+      "at": "2026-08-06T13:35:18.406Z",
+      "cmdb_ci": "SSD-1TB",
+      "qty": 28,
+      "op": "RETURN_TRIGGER"
+    },
+    {
+      "type": "UNAI_UPDATE_RMA",
+      "at": "2026-08-06T13:35:18.409Z",
+      "cmdb_ci": "SYSTEM-BOARD-X1",
+      "qty": 13,
+      "op": "RETURN_TRIGGER"
+    }
+  ]
+}

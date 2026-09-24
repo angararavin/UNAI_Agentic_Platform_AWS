@@ -1,0 +1,31 @@
+{
+  "unai_agent": "1.0",
+  "id": "returns_forecasting",
+  "name": "Returns Forecasting Agent",
+  "module": "Aftermarket",
+  "description": "SAP IBP Aftermarket use case on the UNAI shared runtime.",
+  "concepts": [
+    "return_qty",
+    "failure_rate",
+    "install_base_qty"
+  ],
+  "domainStep": {
+    "method": "returns modeling",
+    "decision": "Forecast returns volume & timing",
+    "formula": null
+  },
+  "governance": {
+    "autonomyThresholdPct": 85,
+    "valueLimitUsd": 50000
+  },
+  "runtime": "UNAI shared cognitive runtime (7 layers, canonical ontology)",
+  "plan": [
+    {
+      "capability": "cap_returns_forecasting",
+      "agentEquiv": "returns forecasting",
+      "systems": [
+        "ANALYTICS"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "unai_agent": "1.0",
+  "id": "statistical_forecasting",
+  "name": "Statistical Forecasting Agent",
+  "module": "Demand",
+  "description": "SAP IBP Demand use case on the UNAI shared runtime.",
+  "concepts": [
+    "forecast_qty",
+    "sales_qty",
+    "forecast_accuracy"
+  ],
+  "domainStep": {
+    "method": "statistical forecast (ETS/ARIMA)",
+    "decision": "Publish base statistical forecast",
+    "formula": null
+  },
+  "governance": {
+    "autonomyThresholdPct": 85,
+    "valueLimitUsd": 50000
+  },
+  "runtime": "UNAI shared cognitive runtime (7 layers, canonical ontology)",
+  "plan": [
+    {
+      "capability": "cap_statistical_forecasting",
+      "agentEquiv": "statistical forecasting",
+      "systems": [
+        "ANALYTICS"
+      ]
+    }
+  ]
+}

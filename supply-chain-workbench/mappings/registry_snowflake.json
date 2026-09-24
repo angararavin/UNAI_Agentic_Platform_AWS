@@ -1,0 +1,126 @@
+{
+  "source": "snowflake",
+  "version": 1,
+  "tables": {
+    "INV_GOLD": {
+      "mappings": [
+        {
+          "column": "PRODUCT_KEY",
+          "concept": "sku",
+          "confidence": 0.98,
+          "auto_accepted": true,
+          "needs_review": false,
+          "rationale": "native field 'PRODUCT_KEY' is already in the ontology"
+        },
+        {
+          "column": "LOCATION_KEY",
+          "concept": "location",
+          "confidence": 0.98,
+          "auto_accepted": true,
+          "needs_review": false,
+          "rationale": "native field 'LOCATION_KEY' is already in the ontology"
+        },
+        {
+          "column": "ON_HAND_QTY",
+          "concept": "on_hand_qty",
+          "confidence": 0.98,
+          "auto_accepted": true,
+          "needs_review": false,
+          "rationale": "native field 'ON_HAND_QTY' is already in the ontology"
+        },
+        {
+          "column": "SAFETY_STOCK",
+          "concept": "safety_stock",
+          "confidence": 0.98,
+          "auto_accepted": true,
+          "needs_review": false,
+          "rationale": "native field 'SAFETY_STOCK' is already in the ontology"
+        },
+        {
+          "column": "REORDER_PT",
+          "concept": "reorder_point",
+          "confidence": 0.98,
+          "auto_accepted": true,
+          "needs_review": false,
+          "rationale": "native field 'REORDER_PT' is already in the ontology"
+        },
+        {
+          "column": "UNIT_COST",
+          "concept": "unit_cost",
+          "confidence": 0.98,
+          "auto_accepted": true,
+          "needs_review": false,
+          "rationale": "native field 'UNIT_COST' is already in the ontology"
+        },
+        {
+          "column": "SUPPLIER_KEY",
+          "concept": "supplier",
+          "confidence": 0.98,
+          "auto_accepted": true,
+          "needs_review": false,
+          "rationale": "native field 'SUPPLIER_KEY' is already in the ontology"
+        },
+        {
+          "column": "ZZ_AUDIT",
+          "concept": null,
+          "confidence": 0.0,
+          "auto_accepted": false,
+          "needs_review": true,
+          "rationale": "no confident match \u2014 needs a human mapping"
+        }
+      ],
+      "summary": {
+        "columns": 8,
+        "mapped": 7,
+        "auto_accepted": 7,
+        "needs_review": 1,
+        "coverage_pct": 88,
+        "auto_pct": 88
+      }
+    },
+    "FCST_GOLD": {
+      "mappings": [
+        {
+          "column": "PRODUCT_KEY",
+          "concept": "sku",
+          "confidence": 0.98,
+          "auto_accepted": true,
+          "needs_review": false,
+          "rationale": "native field 'PRODUCT_KEY' is already in the ontology"
+        },
+        {
+          "column": "LOCATION_KEY",
+          "concept": "location",
+          "confidence": 0.98,
+          "auto_accepted": true,
+          "needs_review": false,
+          "rationale": "native field 'LOCATION_KEY' is already in the ontology"
+        },
+        {
+          "column": "FCST_QTY",
+          "concept": "forecast_qty",
+          "confidence": 0.98,
+          "auto_accepted": true,
+          "needs_review": false,
+          "rationale": "native field 'FCST_QTY' is already in the ontology"
+        },
+        {
+          "column": "PERIOD",
+          "concept": "period",
+          "confidence": 0.98,
+          "auto_accepted": true,
+          "needs_review": false,
+          "rationale": "native field 'PERIOD' is already in the ontology"
+        }
+      ],
+      "summary": {
+        "columns": 4,
+        "mapped": 4,
+        "auto_accepted": 4,
+        "needs_review": 0,
+        "coverage_pct": 100,
+        "auto_pct": 100
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "unai_agent": "1.0",
+  "id": "procurement_sourcing",
+  "name": "Procurement Sourcing Agent",
+  "module": "Procurement",
+  "description": "SAP IBP Procurement use case on the UNAI shared runtime.",
+  "concepts": [
+    "supplier",
+    "supplier_score",
+    "unit_cost",
+    "purchase_order",
+    "spend_amount"
+  ],
+  "domainStep": {
+    "method": "sourcing optimization",
+    "decision": "Award spend to best-fit suppliers",
+    "formula": null
+  },
+  "governance": {
+    "autonomyThresholdPct": 85,
+    "valueLimitUsd": 50000
+  },
+  "runtime": "UNAI shared cognitive runtime (7 layers, canonical ontology)",
+  "plan": [
+    {
+      "capability": "cap_procurement_sourcing",
+      "agentEquiv": "procurement sourcing",
+      "systems": [
+        "ANALYTICS"
+      ]
+    }
+  ]
+}

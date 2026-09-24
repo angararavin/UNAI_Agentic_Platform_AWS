@@ -1,0 +1,34 @@
+{
+  "unai_agent": "1.0",
+  "id": "spares_rma_closed_loop",
+  "name": "Spares Rma Closed Loop Agent",
+  "module": "Aftermarket · Spares + RMA",
+  "description": "SAP IBP Aftermarket · Spares + RMA use case on the UNAI shared runtime.",
+  "concepts": [
+    "install_base_qty",
+    "failure_rate",
+    "service_level",
+    "rma_id",
+    "warranty_status",
+    "claim_value"
+  ],
+  "domainStep": {
+    "method": "spares demand (install-base) + RMA triage",
+    "decision": "Forecast spares from install base & failure rate, then triage RMA: repair vs replace vs credit",
+    "formula": "install_base·failure_rate·age_factor"
+  },
+  "governance": {
+    "autonomyThresholdPct": 85,
+    "valueLimitUsd": 50000
+  },
+  "runtime": "UNAI shared cognitive runtime (7 layers, canonical ontology)",
+  "plan": [
+    {
+      "capability": "cap_spares_rma_closed_loop",
+      "agentEquiv": "spares rma closed loop",
+      "systems": [
+        "ANALYTICS"
+      ]
+    }
+  ]
+}

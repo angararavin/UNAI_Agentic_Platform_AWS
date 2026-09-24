@@ -1,0 +1,32 @@
+{
+  "unai_agent": "1.0",
+  "id": "disruption_response",
+  "name": "Disruption Response Agent",
+  "module": "Supply · Risk",
+  "description": "SAP IBP Supply · Risk use case on the UNAI shared runtime.",
+  "concepts": [
+    "supplier",
+    "lead_time_days",
+    "on_hand_qty",
+    "open_demand"
+  ],
+  "domainStep": {
+    "method": "risk fusion",
+    "decision": "Detect disruption and reroute supply",
+    "formula": null
+  },
+  "governance": {
+    "autonomyThresholdPct": 85,
+    "valueLimitUsd": 50000
+  },
+  "runtime": "UNAI shared cognitive runtime (7 layers, canonical ontology)",
+  "plan": [
+    {
+      "capability": "cap_disruption_response",
+      "agentEquiv": "disruption response",
+      "systems": [
+        "ANALYTICS"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "name": "unai-agent-runner",
+  "version": "1.0.0",
+  "description": "Run any of the 33 UNAI supply-chain use-case agents locally; input an LLM key; see token usage and savings per use case.",
+  "scripts": { "start": "node server.js" },
+  "dependencies": {}
+}

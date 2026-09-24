@@ -1,0 +1,10 @@
+# Runnable today on a free engine — only DuckDB is required:
+duckdb>=1.0
+
+# Optional backends (install only what you use; the adapter interface is identical):
+# psycopg[binary]>=3.1                # PostgresAdapter
+# snowflake-connector-python>=3.7     # SnowflakeAdapter
+# databricks-sql-connector>=3.0       # DatabricksAdapter
+# pyiceberg[duckdb]>=0.7              # DuckDB + Apache Iceberg lakehouse
+# trino>=0.328                        # Trino over an Iceberg catalog
+# dbt-duckdb>=1.7  /  dbt-postgres     # build the medallion model with dbt

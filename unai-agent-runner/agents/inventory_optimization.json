@@ -1,0 +1,32 @@
+{
+  "unai_agent": "1.0",
+  "id": "inventory_optimization",
+  "name": "Inventory Optimization Agent",
+  "module": "Inventory · IO",
+  "description": "SAP IBP Inventory · IO use case on the UNAI shared runtime.",
+  "concepts": [
+    "on_hand_qty",
+    "safety_stock",
+    "reorder_point",
+    "lead_time_days"
+  ],
+  "domainStep": {
+    "method": "single-echelon IO",
+    "decision": "Set safety stock & reorder point",
+    "formula": "z·σ·√LT"
+  },
+  "governance": {
+    "autonomyThresholdPct": 85,
+    "valueLimitUsd": 50000
+  },
+  "runtime": "UNAI shared cognitive runtime (7 layers, canonical ontology)",
+  "plan": [
+    {
+      "capability": "cap_inventory_optimization",
+      "agentEquiv": "inventory optimization",
+      "systems": [
+        "ANALYTICS"
+      ]
+    }
+  ]
+}

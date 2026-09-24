@@ -1,0 +1,31 @@
+{
+  "unai_agent": "1.0",
+  "id": "service_level_prediction",
+  "name": "Service Level Prediction Agent",
+  "module": "Inventory",
+  "description": "SAP IBP Inventory use case on the UNAI shared runtime.",
+  "concepts": [
+    "service_level",
+    "on_hand_qty",
+    "safety_stock"
+  ],
+  "domainStep": {
+    "method": "service-level prediction",
+    "decision": "Predict CSL by product-location",
+    "formula": null
+  },
+  "governance": {
+    "autonomyThresholdPct": 85,
+    "valueLimitUsd": 50000
+  },
+  "runtime": "UNAI shared cognitive runtime (7 layers, canonical ontology)",
+  "plan": [
+    {
+      "capability": "cap_service_level_prediction",
+      "agentEquiv": "service level prediction",
+      "systems": [
+        "ANALYTICS"
+      ]
+    }
+  ]
+}

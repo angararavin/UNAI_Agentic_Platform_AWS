@@ -1,0 +1,31 @@
+{
+  "unai_agent": "1.0",
+  "id": "outlier_correction",
+  "name": "Outlier Correction Agent",
+  "module": "Demand",
+  "description": "SAP IBP Demand use case on the UNAI shared runtime.",
+  "concepts": [
+    "sales_qty",
+    "corrected_history",
+    "forecast_error"
+  ],
+  "domainStep": {
+    "method": "outlier detection & cleansing",
+    "decision": "Cleanse history and re-baseline the forecast",
+    "formula": null
+  },
+  "governance": {
+    "autonomyThresholdPct": 85,
+    "valueLimitUsd": 50000
+  },
+  "runtime": "UNAI shared cognitive runtime (7 layers, canonical ontology)",
+  "plan": [
+    {
+      "capability": "cap_outlier_correction",
+      "agentEquiv": "outlier correction",
+      "systems": [
+        "ANALYTICS"
+      ]
+    }
+  ]
+}

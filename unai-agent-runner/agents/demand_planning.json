@@ -1,0 +1,32 @@
+{
+  "unai_agent": "1.0",
+  "id": "demand_planning",
+  "name": "Demand Planning Agent",
+  "module": "Demand",
+  "description": "SAP IBP Demand use case on the UNAI shared runtime.",
+  "concepts": [
+    "forecast_qty",
+    "consensus_demand",
+    "open_demand",
+    "forecast_accuracy"
+  ],
+  "domainStep": {
+    "method": "demand planning",
+    "decision": "Publish the demand plan",
+    "formula": null
+  },
+  "governance": {
+    "autonomyThresholdPct": 85,
+    "valueLimitUsd": 50000
+  },
+  "runtime": "UNAI shared cognitive runtime (7 layers, canonical ontology)",
+  "plan": [
+    {
+      "capability": "cap_demand_planning",
+      "agentEquiv": "demand planning",
+      "systems": [
+        "ANALYTICS"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UNAI — Spares Planning (IBP)</title><style>
+:root{--bg:#0b1020;--panel:#111831;--line:#243150;--txt:#e8edfb;--mut:#8a97b8;--accent:#4f8cff;--accent2:#22d3aa}
+*{box-sizing:border-box}body{margin:0;font:15px/1.5 ui-sans-serif,system-ui,Segoe UI,Roboto,Arial;background:radial-gradient(1200px 600px at 70% -10%,#16203a,#0b1020);color:var(--txt);display:flex;min-height:100vh;align-items:center;justify-content:center}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:30px;width:360px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.logo{width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px;margin:0 auto 14px;color:#08111f}
+h1{font-size:18px;margin:0 0 4px}p{color:var(--mut);font-size:13px;margin:0 0 18px}
+input{width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:#0c1326;color:var(--txt);font-size:14px}
+button{width:100%;margin-top:12px;padding:11px;border:none;border-radius:10px;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#08111f;font-weight:700;font-size:14px;cursor:pointer}
+.msg{color:#ff8f87;font-size:12px;margin-top:10px;min-height:16px}
+</style></head><body>
+<form class="box" onsubmit="return go(event)">
+  <div class="logo">U</div><h1>UNAI · Spares Planning (IBP)</h1>
+  <p>Standalone demo. Enter the access password to continue.</p>
+  <input id="pw" type="password" placeholder="access password" autocomplete="current-password" autofocus>
+  <button type="submit">Sign in</button>
+  <div class="msg" id="msg"></div>
+</form>
+<script>
+async function go(e){e.preventDefault();var pw=document.getElementById('pw').value;
+ var r=await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pw:pw})}).then(x=>x.json()).catch(()=>({ok:false}));
+ if(r.ok){location.href='/';}else{document.getElementById('msg').textContent='Incorrect password.';}
+ return false;}
+</script></body></html>

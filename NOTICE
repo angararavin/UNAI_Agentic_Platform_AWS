@@ -1,0 +1,13 @@
+UNAI — Universal Supply-Chain Agent (Cognitive Runtime)
+Copyright (c) 2026 Ravin Angara / Bristlecone. All rights reserved.
+
+This is PROPRIETARY and CONFIDENTIAL software, shared under confidentiality.
+It is NOT open source. No copying, modification, redistribution, or derivative
+use is permitted without prior written permission. See LICENSE for full terms.
+
+Authenticity: every source file carries a copyright header, and the exact,
+authorized contents are recorded (and cryptographically signable) in
+copyright/MANIFEST.sha256. A copy without these notices, or whose file hashes
+do not match the signed manifest, is not authorized.
+
+Contact: ravin.angara@bristlecone.com

@@ -1,0 +1,31 @@
+{
+  "unai_agent": "1.0",
+  "id": "product_lifecycle_planning",
+  "name": "Product Lifecycle Planning Agent",
+  "module": "Demand",
+  "description": "SAP IBP Demand use case on the UNAI shared runtime.",
+  "concepts": [
+    "lifecycle_phase",
+    "sku",
+    "forecast_qty"
+  ],
+  "domainStep": {
+    "method": "phase-in / phase-out",
+    "decision": "Apply lifecycle phase to the forecast",
+    "formula": null
+  },
+  "governance": {
+    "autonomyThresholdPct": 85,
+    "valueLimitUsd": 50000
+  },
+  "runtime": "UNAI shared cognitive runtime (7 layers, canonical ontology)",
+  "plan": [
+    {
+      "capability": "cap_product_lifecycle_planning",
+      "agentEquiv": "product lifecycle planning",
+      "systems": [
+        "ANALYTICS"
+      ]
+    }
+  ]
+}

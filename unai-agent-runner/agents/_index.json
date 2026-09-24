@@ -1,0 +1,203 @@
+{
+  "count": 33,
+  "agents": [
+    {
+      "id": "statistical_forecasting",
+      "name": "Statistical Forecasting Agent",
+      "module": "Demand",
+      "concepts": 3
+    },
+    {
+      "id": "demand_sensing",
+      "name": "Demand Sensing Agent",
+      "module": "Demand",
+      "concepts": 3
+    },
+    {
+      "id": "curve_based_forecast",
+      "name": "Curve Based Forecast Agent",
+      "module": "Demand",
+      "concepts": 3
+    },
+    {
+      "id": "outlier_correction",
+      "name": "Outlier Correction Agent",
+      "module": "Demand",
+      "concepts": 3
+    },
+    {
+      "id": "product_lifecycle_planning",
+      "name": "Product Lifecycle Planning Agent",
+      "module": "Demand",
+      "concepts": 3
+    },
+    {
+      "id": "consensus_demand_sop",
+      "name": "Consensus Demand Sop Agent",
+      "module": "Demand · S&OP",
+      "concepts": 3
+    },
+    {
+      "id": "promotion_planning",
+      "name": "Promotion Planning Agent",
+      "module": "Demand",
+      "concepts": 3
+    },
+    {
+      "id": "cannibalization_analysis",
+      "name": "Cannibalization Analysis Agent",
+      "module": "Demand",
+      "concepts": 3
+    },
+    {
+      "id": "forecast_accuracy_monitoring",
+      "name": "Forecast Accuracy Monitoring Agent",
+      "module": "Demand",
+      "concepts": 3
+    },
+    {
+      "id": "demand_planning",
+      "name": "Demand Planning Agent",
+      "module": "Demand",
+      "concepts": 4
+    },
+    {
+      "id": "inventory_optimization",
+      "name": "Inventory Optimization Agent",
+      "module": "Inventory · IO",
+      "concepts": 4
+    },
+    {
+      "id": "multi_echelon_inventory",
+      "name": "Multi Echelon Inventory Agent",
+      "module": "Inventory · MEIO",
+      "concepts": 4
+    },
+    {
+      "id": "safety_stock_planning",
+      "name": "Safety Stock Planning Agent",
+      "module": "Inventory",
+      "concepts": 4
+    },
+    {
+      "id": "service_level_prediction",
+      "name": "Service Level Prediction Agent",
+      "module": "Inventory",
+      "concepts": 3
+    },
+    {
+      "id": "demand_driven_replenishment",
+      "name": "Demand Driven Replenishment Agent",
+      "module": "DDR · DDMRP",
+      "concepts": 4
+    },
+    {
+      "id": "mro_inventory_planning",
+      "name": "Mro Inventory Planning Agent",
+      "module": "MRO",
+      "concepts": 3
+    },
+    {
+      "id": "excess_and_obsolescence",
+      "name": "Excess And Obsolescence Agent",
+      "module": "Inventory",
+      "concepts": 3
+    },
+    {
+      "id": "supply_planning",
+      "name": "Supply Planning Agent",
+      "module": "Supply",
+      "concepts": 4
+    },
+    {
+      "id": "response_planning",
+      "name": "Response Planning Agent",
+      "module": "Response · order-based",
+      "concepts": 4
+    },
+    {
+      "id": "allocation_planning",
+      "name": "Allocation Planning Agent",
+      "module": "Response",
+      "concepts": 3
+    },
+    {
+      "id": "net_requirements_planning",
+      "name": "Net Requirements Planning Agent",
+      "module": "Supply",
+      "concepts": 4
+    },
+    {
+      "id": "capacity_planning",
+      "name": "Capacity Planning Agent",
+      "module": "Production",
+      "concepts": 3
+    },
+    {
+      "id": "production_planning",
+      "name": "Production Planning Agent",
+      "module": "Production",
+      "concepts": 3
+    },
+    {
+      "id": "synchronized_planning",
+      "name": "Synchronized Planning Agent",
+      "module": "Synchronized Planning",
+      "concepts": 4
+    },
+    {
+      "id": "procurement_sourcing",
+      "name": "Procurement Sourcing Agent",
+      "module": "Procurement",
+      "concepts": 5
+    },
+    {
+      "id": "logistics_transportation",
+      "name": "Logistics Transportation Agent",
+      "module": "Logistics",
+      "concepts": 4
+    },
+    {
+      "id": "disruption_response",
+      "name": "Disruption Response Agent",
+      "module": "Supply · Risk",
+      "concepts": 4
+    },
+    {
+      "id": "spares_rma_closed_loop",
+      "name": "Spares Rma Closed Loop Agent",
+      "module": "Aftermarket · Spares + RMA",
+      "concepts": 6
+    },
+    {
+      "id": "returns_forecasting",
+      "name": "Returns Forecasting Agent",
+      "module": "Aftermarket",
+      "concepts": 3
+    },
+    {
+      "id": "spares_planning_ibp",
+      "name": "Spares Planning Ibp Agent",
+      "module": "Aftermarket",
+      "concepts": 3
+    },
+    {
+      "id": "rma_execution",
+      "name": "Rma Execution Agent",
+      "module": "Aftermarket · RMA",
+      "concepts": 3
+    },
+    {
+      "id": "control_tower_alerts",
+      "name": "Control Tower Alerts Agent",
+      "module": "Control Tower",
+      "concepts": 3
+    },
+    {
+      "id": "sustainability_planning",
+      "name": "Sustainability Planning Agent",
+      "module": "Sustainability",
+      "concepts": 3
+    }
+  ]
+}

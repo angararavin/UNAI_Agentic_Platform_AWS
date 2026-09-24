@@ -1,0 +1,32 @@
+{
+  "unai_agent": "1.0",
+  "id": "logistics_transportation",
+  "name": "Logistics Transportation Agent",
+  "module": "Logistics",
+  "description": "SAP IBP Logistics use case on the UNAI shared runtime.",
+  "concepts": [
+    "carrier",
+    "transit_days",
+    "freight_cost",
+    "otif"
+  ],
+  "domainStep": {
+    "method": "transport optimization",
+    "decision": "Select carrier & flag ETA risk",
+    "formula": null
+  },
+  "governance": {
+    "autonomyThresholdPct": 85,
+    "valueLimitUsd": 50000
+  },
+  "runtime": "UNAI shared cognitive runtime (7 layers, canonical ontology)",
+  "plan": [
+    {
+      "capability": "cap_logistics_transportation",
+      "agentEquiv": "logistics transportation",
+      "systems": [
+        "ANALYTICS"
+      ]
+    }
+  ]
+}

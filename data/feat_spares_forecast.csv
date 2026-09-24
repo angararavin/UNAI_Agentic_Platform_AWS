@@ -1,0 +1,4 @@
+sku,dc,forecast_qty,variability
+GPU-H100,DC-EAST,505,0.28
+SSD-3840,DC-EAST,864,0.19
+PSU-2200,DC-WEST,603,0.41

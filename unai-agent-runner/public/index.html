@@ -1,0 +1,160 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UNAI Agent Runner</title>
+<style>
+  :root{--bg:#0E1A33;--panel:#16264A;--panel2:#1B2E57;--teal:#18C5B4;--teal2:#22D3AA;--gold:#E9C46A;--ink:#EAF0FB;--mut:#9FB2D0;--line:#2C4372;--coral:#e2574c}
+  *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 'Segoe UI',Roboto,Arial,sans-serif}
+  .wrap{max-width:1000px;margin:0 auto;padding:26px 20px 60px}
+  h1{font-family:Georgia,serif;font-size:30px;margin:0 0 2px}.sub{color:var(--teal2);font-style:italic;margin-bottom:20px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px}
+  label{font-size:12px;color:var(--mut);display:block;margin-bottom:4px}
+  input,select{width:100%;background:#0c1630;border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:9px 11px;font-size:14px}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
+  .row>div{flex:1;min-width:220px}
+  button{background:linear-gradient(90deg,var(--teal),var(--teal2));color:#07101f;font-weight:700;border:none;border-radius:8px;padding:10px 18px;font-size:14px;cursor:pointer}
+  button.ghost{background:rgba(255,255,255,.08);color:var(--ink);border:1px solid var(--line)}
+  .pill{display:inline-block;border:1px solid var(--line);border-radius:20px;padding:3px 10px;font-size:12px;color:var(--mut)}
+  .pill.on{border-color:var(--teal2);color:var(--teal2)}
+  .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:6px 0 14px}
+  .tile{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:13px}
+  .tile .v{font-size:24px;font-weight:800;font-family:Georgia,serif}.tile .l{font-size:11px;color:var(--mut);margin-top:3px}
+  .ev{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:12px;margin:10px 0}
+  .evh{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.evt{font-weight:700}
+  .badge{border-radius:5px;padding:2px 8px;font-size:11px;font-weight:700;background:rgba(34,211,170,.15);color:var(--teal2);border:1px solid var(--teal2)}
+  .badge.h{background:rgba(233,169,78,.15);color:var(--gold);border-color:var(--gold)}
+  .conf{margin-left:auto;color:var(--mut);font-size:12px}
+  .cap{color:var(--mut);font-size:12px;margin-top:6px}
+  .muted{color:var(--mut)}.tealtxt{color:var(--teal2)}.goldtxt{color:var(--gold)}
+  .note{font-size:11px;color:var(--mut);margin-top:6px}
+  code{background:#0c1630;border:1px solid var(--line);border-radius:4px;padding:1px 5px;font-size:12px}
+</style></head><body><div class="wrap">
+  <h1>UNAI Agent Runner</h1>
+  <div class="sub">Run any supply-chain use-case agent locally — see the token usage and the savings, per use case.</div>
+
+  <div class="card">
+    <div class="row">
+      <div><label>LLM key (Mistral / OpenAI-compatible) — for a live, measured run</label>
+        <input id="key" type="password" placeholder="paste your key — used this session only, never stored"></div>
+      <div style="flex:0 0 auto;min-width:0"><button onclick="saveKey()">Use key</button>
+        <button class="ghost" onclick="clearKey()">Clear</button></div>
+    </div>
+    <div style="margin-top:8px"><span class="pill" id="gw">checking…</span>
+      <span class="note">No key → the run is <b>modeled</b> (savings still shown). With a key → UNAI's token counts are <b>real, measured</b>.</span></div>
+  </div>
+
+  <div class="card">
+    <div class="row">
+      <div><label>Agent (33 supply-chain use cases)</label><select id="agent"></select></div>
+      <div style="flex:0 0 auto"><button onclick="run()" id="runBtn">▶ Run agent</button></div>
+    </div>
+    <label style="display:flex;align-items:center;gap:7px;margin-top:8px;font-size:12.5px"><input type="checkbox" id="detailChk" checked style="width:auto"> <span><b>Detailed explainability</b> — live audited rationales (L7 live×N). On for every agent; uncheck for template rationales at <b>0 live tokens</b>.</span></label>
+    <div class="note" id="agentDesc"></div>
+  </div>
+
+  <div id="out"></div>
+
+<script>
+var GW={};
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+function gwPill(){var g=GW||{};var live=g.active&&g.active!=='template';
+  document.getElementById('gw').className='pill'+(live?' on':'');
+  document.getElementById('gw').textContent=live?('live · '+g.active+' · '+(g.model||'')):'no key — modeled';}
+function loadAgents(){fetch('/api/agents').then(r=>r.json()).then(function(d){GW=d.gateway;gwPill();
+  var sel=document.getElementById('agent');var html='';
+  Object.keys(d.modules).forEach(function(mod){html+='<optgroup label="'+esc(mod)+'">';
+    d.modules[mod].forEach(function(a){html+='<option value="'+a.id+'">'+esc(a.name)+' ('+a.concepts+' concepts)</option>';});
+    html+='</optgroup>';});
+  sel.innerHTML=html;
+  // Per-agent bundles ship a default.json — preselect that agent and flag it.
+  fetch('/default.json').then(r=>r.ok?r.json():null).then(function(def){
+    if(def&&def.agent&&sel.querySelector('option[value="'+def.agent+'"]')){
+      sel.value=def.agent;
+      var picked=sel.options[sel.selectedIndex];var nm=picked?picked.textContent:def.agent;
+      document.getElementById('agentDesc').innerHTML='<span class="tealtxt">This bundle is preset to <b>'+esc(nm)+'</b>.</span> Paste a key (optional) and hit ▶ Run agent. All 33 agents are still available in the dropdown.';
+    }
+  }).catch(function(){});
+  });}
+function saveKey(){var k=document.getElementById('key').value.trim();if(!k)return;
+  fetch('/api/set-key',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key:k})}).then(r=>r.json()).then(function(d){GW=d.gateway;gwPill();document.getElementById('key').value='';});}
+function clearKey(){fetch('/api/clear-key',{method:'POST'}).then(r=>r.json()).then(function(d){GW=d.gateway;gwPill();});}
+
+function bar(e){ if(!e.waterfall)return''; var wf=e.waterfall,x0=10,W=520,bw=W-20,barY=8,barH=26,thr=e.threshold||0.85;
+  function X(v){return x0+bw*Math.max(0,Math.min(1,v));}
+  var s='<rect x="'+x0+'" y="'+barY+'" width="'+bw+'" height="'+barH+'" rx="6" fill="rgba(255,255,255,.05)"/>';
+  s+='<rect x="'+X(0)+'" y="'+barY+'" width="'+(X(wf.base)-X(0))+'" height="'+barH+'" rx="6" fill="#3A4E74"/>';
+  s+='<text x="'+(X(0)+8)+'" y="'+(barY+17)+'" font-size="11" fill="#EAF0FB" font-weight="700">'+wf.base.toFixed(2)+'</text>';
+  var cum=wf.base;(wf.steps||[]).forEach(function(st,i){var a=X(cum),b=X(cum+st.contribution);
+    s+='<rect x="'+Math.min(a,b)+'" y="'+barY+'" width="'+Math.max(2,Math.abs(b-a))+'" height="'+barH+'" fill="'+(st.contribution>=0?(i%2?'#18C5B4':'#22d3aa'):'#e2574c')+'"/>';cum+=st.contribution;});
+  var tx=X(thr),fx=X(wf.final);
+  s+='<line x1="'+tx+'" y1="'+(barY-6)+'" x2="'+tx+'" y2="'+(barY+barH+6)+'" stroke="#E9A94E" stroke-width="2" stroke-dasharray="5 4"/>';
+  s+='<text x="'+tx+'" y="'+(barY+barH+20)+'" font-size="10" fill="#E9A94E" text-anchor="middle" font-weight="700">'+thr.toFixed(2)+'</text>';
+  s+='<text x="'+Math.min(fx+4,W-4)+'" y="'+(barY-2)+'" font-size="12" fill="#22d3aa" font-weight="800" text-anchor="end">'+wf.final.toFixed(2)+'</text>';
+  var parts=(wf.steps||[]).map(function(st){return (st.contribution>=0?'+':'')+st.contribution.toFixed(2)+' '+st.name;});
+  return '<svg viewBox="0 0 '+W+' 52" style="width:100%;max-width:'+W+'px;margin:6px 0 2px">'+s+'</svg>'+
+    '<div class="cap">prior '+wf.base.toFixed(2)+(parts.length?'  ·  '+parts.map(esc).join('  ·  '):'')+'</div>';
+}
+function evCard(e){var pct=Math.round((e.confidence||0)*100);
+  return '<div class="ev"><div class="evh"><span class="evt">'+esc(e.decision)+'</span>'+
+    '<span class="badge '+(e.autonomous?'':'h')+'">'+(e.autonomous?'autonomous':'human approval')+'</span>'+
+    '<span class="conf">confidence '+pct+'% · '+esc(e.uncertainty||'')+'</span></div>'+bar(e)+
+    (e.counterfactual?'<div class="cap"><i>what-if: '+esc(e.counterfactual)+'</i></div>':'')+
+    '<div class="cap">rationale: '+esc((e.explanationSource&&e.explanationSource!=='template')?e.explanationSource:'template')+
+      ((e.tokensIn||e.tokensOut)?' · '+(e.tokensIn||0)+'in/'+(e.tokensOut||0)+'out tok (live)':'')+'</div>'+
+    (e.explanation?'<div class="muted" style="margin-top:6px;font-size:13px">'+esc(e.explanation)+'</div>':'')+'</div>';
+}
+function outputCard(o){ if(!o) return '';
+  var rows=o.reads||[]; var cols=rows.length?Object.keys(rows[0]):[];
+  var tbl='';
+  if(rows.length){ tbl='<div style="overflow:auto"><table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:6px">'+
+    '<tr>'+cols.map(function(c){return '<th style="text-align:left;padding:5px 9px;border-bottom:1px solid var(--line);color:var(--mut);font-weight:600;white-space:nowrap">'+esc(c.replace(/_/g,' '))+'</th>';}).join('')+'</tr>'+
+    rows.map(function(r){return '<tr>'+cols.map(function(c){return '<td style="padding:5px 9px;border-bottom:1px solid rgba(255,255,255,.06)">'+esc(r[c])+'</td>';}).join('')+'</tr>';}).join('')+
+    '</table></div>'; }
+  var chips=[];
+  if(o.method)  chips.push('method: <b class="tealtxt">'+esc(o.method)+'</b>');
+  if(o.formula) chips.push('formula: <code>'+esc(o.formula)+'</code>');
+  if(o.source)  chips.push('source: <code>'+esc(o.source)+'</code>');
+  function fmt(v,u){v=(v||0).toLocaleString();return u==='$'?('$'+v):u==='t'?(v+' t'):(v+' '+(u||'units'));}
+  var head=o.headline?('<div class="muted" style="margin-top:8px;font-size:13px">Produced — <b class="goldtxt">'+esc(o.headline.label)+'</b>: total '+esc(fmt(o.headline.total,o.headline.unit))+' · avg '+esc(fmt(o.headline.avg,o.headline.unit))+' across '+o.headline.across+' records (see the <b>→ result</b> column).</div>'):'';
+  return '<div class="card"><div class="evh"><h2 style="margin:0">Agent output</h2>'+
+    '<span class="badge '+(o.dataMode==='measured'?'':'h')+'" style="margin-left:8px">'+(o.dataMode==='measured'?'measured data':'illustrative sample data')+'</span></div>'+
+    '<div style="font-size:15px;margin:10px 0 2px">Recommendation: <span class="tealtxt"><b>'+esc(o.recommendation)+'</b></span></div>'+
+    (chips.length?'<div class="note">'+chips.join('  ·  ')+'</div>':'')+
+    (o.inputs&&o.inputs.length?'<div class="note" style="margin-top:4px">Inputs consumed: '+o.inputs.map(function(c){return esc(c.replace(/_/g,' '));}).join(', ')+'</div>':'')+
+    (rows.length?'<div class="note" style="margin-top:8px">Records read ('+o.recordsRead+'):</div>'+tbl:'<div class="note" style="margin-top:8px">No source records matched this use case in the sample store.</div>')+
+    head+
+    '<div class="note" style="margin-top:8px">Runs on the bundle’s illustrative sample store — figures are representative, not from your systems. Connect a warehouse (Snowflake / BigQuery / Databricks) for live data. A key makes the <i>token counts</i> real; it does not change the data.</div>'+
+    '</div>';
+}
+function run(){var agent=document.getElementById('agent').value;var key=document.getElementById('key').value.trim();
+  var detailed=(document.getElementById('detailChk')||{checked:true}).checked;
+  var out=document.getElementById('out');out.innerHTML='<div class="card muted">Running '+esc(agent)+'…</div>';
+  document.getElementById('runBtn').disabled=true;
+  fetch('/api/run',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({agent:agent,key:key||undefined,detailedExplainability:detailed})})
+    .then(r=>r.json()).then(function(d){document.getElementById('runBtn').disabled=false;
+      if(!d.ok){out.innerHTML='<div class="card">Error: '+esc(d.error||'run failed')+'</div>';return;}
+      var live=d.live;var agents=d.agents||1;
+      // Coherent comparison: BOTH sides modeled (UNAI shared runtime vs Gen-1 team).
+      var unaiMod=d.tokensTotal||0, gen1Mod=d.naiveTotal||0;
+      var tiles='<div class="tiles">'+
+        '<div class="tile"><div class="v tealtxt">'+unaiMod.toLocaleString()+'</div><div class="l">UNAI tokens / run (one shared runtime)</div></div>'+
+        '<div class="tile"><div class="v" style="color:var(--coral)">'+gen1Mod.toLocaleString()+'</div><div class="l">Gen-1 tokens — '+agents+' separate agents</div></div>'+
+        '<div class="tile"><div class="v goldtxt">−'+(d.savedPct||0)+'%</div><div class="l">fewer tokens vs Gen-1</div></div>'+
+        '<div class="tile"><div class="v">$'+(d.estCostUsd||0)+'</div><div class="l">est. cost / run</div></div>'+
+        '<div class="tile"><div class="v">'+(d.decisions||0)+' · '+(d.autonomyRatePct||0)+'%</div><div class="l">decisions · autonomous</div></div></div>';
+      var teamLine=d.team&&d.team.length?'<div class="note" style="margin-top:2px">Delivered as <b class="tealtxt">'+d.team.length+'</b> consolidated agents: '+d.team.map(esc).join(' · ')+'</div>':'';
+      var liveLine=live?'<div class="note" style="margin-top:6px">Measured live: <b class="tealtxt">'+((live.tokensTotal)||0).toLocaleString()+'</b> tok across <b>'+(live.calls||0)+'</b> explainability call(s) on <b>'+esc(live.provider)+'</b> (the shared runtime’s rationale calls, counted on the provider’s own usage). The comparison above is modeled from prompt structure.</div>':'<div class="note" style="margin-top:6px">Modeled from prompt structure — paste a key above to also measure the live explainability calls.</div>';
+      var head='<div class="card"><h2 style="margin:0 0 2px">'+esc(d.name)+' <span class="pill">'+esc(d.module)+'</span></h2>'+
+        '<div class="note">'+(d.logic?'Domain step: <b class="tealtxt">'+esc(d.logic.method||'')+'</b>'+(d.logic.formula?' · <code>'+esc(d.logic.formula)+'</code>':''):'')+'</div>'+
+        teamLine+
+        tiles+
+        '<div class="muted" style="font-size:13px">Savings: UNAI <b class="tealtxt">'+unaiMod.toLocaleString()+'</b> tok on one shared runtime vs a first-gen build of <b>'+agents+'</b> separate agents at <b style="color:var(--coral)">'+gen1Mod.toLocaleString()+'</b> tok = <b class="goldtxt">−'+(d.savedPct||0)+'%</b>.</div>'+
+        liveLine+'</div>';
+      var cards='<div class="card"><h2 style="margin-top:0">Decisions &amp; confidence</h2>'+
+        '<div class="note" style="margin-bottom:8px">Each bar: <b>0.60</b> prior + evidence → final confidence, vs the <b>0.85</b> autonomy line (amber). Above the line → acts alone; below → routed to a human.</div>'+
+        (d.evidence||[]).map(evCard).join('')+'</div>';
+      var ev=d.evidence||[];var po=ev.map(function(e){return e.output;}).filter(function(o){return o&&o.reads&&o.reads.length;})[0]||(ev[0]&&ev[0].output)||null;
+      out.innerHTML=head+outputCard(po)+cards;
+    }).catch(function(e){document.getElementById('runBtn').disabled=false;out.innerHTML='<div class="card">Error: '+esc(e.message)+'</div>';});
+}
+document.getElementById('agent').addEventListener('change',function(){document.getElementById('agentDesc').textContent='';});
+loadAgents();
+</script></div></body></html>

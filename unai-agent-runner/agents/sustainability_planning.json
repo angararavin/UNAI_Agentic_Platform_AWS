@@ -1,0 +1,31 @@
+{
+  "unai_agent": "1.0",
+  "id": "sustainability_planning",
+  "name": "Sustainability Planning Agent",
+  "module": "Sustainability",
+  "description": "SAP IBP Sustainability use case on the UNAI shared runtime.",
+  "concepts": [
+    "co2_emissions",
+    "sku",
+    "plant"
+  ],
+  "domainStep": {
+    "method": "CO2 rollup",
+    "decision": "Roll up CO2 and flag high-emission plans",
+    "formula": null
+  },
+  "governance": {
+    "autonomyThresholdPct": 85,
+    "valueLimitUsd": 50000
+  },
+  "runtime": "UNAI shared cognitive runtime (7 layers, canonical ontology)",
+  "plan": [
+    {
+      "capability": "cap_sustainability_planning",
+      "agentEquiv": "sustainability planning",
+      "systems": [
+        "ANALYTICS"
+      ]
+    }
+  ]
+}

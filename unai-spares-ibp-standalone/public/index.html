@@ -1,0 +1,96 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UNAI — Spares Planning (IBP)</title>
+<style>
+:root{--bg:#0b1020;--panel:#111831;--line:#243150;--txt:#e8edfb;--mut:#8a97b8;--accent:#4f8cff;--accent2:#22d3aa;--good:#22d3aa;--warn:#e2574c}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.5 ui-sans-serif,system-ui,Segoe UI,Roboto,Arial;background:radial-gradient(1200px 600px at 70% -10%,#16203a,#0b1020);color:var(--txt)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 60px}
+h1{font-size:22px;margin:0 0 4px}
+.muted{color:var(--mut)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;margin-top:16px}
+button{padding:11px 18px;border:none;border-radius:10px;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#08111f;font-weight:700;font-size:14px;cursor:pointer}
+button:disabled{opacity:.5;cursor:default}
+.pill{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:2px 10px;font-size:12px;margin-left:6px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:12px}
+.kpi{background:#0c1326;border:1px solid var(--line);border-radius:10px;padding:12px;text-align:center}
+.kpi .v{font-size:22px;font-weight:800;color:var(--accent2)}
+.kpi .l{font-size:11px;color:var(--mut);margin-top:2px}
+.ev{border-top:1px solid var(--line);padding:10px 0}
+.ev:first-child{border-top:none}
+.badge{display:inline-block;border-radius:999px;padding:2px 8px;font-size:11px;background:#12301f;color:var(--good);border:1px solid #1f4a33}
+.badge.h{background:#2f1d17;color:#ffb199;border-color:#4a2a1f}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line)}
+#loading{display:none}
+</style></head><body>
+<div class="wrap">
+  <h1>UNAI · Spares Planning (IBP) <span class="pill" id="modePill">checking…</span></h1>
+  <p class="muted">Data-center spares planning against a real snapshot from the <code>adk_spares_rma_demo</code> app: install-base failure → intermittent demand → returns/refurbish → target inventory → net requirements → replenishment &amp; execution — one shared UNAI runtime instead of 12 specialist agents.</p>
+  <button id="runBtn" onclick="run()">▶ Run Spares Planning (IBP)</button>
+  <span id="loading" class="muted">⏳ running…</span>
+  <div id="out"></div>
+</div>
+<script>
+fetch('/api/health').then(r=>r.json()).then(j=>{
+  document.getElementById('modePill').textContent = j.gemini ? 'live · gemini' : 'template rationales';
+}).catch(()=>{});
+
+function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+
+async function run(){
+  const btn=document.getElementById('runBtn'), loading=document.getElementById('loading'), out=document.getElementById('out');
+  btn.disabled=true; loading.style.display='inline'; out.innerHTML='';
+  try{
+    const o = await fetch('/api/run',{method:'POST'}).then(r=>r.json());
+    if(o.error){ out.innerHTML='<div class="card"><p class="badge h">Error: '+esc(o.error)+'</p></div>'; return; }
+    render(o);
+  }catch(e){ out.innerHTML='<div class="card"><p class="badge h">Request failed: '+esc(e.message)+'</p></div>'; }
+  finally{ btn.disabled=false; loading.style.display='none'; }
+}
+
+function render(o){
+  const m=o.metrics, ob=o.observability, lt=ob.liveTokens;
+  const kpis=[
+    [m.substitutionRatio,'Agents needed : used'],
+    [m.layerComplexityReductionPct+'%','Layer-complexity reduction'],
+    [m.contextSwitchReductionPct+'%','Context-switch reduction'],
+    [ob.actionsExecuted,'actions executed'],
+    [ob.autonomyRatePct+'%','autonomy rate'],
+    [fmt(ob.tokensTotal),'tokens (modeled)'],
+  ];
+  let html = '<div class="card"><h2 style="margin:0 0 4px">✓ Ran '+esc(o.useCase.name)+'</h2>'+
+    '<p class="muted" style="margin:0">'+m.gen1AgentCount+' specialist agents consolidated into 1 · '+ob.decisions+' decisions, '+ob.autonomousDecisions+' autonomous.</p>'+
+    '<div class="kpis">'+kpis.map(k=>'<div class="kpi"><div class="v">'+k[0]+'</div><div class="l">'+k[1]+'</div></div>').join('')+'</div></div>';
+
+  html += '<div class="card"><h2 style="margin:0 0 8px">Token economy'+(lt?' <span class="pill" style="border-color:var(--good);color:var(--good)">live · '+esc(lt.provider)+'</span>':'')+'</h2>';
+  html += '<p class="muted" style="margin:0 0 8px">Naive (12 specialists, modeled): <b>'+fmt(ob.tokenModel.naiveTotal)+'</b> tok · UNAI shared runtime (modeled): <b>'+fmt(ob.tokensTotal)+'</b> tok (−'+ob.tokenModel.savedPct+'%). Est. cost (modeled): $'+ob.estCostUsd+'.</p>';
+  if(lt){
+    html += '<div class="kpis"><div class="kpi"><div class="v">'+fmt(lt.tokensTotal)+'</div><div class="l">real tokens (Explainability)</div></div>'+
+      '<div class="kpi"><div class="v">'+fmt(lt.tokensIn)+' / '+fmt(lt.tokensOut)+'</div><div class="l">in / out, measured</div></div>'+
+      '<div class="kpi"><div class="v">'+lt.calls+'</div><div class="l">live '+esc(lt.provider)+' calls</div></div></div>'+
+      '<p class="muted" style="margin-top:8px">Real, metered tokens from '+esc(lt.model)+' — only the Explainability layer calls a model; the rest of the run is the modeled shared-runtime estimate above.</p>';
+  } else {
+    html += '<p class="muted">No live model configured — set GEMINI_API_KEY to see real measured tokens here.</p>';
+  }
+  html += '</div>';
+
+  html += '<div class="card"><h2 style="margin:0 0 8px">Decisions</h2>'+
+    (o.evidence||[]).map(e=>{
+      const pct=Math.round(e.confidence*100);
+      const src=(e.explanationSource&&e.explanationSource!=='template')?' <span class="pill" style="border-color:var(--good);color:var(--good)">'+esc(e.explanationSource)+(e.tokensIn?(' · '+e.tokensIn+'in/'+e.tokensOut+'out'):'')+'</span>':'';
+      return '<div class="ev"><div><b>'+esc(e.decision)+'</b>'+src+'</div>'+
+        '<div class="muted" style="font-size:13px;margin-top:2px">'+esc(e.llmExplanation||e.explanation||'')+'</div>'+
+        '<div style="margin-top:4px"><span class="badge '+(e.autonomous?'':'h')+'">'+(e.autonomous?'autonomous':'human approval')+'</span> <span class="muted" style="font-size:12px">confidence '+pct+'%</span></div></div>';
+    }).join('') + '</div>';
+
+  const audit = ob.auditTrail||[];
+  html += '<div class="card"><h2 style="margin:0 0 8px">Action audit trail</h2>'+
+    (audit.length ? '<table><tr><th>Time</th><th>Operation</th><th>System</th><th>SKU</th><th>Status</th></tr>'+
+      audit.map(a=>'<tr><td>'+a.ts.slice(11,19)+'Z</td><td>'+a.op+'</td><td>'+a.system.replace('SAP_','SAP ')+'</td><td>'+(a.sku||'—')+'</td><td>'+a.status+'</td></tr>').join('')+'</table>'
+      : '<p class="muted">No writes this run.</p>') + '</div>';
+
+  document.getElementById('out').innerHTML = html;
+}
+function fmt(n){ return (n||0).toLocaleString(); }
+</script>
+</body></html>

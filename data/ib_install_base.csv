@@ -1,0 +1,4 @@
+sku,dc,install_base,age_months,lead_time
+GPU-H100,DC-EAST,12000,26,35
+SSD-3840,DC-EAST,48000,14,18
+PSU-2200,DC-WEST,9000,31,28

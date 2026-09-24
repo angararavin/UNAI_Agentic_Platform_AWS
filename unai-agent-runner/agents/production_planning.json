@@ -1,0 +1,31 @@
+{
+  "unai_agent": "1.0",
+  "id": "production_planning",
+  "name": "Production Planning Agent",
+  "module": "Production",
+  "description": "SAP IBP Production use case on the UNAI shared runtime.",
+  "concepts": [
+    "work_order",
+    "capacity_qty",
+    "oee"
+  ],
+  "domainStep": {
+    "method": "production scheduling",
+    "decision": "Schedule production within capacity",
+    "formula": null
+  },
+  "governance": {
+    "autonomyThresholdPct": 85,
+    "valueLimitUsd": 50000
+  },
+  "runtime": "UNAI shared cognitive runtime (7 layers, canonical ontology)",
+  "plan": [
+    {
+      "capability": "cap_production_planning",
+      "agentEquiv": "production planning",
+      "systems": [
+        "ANALYTICS"
+      ]
+    }
+  ]
+}

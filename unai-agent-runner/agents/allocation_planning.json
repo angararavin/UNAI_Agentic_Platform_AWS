@@ -1,0 +1,31 @@
+{
+  "unai_agent": "1.0",
+  "id": "allocation_planning",
+  "name": "Allocation Planning Agent",
+  "module": "Response",
+  "description": "SAP IBP Response use case on the UNAI shared runtime.",
+  "concepts": [
+    "allocation_qty",
+    "open_demand",
+    "capacity_qty"
+  ],
+  "domainStep": {
+    "method": "allocation",
+    "decision": "Allocate constrained supply by priority",
+    "formula": null
+  },
+  "governance": {
+    "autonomyThresholdPct": 85,
+    "valueLimitUsd": 50000
+  },
+  "runtime": "UNAI shared cognitive runtime (7 layers, canonical ontology)",
+  "plan": [
+    {
+      "capability": "cap_allocation_planning",
+      "agentEquiv": "allocation planning",
+      "systems": [
+        "ANALYTICS"
+      ]
+    }
+  ]
+}

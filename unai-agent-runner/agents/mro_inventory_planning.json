@@ -1,0 +1,31 @@
+{
+  "unai_agent": "1.0",
+  "id": "mro_inventory_planning",
+  "name": "Mro Inventory Planning Agent",
+  "module": "MRO",
+  "description": "SAP IBP MRO use case on the UNAI shared runtime.",
+  "concepts": [
+    "install_base_qty",
+    "target_inventory",
+    "service_level"
+  ],
+  "domainStep": {
+    "method": "MRO target inventory",
+    "decision": "Set target inventory position for spares",
+    "formula": null
+  },
+  "governance": {
+    "autonomyThresholdPct": 85,
+    "valueLimitUsd": 50000
+  },
+  "runtime": "UNAI shared cognitive runtime (7 layers, canonical ontology)",
+  "plan": [
+    {
+      "capability": "cap_mro_inventory_planning",
+      "agentEquiv": "mro inventory planning",
+      "systems": [
+        "ANALYTICS"
+      ]
+    }
+  ]
+}

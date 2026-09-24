@@ -1,0 +1,31 @@
+{
+  "unai_agent": "1.0",
+  "id": "consensus_demand_sop",
+  "name": "Consensus Demand Sop Agent",
+  "module": "Demand · S&OP",
+  "description": "SAP IBP Demand · S&OP use case on the UNAI shared runtime.",
+  "concepts": [
+    "consensus_demand",
+    "forecast_qty",
+    "open_demand"
+  ],
+  "domainStep": {
+    "method": "S&OP consensus",
+    "decision": "Reconcile to one consensus demand plan",
+    "formula": null
+  },
+  "governance": {
+    "autonomyThresholdPct": 85,
+    "valueLimitUsd": 50000
+  },
+  "runtime": "UNAI shared cognitive runtime (7 layers, canonical ontology)",
+  "plan": [
+    {
+      "capability": "cap_consensus_demand_sop",
+      "agentEquiv": "consensus demand sop",
+      "systems": [
+        "ANALYTICS"
+      ]
+    }
+  ]
+}

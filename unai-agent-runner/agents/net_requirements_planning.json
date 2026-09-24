@@ -1,0 +1,32 @@
+{
+  "unai_agent": "1.0",
+  "id": "net_requirements_planning",
+  "name": "Net Requirements Planning Agent",
+  "module": "Supply",
+  "description": "SAP IBP Supply use case on the UNAI shared runtime.",
+  "concepts": [
+    "net_requirement",
+    "projected_stock",
+    "receipt_qty",
+    "open_demand"
+  ],
+  "domainStep": {
+    "method": "net requirements (MRP)",
+    "decision": "Compute net requirements & planned receipts",
+    "formula": "net_req = demand − projected_stock"
+  },
+  "governance": {
+    "autonomyThresholdPct": 85,
+    "valueLimitUsd": 50000
+  },
+  "runtime": "UNAI shared cognitive runtime (7 layers, canonical ontology)",
+  "plan": [
+    {
+      "capability": "cap_net_requirements_planning",
+      "agentEquiv": "net requirements planning",
+      "systems": [
+        "ANALYTICS"
+      ]
+    }
+  ]
+}

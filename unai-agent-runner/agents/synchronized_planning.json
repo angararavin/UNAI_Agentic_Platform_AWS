@@ -1,0 +1,32 @@
+{
+  "unai_agent": "1.0",
+  "id": "synchronized_planning",
+  "name": "Synchronized Planning Agent",
+  "module": "Synchronized Planning",
+  "description": "SAP IBP Synchronized Planning use case on the UNAI shared runtime.",
+  "concepts": [
+    "mps_qty",
+    "capacity_qty",
+    "confirmed_qty",
+    "projected_stock"
+  ],
+  "domainStep": {
+    "method": "synchronized (TS ↔ order)",
+    "decision": "Reconcile MPS with order-based confirmation",
+    "formula": null
+  },
+  "governance": {
+    "autonomyThresholdPct": 85,
+    "valueLimitUsd": 50000
+  },
+  "runtime": "UNAI shared cognitive runtime (7 layers, canonical ontology)",
+  "plan": [
+    {
+      "capability": "cap_synchronized_planning",
+      "agentEquiv": "synchronized planning",
+      "systems": [
+        "ANALYTICS"
+      ]
+    }
+  ]
+}

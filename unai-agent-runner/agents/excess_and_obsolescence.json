@@ -1,0 +1,31 @@
+{
+  "unai_agent": "1.0",
+  "id": "excess_and_obsolescence",
+  "name": "Excess And Obsolescence Agent",
+  "module": "Inventory",
+  "description": "SAP IBP Inventory use case on the UNAI shared runtime.",
+  "concepts": [
+    "excess_qty",
+    "inv_turns",
+    "on_hand_qty"
+  ],
+  "domainStep": {
+    "method": "E&O detection",
+    "decision": "Flag excess and recommend rebalancing",
+    "formula": null
+  },
+  "governance": {
+    "autonomyThresholdPct": 85,
+    "valueLimitUsd": 50000
+  },
+  "runtime": "UNAI shared cognitive runtime (7 layers, canonical ontology)",
+  "plan": [
+    {
+      "capability": "cap_excess_and_obsolescence",
+      "agentEquiv": "excess and obsolescence",
+      "systems": [
+        "ANALYTICS"
+      ]
+    }
+  ]
+}

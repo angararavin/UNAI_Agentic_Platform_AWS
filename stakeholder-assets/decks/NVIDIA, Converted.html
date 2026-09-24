@@ -1,0 +1,374 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NVIDIA, Converted</title>
+<style>
+  :root{
+    --navy:#0B1224;--navy2:#0E1A33;--panel:#16264A;
+    --teal:#22D3AA;--teal2:#18C5B4;--gold:#E9C46A;--coral:#E2574C;
+    --nvgreen:#76B900;--nvgreen2:#B7E66A;
+    --ink:#EAF0FB;--mut:#9FB2D0;--line:#243150;
+    --mono:ui-monospace,'Cascadia Code','SF Mono',Consolas,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:var(--navy);overflow:hidden;font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:var(--ink)}
+  #stage{position:fixed;inset:0;overflow:hidden;background:
+     radial-gradient(1200px 800px at 75% -10%,#16234a 0%,rgba(11,18,36,0) 60%),
+     radial-gradient(1000px 700px at 10% 110%,#0d2b2a 0%,rgba(11,18,36,0) 55%),
+     linear-gradient(180deg,var(--navy),#05070f)}
+  .kick{font-size:clamp(11px,1.4vw,16px);font-weight:800;letter-spacing:.28em;text-transform:uppercase;color:var(--teal);font-family:var(--mono)}
+  .big{font-family:Georgia,'Cambria',serif;font-weight:800;line-height:1.1;font-size:clamp(28px,5vw,72px);letter-spacing:-.01em;text-wrap:balance}
+  .sub{font-size:clamp(16px,2vw,26px);color:#C7D3EC;line-height:1.4;font-weight:400;max-width:46ch}
+  .muted{color:var(--mut)}
+  .accent{color:var(--teal)} .gold{color:var(--gold)} .coral{color:var(--coral)} .nv{color:var(--nvgreen2)}
+  .num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+  .scene{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 8vw;opacity:0;pointer-events:none;transition:opacity .7s ease}
+  .scene.on{opacity:1}
+  .scene .kick,.scene .big,.scene .sub,.scene .viz{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+  .scene.on .kick{opacity:1;transform:none;transition-delay:.15s}
+  .scene.on .big{opacity:1;transform:none;transition-delay:.4s}
+  .scene.on .sub{opacity:1;transform:none;transition-delay:.9s}
+  .scene.on .viz{opacity:1;transform:none;transition-delay:.5s}
+  .big{margin:.18em 0 .28em}
+
+  /* scene 1 — the six agents */
+  .agentpills{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+  .agentpill{border:1px solid var(--nvgreen);color:var(--nvgreen2);background:rgba(118,185,0,.08);border-radius:20px;padding:8px 16px;font-size:clamp(12px,1.3vw,15px);font-weight:600;font-family:var(--mono)}
+
+  /* scene 2 — the big real number */
+  .bignum{font-family:var(--mono);font-weight:800;font-size:clamp(52px,9vw,120px);color:var(--coral);line-height:1;letter-spacing:-.01em}
+  .bignum small{display:block;font-family:'Segoe UI',sans-serif;font-weight:400;font-size:clamp(14px,1.6vw,19px);color:var(--mut);letter-spacing:0;margin-top:8px}
+
+  /* scene 3 — why: three cards */
+  .whycards{display:flex;gap:16px;margin-top:22px;flex-wrap:wrap}
+  .whycard{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:14px;padding:16px 20px;min-width:170px}
+  .whycard h4{font-size:clamp(14px,1.6vw,18px);margin-bottom:6px;font-family:var(--mono)}
+  .whycard .d{font-size:12px;color:var(--mut)}
+  .whycard .rep{margin-top:10px;font-size:11px;color:var(--coral);font-family:var(--mono);letter-spacing:.04em}
+
+  /* scene 5 — fuse convergence (6 agents -> 1 runtime) */
+  .fuse{position:relative;width:min(66vw,720px);height:min(30vh,280px);margin-top:6px}
+  .dot{position:absolute;left:50%;top:50%;width:15px;height:15px;border-radius:50%;background:var(--nvgreen);
+       transform:translate(-50%,-50%) translate(var(--x),var(--y)) scale(1);opacity:.9;
+       transition:transform 1.9s cubic-bezier(.6,.05,.2,1) .3s,opacity 1.9s ease .3s;box-shadow:0 0 12px rgba(118,185,0,.45)}
+  .scene.on .dot{transform:translate(-50%,-50%) translate(0,0) scale(.4);opacity:0}
+  .core{position:absolute;left:50%;top:50%;width:150px;height:150px;border-radius:50%;transform:translate(-50%,-50%) scale(.2);opacity:0;
+        background:radial-gradient(circle at 50% 40%,#8ffbe6,var(--teal) 45%,#0f8c7e 80%);box-shadow:0 0 70px rgba(34,211,170,.6);
+        transition:transform 1.2s cubic-bezier(.2,.8,.2,1) 1.5s,opacity 1s ease 1.5s;display:flex;align-items:center;justify-content:center;text-align:center}
+  .scene.on .core{transform:translate(-50%,-50%) scale(1);opacity:1}
+  .core b{color:#07231d;font-weight:800;font-size:14px;padding:0 14px;font-family:var(--mono)}
+  .fusecaption{margin-top:6px;font-size:11px;color:var(--mut);font-family:var(--mono);text-align:center;letter-spacing:.02em}
+
+  /* scene 6 — the gauge (real reduction) */
+  .gauge{width:min(64vw,680px);margin-top:10px}
+  .gaugetrack{position:relative;height:20px;border-radius:10px;background:#1b2438;border:1px solid var(--line)}
+  .gaugefill{display:block;height:100%;border-radius:9px;width:0%;background:linear-gradient(90deg,var(--teal2),var(--teal));
+             transition:width 2.1s cubic-bezier(.2,.7,.2,1) .5s}
+  .scene.on .gaugefill{width:15.9%}
+  .marker{position:absolute;right:0;top:-30px;text-align:right;font-family:var(--mono);font-size:12px;color:var(--coral);line-height:1.3}
+  .marker i{position:absolute;right:0;top:28px;width:2px;height:20px;background:var(--coral);opacity:.55}
+  .gaugefoot{display:flex;justify-content:space-between;margin-top:10px;font-family:var(--mono);font-size:13px}
+
+  /* scene 7 — terminal quote (real generated text) */
+  .termbox{width:min(68vw,700px);background:#05080e;border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+  .termhead{display:flex;align-items:center;gap:7px;padding:10px 14px;background:#0d1526;border-bottom:1px solid var(--line)}
+  .termhead i{width:9px;height:9px;border-radius:50%;display:block}
+  .termhead i:nth-child(1){background:var(--coral)}.termhead i:nth-child(2){background:var(--gold)}.termhead i:nth-child(3){background:var(--teal)}
+  .termhead span{margin-left:8px;color:var(--mut);font-family:var(--mono);font-size:12px}
+  .termbody{padding:20px 22px;font-family:var(--mono);font-size:clamp(13px,1.6vw,16px);line-height:1.65;color:#c7d3ec;font-style:italic}
+
+  /* scene 9 — stats */
+  .stats{display:flex;gap:38px;margin-top:8px;flex-wrap:wrap;align-items:flex-end}
+  .stat .n{font-family:var(--mono);font-weight:800;font-size:clamp(34px,6vw,80px);color:var(--teal);line-height:1}
+  .stat .l{font-size:clamp(12px,1.5vw,17px);color:#C7D3EC;margin-top:6px;max-width:16ch}
+
+  #cover{position:fixed;inset:0;z-index:40;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
+         background:radial-gradient(900px 600px at 50% 30%,#132348,#05070f);text-align:center;padding:20px}
+  #cover .logo{width:78px;height:78px;border-radius:20px;background:linear-gradient(135deg,#4f8cff,var(--teal));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:40px;color:#07101f;font-family:Georgia,serif;box-shadow:0 12px 40px rgba(34,211,170,.35)}
+  #play{cursor:pointer;border:none;border-radius:40px;padding:16px 34px;font-size:18px;font-weight:800;color:#07101f;
+        background:linear-gradient(90deg,var(--teal),var(--teal2));box-shadow:0 10px 30px rgba(34,211,170,.4)}
+  #cover .hint{color:var(--mut);font-size:13px;font-family:var(--mono)}
+  #cover.hide{opacity:0;pointer-events:none;transition:opacity .6s ease}
+
+  #bar{position:fixed;left:0;bottom:0;height:4px;width:0;background:linear-gradient(90deg,var(--teal2),var(--teal),var(--gold));z-index:30}
+  #ctl{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:31;display:flex;gap:10px;align-items:center;
+       background:rgba(9,15,30,.6);backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:30px;padding:8px 12px;opacity:0;transition:opacity .3s}
+  #stage:hover ~ #ctl,#ctl:hover{opacity:1}
+  #ctl button{cursor:pointer;background:rgba(255,255,255,.08);border:1px solid #2c4372;color:var(--ink);border-radius:20px;padding:7px 12px;font-size:13px}
+  #ctl button:focus-visible,#play:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+  #ctl select{background:rgba(255,255,255,.08);border:1px solid #2c4372;color:var(--ink);border-radius:16px;padding:6px 8px;font-size:12px;max-width:150px}
+  #vo,#mus{display:none}
+  #ctl .dots{display:flex;gap:6px;margin:0 6px}
+  #ctl .dots i{width:8px;height:8px;border-radius:50%;background:#33456e;display:block}
+  #ctl .dots i.on{background:var(--teal)}
+  .foot{position:fixed;right:16px;top:14px;z-index:30;color:#6b7ba0;font-size:11px;font-style:italic;letter-spacing:.03em}
+  @media (prefers-reduced-motion: reduce){
+    .scene .kick,.scene .big,.scene .sub,.scene .viz,.dot,.core,.gaugefill{transition-duration:.05s !important}
+  }
+</style></head>
+<body>
+<div id="stage">
+  <!-- 0 HOOK -->
+  <section class="scene" data-dur="16000">
+    <div class="kick">A real case study</div>
+    <div class="big">One real NVIDIA app.<br>Six agents. <span class="coral">Six LLM calls.</span></div>
+    <div class="sub muted">Then we measured — for real — what that actually costs.</div>
+  </section>
+  <!-- 1 THE APP -->
+  <section class="scene" data-dur="18000">
+    <div class="kick nv">The original app</div>
+    <div class="big">Six bespoke functions.<br>Six full prompts.</div>
+    <div class="viz agentpills">
+      <span class="agentpill">demand-forecast</span>
+      <span class="agentpill">demand-sensing</span>
+      <span class="agentpill">forecast-npi</span>
+      <span class="agentpill">refurb-repair</span>
+      <span class="agentpill">rma-triage</span>
+      <span class="agentpill">orchestrator</span>
+    </div>
+    <div class="sub muted" style="margin-top:18px">Each one asks a model to reason through its task from scratch, every time it runs.</div>
+  </section>
+  <!-- 2 THE NUMBER -->
+  <section class="scene" data-dur="16000">
+    <div class="kick coral">Measured, not modeled</div>
+    <div class="viz bignum">1,244<small>tokens — one real RMA Triage call</small></div>
+    <div class="sub muted" style="margin-top:10px">The exact prompt from their own source code. A real tokenizer. Not a projection.</div>
+  </section>
+  <!-- 3 WHY -->
+  <section class="scene" data-dur="14000">
+    <div class="kick">Why so many tokens?</div>
+    <div class="big">Every call re-explains<br>the whole task from scratch.</div>
+    <div class="viz whycards">
+      <div class="whycard"><h4>Persona</h4><div class="d">who the agent is</div><div class="rep">× 6 calls</div></div>
+      <div class="whycard"><h4>Task steps</h4><div class="d">the full reasoning chain</div><div class="rep">× 6 calls</div></div>
+      <div class="whycard"><h4>JSON schema</h4><div class="d">every field, spelled out</div><div class="rep">× 6 calls</div></div>
+    </div>
+  </section>
+  <!-- 4 PIVOT -->
+  <section class="scene" data-dur="11000" style="align-items:center;text-align:center">
+    <div class="big">So what if the app didn't<br>have to ask a model to reason at all?</div>
+    <div class="sub accent" style="margin:10px auto 0">It doesn't have to.</div>
+  </section>
+  <!-- 5 REVEAL: conversion -->
+  <section class="scene" data-dur="15000" style="align-items:center;text-align:center">
+    <div class="kick">The converted app</div>
+    <div class="big">Same UI. Same npm scripts.<br>A different backend.</div>
+    <div class="viz fuse" id="fuse"><div class="core"><b>UNAI · shared runtime</b></div></div>
+    <div class="fusecaption">6 bespoke functions → 1 shared runtime, real ported formulas</div>
+  </section>
+  <!-- 6 PROOF: gauge -->
+  <section class="scene" data-dur="13000">
+    <div class="kick gold">Live, not estimated</div>
+    <div class="big"><span class="accent num">198</span> tokens.</div>
+    <div class="viz gauge">
+      <div class="gaugetrack"><i class="gaugefill"></i><span class="marker">1,244<i></i></span></div>
+      <div class="gaugefoot"><span class="accent">198 · UNAI, live</span><span class="coral">1,244 · original app</span></div>
+    </div>
+    <div class="sub muted" style="margin-top:10px">84% fewer — measured from a real API response, just now.</div>
+  </section>
+  <!-- 7 REAL QUOTE -->
+  <section class="scene" data-dur="11500">
+    <div class="kick">Not templated text, either</div>
+    <div class="viz termbox">
+      <div class="termhead"><i></i><i></i><i></i><span>unai · live explainability call</span></div>
+      <div class="termbody">"The system autonomously routed the RMA for self-troubleshooting under warranty due to a 92% confidence score (above the 85% threshold), driven by defect signature matching and warranty duration verification."</div>
+    </div>
+    <div class="sub muted" style="margin-top:14px">Generated live, for this exact decision.</div>
+  </section>
+  <!-- 8 THE REAL WIN -->
+  <section class="scene" data-dur="17000" style="align-items:center;text-align:center">
+    <div class="kick">But here's the number that matters</div>
+    <div class="big">The actual decision cost <span class="gold">zero</span> tokens.</div>
+    <div class="sub muted" style="margin:8px auto 0">The answer was already computed by real code. The model only had to describe it.</div>
+  </section>
+  <!-- 9 STATS -->
+  <section class="scene" data-dur="15500">
+    <div class="kick">The outcome</div>
+    <div class="viz stats">
+      <div class="stat"><div class="n">−84%</div><div class="l">measured token reduction, one real call</div></div>
+      <div class="stat"><div class="n gold" style="color:var(--gold)">0</div><div class="l">tokens for the real decision</div></div>
+      <div class="stat"><div class="n" style="color:#4f8cff">0</div><div class="l">frontend files changed</div></div>
+    </div>
+    <div class="sub" style="margin-top:20px">Same interface. Same npm run dev. A completely different backend.</div>
+  </section>
+  <!-- 10 CLOSE -->
+  <section class="scene" data-dur="10500" style="align-items:center;text-align:center">
+    <div class="big" style="font-size:clamp(48px,10vw,120px);color:var(--teal)">UNAI</div>
+    <div class="sub">One shared runtime, running underneath the app you already have.</div>
+    <div class="kick gold" style="margin-top:18px;letter-spacing:.12em">Change the backend. Not the interface.</div>
+  </section>
+</div>
+
+<div class="foot">Bristlecone · Confidential</div>
+<div id="bar"></div>
+<div id="ctl">
+  <button id="pp">▌▌</button>
+  <button id="rp">↺ Replay</button>
+  <button id="mu">🔊</button>
+  <select id="vsel" title="Narration voice"></select>
+  <div class="dots" id="dots"></div>
+  <button id="fs">⤢</button>
+</div>
+<audio id="vo" preload="auto" crossorigin="anonymous"></audio>
+<audio id="mus" preload="auto" loop crossorigin="anonymous"></audio>
+
+<div id="cover">
+  <div class="logo">U</div>
+  <div class="kick">Bristlecone · UNAI Studio</div>
+  <div class="big" style="font-size:clamp(28px,5.6vw,58px);text-align:center">One real app.<br>One real number.</div>
+  <button id="play">▶ Play the case study (with sound)</button>
+  <div class="hint">~100 seconds · best full-screen with sound on</div>
+</div>
+
+<script>
+(function(){
+  const scenes=[...document.querySelectorAll('.scene')];
+  const durs=scenes.map(s=>+s.dataset.dur);
+  const TOTAL=durs.reduce((a,b)=>a+b,0);
+  const bar=document.getElementById('bar'), dotsEl=document.getElementById('dots');
+  scenes.forEach(()=>{const i=document.createElement('i');dotsEl.appendChild(i);});
+  const dotEls=[...dotsEl.children];
+
+  // fuse dots (6 agents converging into the shared runtime core)
+  const fuse=document.getElementById('fuse');
+  for(let i=0;i<6;i++){const d=document.createElement('div');d.className='dot';
+    const a=(i/6)*6.283+0.3, r=140+Math.random()*90;
+    d.style.setProperty('--x',(Math.cos(a)*r).toFixed(0)+'px');
+    d.style.setProperty('--y',(Math.sin(a)*r*0.62).toFixed(0)+'px');
+    fuse.insertBefore(d,fuse.firstChild);}
+
+  let idx=-1,timer=null,startedAt=0,remaining=0,playing=false,muted=false,elapsedBefore=0;
+
+  // ---------- music: soft synthesized underscore (self-contained, no external file).
+  // Ducks on each transition, swells back between narration lines.
+  const MUSIC_SRC="";
+  const musEl=document.getElementById('mus');
+  let AC,master,rev,musicGain,started=false,loopTimer=null,musicOn=false;
+  const MB=0.13, MD=0.045;
+  const A2=110,E2=82.41,A3=220,E4=329.63,Gs4=415.30,A4=440,B4=493.88,C5=523.25,D5=587.33,Ds5=622.25,E5=659.25,C4=261.63;
+  const e=0.23,q=0.46,r=0.12;
+  const PHRASE=[
+    [E5,e],[Ds5,e],[E5,e],[Ds5,e],[E5,e],[B4,e],[D5,e],[C5,e],[A4,q],[0,r],
+    [C4,e],[E4,e],[A4,e],[B4,q],[0,r],
+    [E4,e],[Gs4,e],[B4,e],[C5,q],[0,r],
+    [E4,e],[E5,e],[Ds5,e],[E5,e],[Ds5,e],[E5,e],[B4,e],[D5,e],[C5,e],[A4,q],[0,r],
+    [C4,e],[E4,e],[A4,e],[B4,q],[0,r],
+    [E4,e],[C5,e],[B4,e],[A4,q],[0,q]
+  ];
+  function makeIR(sec,decay){ const n=(AC.sampleRate*sec)|0,b=AC.createBuffer(2,n,AC.sampleRate);
+    for(let c=0;c<2;c++){const d=b.getChannelData(c);for(let i=0;i<n;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/n,decay);} return b; }
+  function initAudio(){
+    AC=new (window.AudioContext||window.webkitAudioContext)();
+    master=AC.createGain();master.gain.value=0.9;master.connect(AC.destination);
+    rev=AC.createConvolver();rev.buffer=makeIR(2.6,2.6);const rg=AC.createGain();rg.gain.value=0.28;rev.connect(rg).connect(master);
+    musicGain=AC.createGain();musicGain.gain.value=0.0;musicGain.connect(master);musicGain.connect(rev);
+  }
+  function note(t,f,dur){ if(!f)return;
+    const o=AC.createOscillator();o.type='triangle';o.frequency.value=f;
+    const o2=AC.createOscillator();o2.type='sine';o2.frequency.value=f*2;
+    const g=AC.createGain(),g2=AC.createGain(),peak=0.5;
+    g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(peak,t+0.012);g.gain.exponentialRampToValueAtTime(0.0001,t+Math.max(0.25,dur*1.7));
+    g2.gain.setValueAtTime(0.0001,t);g2.gain.exponentialRampToValueAtTime(peak*0.22,t+0.012);g2.gain.exponentialRampToValueAtTime(0.0001,t+Math.max(0.2,dur*1.3));
+    o.connect(g).connect(musicGain);o2.connect(g2).connect(musicGain);
+    o.start(t);o.stop(t+dur*1.8+0.06);o2.start(t);o2.stop(t+dur*1.5+0.06);
+  }
+  function playPhrase(t0){ let t=t0; note(t0,A2,1.2);
+    PHRASE.forEach(n=>{ if(n[0])note(t,n[0],n[1]); t+=n[1]; }); return t; }
+  function schedNext(){ if(!musicOn||!AC||MUSIC_SRC)return; const end=playPhrase(AC.currentTime+0.06);
+    loopTimer=setTimeout(schedNext, Math.max(300,(end-AC.currentTime-0.15)*1000)); }
+  function fadeEl(to,sec){ if(!musEl)return; const from=musEl.volume||0,steps=24;let k=0;
+    const id=setInterval(()=>{k++;musEl.volume=Math.max(0,Math.min(1,from+(to-from)*k/steps));if(k>=steps){clearInterval(id);if(to===0)try{musEl.pause();}catch(e){}}},sec*1000/steps); }
+  function musicStart(){ musicOn=true;
+    if(MUSIC_SRC){ musEl.src=MUSIC_SRC;musEl.loop=true;musEl.volume=0;musEl.play().catch(()=>{});fadeEl(0.5,2.2);return; }
+    musicGain.gain.setTargetAtTime(MB,AC.currentTime,2.2); schedNext(); }
+  function musicPause(){ musicOn=false; clearTimeout(loopTimer);
+    if(MUSIC_SRC){fadeEl(0,0.4);return;} if(musicGain&&AC)musicGain.gain.setTargetAtTime(0,AC.currentTime,0.35); }
+  function musicResume(){ musicOn=true;
+    if(MUSIC_SRC){musEl.play().catch(()=>{});fadeEl(0.5,1.2);return;} musicGain.gain.setTargetAtTime(MB,AC.currentTime,1.0); schedNext(); }
+  function musicStop(){ musicOn=false; clearTimeout(loopTimer);
+    if(MUSIC_SRC){fadeEl(0,2);return;} if(musicGain&&AC)musicGain.gain.setTargetAtTime(0,AC.currentTime,2.0); }
+  function duck(on){ if(MUSIC_SRC){fadeEl(on?0.14:0.5,on?0.4:1.3);return;}
+    if(musicGain&&AC)musicGain.gain.setTargetAtTime(on?MD:MB,AC.currentTime,on?0.4:1.3); }
+
+  // ---------- narration ----------
+  const NARR=[
+   "Here's a real case study. We took one real NVIDIA app — six agents, six calls to a language model — and measured, for real, what that actually costs.",
+   "The app runs demand forecasting, demand sensing, new product forecasting, refurbish and repair, R-M-A triage, and orchestration. Six bespoke functions. Each one asks the model to reason through its task from scratch.",
+   "One real R-M-A triage call costs one thousand two hundred forty four tokens. Not modeled — the actual prompt from their own source code, run through a real tokenizer.",
+   "Why so many tokens? Because every call re-explains the whole task from scratch — the persona, the steps, the entire schema. Six agents. Six times.",
+   "So what if the app didn't have to ask a model to reason at all? It doesn't have to.",
+   "Meet the converted app. Same interface. Same n-p-m scripts. A completely different backend. The six functions became real, ported formulas, running once, on one shared runtime.",
+   "Ooh-nye's explainability call costs one hundred ninety eight tokens. Eighty four percent fewer — measured live, from a real API response, not modeled.",
+   "And it's not templated text either. This is what the model actually wrote — live — for this exact decision.",
+   "But here's the number that actually matters. The real decision cost zero tokens — because the answer was already computed by real code. The model only had to describe it.",
+   "One thousand two hundred forty four tokens, down to one hundred ninety eight. Eighty four percent fewer. Zero tokens for the real decision. Zero frontend files changed.",
+   "Ooh-nye. One shared runtime, running underneath the app you already have. Change the backend. Not the interface."
+  ];
+  const VO_SRC=[];
+  const voEl=document.getElementById('vo');
+  let voice=null, allVoices=[];
+  function fillVoices(){ if(!('speechSynthesis'in window))return; allVoices=speechSynthesis.getVoices();
+    const sel=document.getElementById('vsel'); if(!sel)return;
+    const list=allVoices.filter(v=>/^en/i.test(v.lang)); if(!list.length)return;
+    const pref=v=>/en-(US|GB)/.test(v.lang)&&/(Natural|Neural|Google|Samantha|Aria|Jenny|Guy|Libby|Sonia|Enhanced|Premium|Siri|Daniel)/i.test(v.name);
+    const best=list.find(pref)||list.find(v=>/en-US/.test(v.lang))||list[0]; voice=best;
+    if(sel.dataset.filled) return;
+    sel.innerHTML=list.map(v=>`<option value="${allVoices.indexOf(v)}">${v.name.replace(/^(Microsoft|Google)\s+/,'')}${/en-US/i.test(v.lang)?' · US':''}</option>`).join('');
+    sel.value=allVoices.indexOf(best); sel.dataset.filled='1';
+  }
+  if('speechSynthesis' in window){ fillVoices(); speechSynthesis.onvoiceschanged=fillVoices; }
+  function speak(i){ if(muted)return;
+    if(VO_SRC[i]&&voEl){ try{speechSynthesis.cancel&&speechSynthesis.cancel();}catch(e){}
+      voEl.src=VO_SRC[i]; voEl.onplay=()=>duck(true); voEl.onended=()=>duck(false); voEl.currentTime=0; voEl.play().catch(()=>{}); return; }
+    if(!('speechSynthesis'in window))return; try{speechSynthesis.cancel();}catch(e){}
+    const u=new SpeechSynthesisUtterance(NARR[i]); if(voice)u.voice=voice; u.rate=0.92;u.pitch=1.0;u.volume=1.0;
+    u.onstart=()=>duck(true); u.onend=()=>duck(false);
+    speechSynthesis.speak(u); }
+
+  function show(i){ idx=i;
+    scenes.forEach((s,k)=>s.classList.toggle('on',k===i));
+    dotEls.forEach((d,k)=>d.classList.toggle('on',k===i));
+    if(started && i>0) duck(true);
+    speak(i);
+  }
+  function schedule(ms){ clearTimeout(timer); startedAt=performance.now(); remaining=ms;
+    timer=setTimeout(()=>{ if(idx<scenes.length-1){ elapsedBefore+=durs[idx]; show(idx+1); schedule(durs[idx]); } else { finish(); } }, ms); }
+  let raf=null;
+  function setBar(){
+    if(!playing)return;
+    const inScene=performance.now()-startedAt;
+    const el=Math.min(TOTAL,elapsedBefore+(durs[idx]-remaining)+inScene);
+    bar.style.width=(el/TOTAL*100)+'%';
+    raf=requestAnimationFrame(setBar);
+  }
+  function play(){ playing=true; document.getElementById('pp').textContent='▌▌';
+    if(AC&&AC.state==='suspended')AC.resume(); if('speechSynthesis'in window){try{speechSynthesis.resume();}catch(e){}}
+    if(started) musicResume();
+    schedule(remaining||durs[idx]); cancelAnimationFrame(raf); raf=requestAnimationFrame(setBar); }
+  function pause(){ playing=false; document.getElementById('pp').textContent='▶';
+    clearTimeout(timer); remaining=remaining-(performance.now()-startedAt); musicPause();
+    if(voEl)try{voEl.pause();}catch(e){} if('speechSynthesis'in window){try{speechSynthesis.pause();}catch(e){}} cancelAnimationFrame(raf); }
+  function finish(){ playing=false; document.getElementById('pp').textContent='▶'; bar.style.width='100%'; musicStop();
+    if('speechSynthesis'in window){try{speechSynthesis.cancel();}catch(e){}} cancelAnimationFrame(raf); }
+  function start(){ started=true; initAudio(); musicStart(); elapsedBefore=0; idx=-1; show(0); startedAt=performance.now(); remaining=durs[0]; playing=true;
+    schedule(durs[0]); raf=requestAnimationFrame(setBar); }
+  function replay(){ clearTimeout(timer); clearTimeout(loopTimer); cancelAnimationFrame(raf); if('speechSynthesis'in window){try{speechSynthesis.cancel();}catch(e){}}
+    elapsedBefore=0; playing=true; document.getElementById('pp').textContent='▌▌'; if(AC&&AC.state==='suspended')AC.resume();
+    musicStart(); show(0); startedAt=performance.now(); remaining=durs[0]; schedule(durs[0]); raf=requestAnimationFrame(setBar); }
+
+  document.getElementById('pp').onclick=()=>{ if(!started)return; playing?pause():play(); };
+  document.getElementById('rp').onclick=()=>{ if(!started){document.getElementById('play').click();return;} replay(); };
+  document.getElementById('mu').onclick=(e)=>{ muted=!muted; e.target.textContent=muted?'🔇':'🔊';
+    if(master&&AC)master.gain.setTargetAtTime(muted?0:0.9,AC.currentTime,0.2);
+    if(musEl&&MUSIC_SRC){ muted?musEl.pause():musEl.play().catch(()=>{}); }
+    if(muted){ if(voEl)try{voEl.pause();}catch(e){} if('speechSynthesis'in window){try{speechSynthesis.cancel();}catch(e){}} } };
+  document.getElementById('vsel').onchange=(e)=>{ voice=allVoices[+e.target.value]||voice;
+    if(started&&!muted&&idx>=0&&!VO_SRC[idx]) speak(idx); };
+  document.getElementById('fs').onclick=()=>{ const el=document.documentElement;
+    if(!document.fullscreenElement){(el.requestFullscreen||el.webkitRequestFullscreen).call(el);}else{document.exitFullscreen();} };
+  document.getElementById('play').onclick=()=>{ document.getElementById('cover').classList.add('hide'); start(); };
+  addEventListener('keydown',e=>{ if(e.code==='Space'){e.preventDefault(); if(started)(playing?pause():play());}
+    if(e.key==='f')document.getElementById('fs').click(); if(e.key==='r')document.getElementById('rp').click(); });
+})();
+</script>
+</body></html>

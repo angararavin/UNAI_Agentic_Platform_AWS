@@ -1,0 +1,31 @@
+{
+  "unai_agent": "1.0",
+  "id": "promotion_planning",
+  "name": "Promotion Planning Agent",
+  "module": "Demand",
+  "description": "SAP IBP Demand use case on the UNAI shared runtime.",
+  "concepts": [
+    "promo_uplift",
+    "sales_qty",
+    "forecast_qty"
+  ],
+  "domainStep": {
+    "method": "promo uplift modeling",
+    "decision": "Add promotion uplift to the baseline",
+    "formula": null
+  },
+  "governance": {
+    "autonomyThresholdPct": 85,
+    "valueLimitUsd": 50000
+  },
+  "runtime": "UNAI shared cognitive runtime (7 layers, canonical ontology)",
+  "plan": [
+    {
+      "capability": "cap_promotion_planning",
+      "agentEquiv": "promotion planning",
+      "systems": [
+        "ANALYTICS"
+      ]
+    }
+  ]
+}

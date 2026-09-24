@@ -1,0 +1,9 @@
+{
+  "name": "unai-spares-ibp-standalone",
+  "version": "1.0.0",
+  "description": "Standalone UNAI Spares Planning (IBP) demo — single use case, real ADK data snapshot, live Gemini rationale.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  }
+}

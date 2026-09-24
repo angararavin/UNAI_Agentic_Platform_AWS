@@ -1,0 +1,4 @@
+sku,dc,inv_turns,excess_qty,safety_stock,reorder_point
+FG-1001,DC-EAST,8.2,0,600,900
+FG-1002,DC-EAST,3.1,480,400,700
+FG-1003,DC-WEST,5.4,60,300,500

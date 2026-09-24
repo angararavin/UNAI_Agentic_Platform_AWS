@@ -1,0 +1,31 @@
+{
+  "unai_agent": "1.0",
+  "id": "spares_planning_ibp",
+  "name": "Spares Planning Ibp Agent",
+  "module": "Aftermarket",
+  "description": "SAP IBP Aftermarket use case on the UNAI shared runtime.",
+  "concepts": [
+    "install_base_qty",
+    "failure_rate",
+    "service_level"
+  ],
+  "domainStep": {
+    "method": "spares demand (install-base)",
+    "decision": "Forecast spares from install base & failure rate",
+    "formula": "install_base·failure_rate·age_factor"
+  },
+  "governance": {
+    "autonomyThresholdPct": 85,
+    "valueLimitUsd": 50000
+  },
+  "runtime": "UNAI shared cognitive runtime (7 layers, canonical ontology)",
+  "plan": [
+    {
+      "capability": "cap_spares_planning_ibp",
+      "agentEquiv": "spares planning ibp",
+      "systems": [
+        "ANALYTICS"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "unai_agent": "1.0",
+  "id": "forecast_accuracy_monitoring",
+  "name": "Forecast Accuracy Monitoring Agent",
+  "module": "Demand",
+  "description": "SAP IBP Demand use case on the UNAI shared runtime.",
+  "concepts": [
+    "forecast_accuracy",
+    "forecast_error",
+    "forecast_bias"
+  ],
+  "domainStep": {
+    "method": "error / bias KPI",
+    "decision": "Flag SKUs breaching MAPE / bias thresholds",
+    "formula": null
+  },
+  "governance": {
+    "autonomyThresholdPct": 85,
+    "valueLimitUsd": 50000
+  },
+  "runtime": "UNAI shared cognitive runtime (7 layers, canonical ontology)",
+  "plan": [
+    {
+      "capability": "cap_forecast_accuracy_monitoring",
+      "agentEquiv": "forecast accuracy monitoring",
+      "systems": [
+        "ANALYTICS"
+      ]
+    }
+  ]
+}
