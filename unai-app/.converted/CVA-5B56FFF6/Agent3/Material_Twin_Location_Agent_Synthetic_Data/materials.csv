@@ -1,0 +1,11 @@
+material_id,material_description,criticality,uom,default_safety_stock,unit_value
+MAT3001,Brake Assembly,Critical,EA,120,85
+MAT3002,Control Module,Critical,EA,80,120
+MAT3003,Bearing 6205,High,EA,250,65
+MAT3004,Copper Cable,High,M,5000,22
+MAT3005,Polymer Housing,Medium,EA,400,40
+MAT3006,Steel Bracket,Medium,EA,600,18
+MAT3007,Sensor Unit,Critical,EA,150,145
+MAT3008,Fastener M8,Low,EA,2000,3
+MAT3009,Hydraulic Seal,High,EA,300,55
+MAT3010,Power Connector,High,EA,450,32

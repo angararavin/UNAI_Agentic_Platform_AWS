@@ -1,0 +1,11 @@
+supplier_id,supplier_name,tier,depends_on_supplier_id,country,city,category,lat,lon,risk_score
+SUPP-01,TSMC,1,SUPP-04,Taiwan,Hsinchu,Semiconductor Foundry,24.7801,120.9937,78.5
+SUPP-02,Foxconn,1,SUPP-05,China,Shenzhen,Electronics Manufacturing Services,22.5431,114.0579,72.0
+SUPP-03,Samsung Electronics,1,,South Korea,Busan,Semiconductor & Display,35.1796,129.0756,45.0
+SUPP-04,Shin-Etsu Chemical,2,,Japan,Tokyo,Silicon Wafer & Raw Chemicals,35.6762,139.6503,32.0
+SUPP-05,Murata Manufacturing,2,,Japan,Kyoto,Passive Components & Capacitors,35.0116,135.7681,28.0
+SUPP-06,Flex Ltd,1,,USA,Austin,Contract Assembly & SMT,30.2672,-97.7431,25.0
+SUPP-07,Intel Foundry Services,1,,USA,Phoenix,Advanced Packaging & Wafer,33.4484,-112.0740,22.0
+SUPP-08,ASML,2,,Netherlands,Veldhoven,Photolithography Systems,51.4172,5.4054,18.0
+SUPP-09,Kia India,1,,India,Anantapur,Automotive Assembly & Chassis,14.6819,77.6006,55.0
+SUPP-10,Texas Instruments,1,,USA,Dallas,Analog & Embedded Processing,32.7767,-96.7970,20.0

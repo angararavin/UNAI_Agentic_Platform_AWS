@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UNAI Decision API</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --bg:#F6F7F9; --surface:#FFFFFF; --surface-2:#EEF1F4; --surface-3:#E4E9ED;
+    --ink:#14181F; --ink-mut:#5B6472; --ink-faint:#8992A0;
+    --border:#DCE1E7; --border-strong:#C4CBD3;
+    --accent:#256966; --accent-ink:#FFFFFF; --accent-soft:#E4EFEE;
+    --good:#2E7D50; --good-soft:#E4F3EA;
+    --warn:#B4791E; --warn-soft:#FBF0DE;
+    --code-bg:#F1F3F5; --code-border:#DEE3E7;
+    --shadow: 0 1px 2px rgba(20,24,31,.04), 0 8px 24px -12px rgba(20,24,31,.12);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0D1013; --surface:#161A1F; --surface-2:#1B2027; --surface-3:#232932;
+      --ink:#E7EAEE; --ink-mut:#98A2AE; --ink-faint:#6C7684;
+      --border:#2A3038; --border-strong:#3A424C;
+      --accent:#5BC3B8; --accent-ink:#062421; --accent-soft:#152A28;
+      --good:#5FC784; --good-soft:#132A1E;
+      --warn:#E3AC5A; --warn-soft:#2B2312;
+      --code-bg:#12161B; --code-border:#262D35;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 32px -16px rgba(0,0,0,.55);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0D1013; --surface:#161A1F; --surface-2:#1B2027; --surface-3:#232932;
+    --ink:#E7EAEE; --ink-mut:#98A2AE; --ink-faint:#6C7684;
+    --border:#2A3038; --border-strong:#3A424C;
+    --accent:#5BC3B8; --accent-ink:#062421; --accent-soft:#152A28;
+    --good:#5FC784; --good-soft:#132A1E;
+    --warn:#E3AC5A; --warn-soft:#2B2312;
+    --code-bg:#12161B; --code-border:#262D35;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 32px -16px rgba(0,0,0,.55);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:"IBM Plex Sans",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    font-size:15.5px; line-height:1.6;
+  }
+  img{max-width:100%}
+  ::selection{ background:var(--accent-soft); color:var(--ink); }
+
+  .wrap{ max-width:920px; margin:0 auto; padding:56px 28px 100px; }
+
+  h1,h2,h3{ font-family:"Fraunces",Georgia,serif; text-wrap:balance; letter-spacing:-.01em; font-weight:600; color:var(--ink); }
+  .eyebrow{
+    font-family:"IBM Plex Mono",monospace; font-size:12px; letter-spacing:.09em; text-transform:uppercase;
+    color:var(--accent); font-weight:500; display:flex; align-items:center; gap:8px; margin:0 0 14px;
+  }
+  .eyebrow .dot{ width:6px; height:6px; border-radius:50%; background:var(--accent); }
+
+  header.hero{ margin-bottom:64px; }
+  header.hero h1{ font-size:clamp(32px,4.4vw,46px); line-height:1.08; margin:0 0 18px; max-width:15ch; }
+  header.hero p{ font-size:17px; color:var(--ink-mut); max-width:56ch; margin:0 0 26px; }
+  .hero-meta{ display:flex; gap:22px; flex-wrap:wrap; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink-faint); }
+  .hero-meta b{ color:var(--ink); font-weight:600; }
+
+  section{ margin-bottom:60px; }
+  section > h2{ font-size:23px; margin:0 0 6px; }
+  section > .dek{ color:var(--ink-mut); font-size:14.5px; max-width:62ch; margin:0 0 26px; }
+
+  .split{ display:grid; grid-template-columns:1fr auto 1fr; gap:0; align-items:stretch; }
+  .split-panel{
+    background:var(--surface); border:1px solid var(--border); border-radius:12px;
+    padding:22px 22px 20px; box-shadow:var(--shadow); display:flex; flex-direction:column; gap:12px;
+  }
+  .split-panel.old{ opacity:.72; }
+  .split-panel.new{ border-color:var(--accent); box-shadow:var(--shadow), 0 0 0 1px var(--accent-soft) inset; }
+  .split-arrow{ display:flex; align-items:center; justify-content:center; padding:0 18px; color:var(--ink-faint); font-size:20px; }
+  .panel-label{ font-family:"IBM Plex Mono",monospace; font-size:11.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-faint); }
+  .panel-title{ font-family:"Fraunces",serif; font-size:19px; font-weight:600; }
+  .panel-list{ list-style:none; margin:4px 0 0; padding:0; display:flex; flex-direction:column; gap:7px; }
+  .panel-list li{ font-size:13.5px; color:var(--ink-mut); display:flex; gap:8px; align-items:baseline; }
+  .panel-list li .glyph{ font-family:"IBM Plex Mono",monospace; font-size:12px; width:14px; flex:none; }
+  .new .panel-list li .glyph{ color:var(--good); }
+  .old .panel-list li .glyph{ color:var(--warn); }
+  .panel-foot{ margin-top:auto; padding-top:10px; border-top:1px solid var(--border); font-size:12.5px; color:var(--ink-faint); }
+  @media (max-width:720px){ .split{ grid-template-columns:1fr; } .split-arrow{ padding:10px 0; transform:rotate(90deg); } }
+
+  .ep-group{ margin-bottom:6px; }
+  .ep-group + .ep-group{ margin-top:26px; }
+  .ep-group-title{ font-family:"IBM Plex Mono",monospace; font-size:12px; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-faint); margin:0 0 10px; padding-bottom:8px; border-bottom:1px solid var(--border); }
+  .ep-row{ display:flex; align-items:baseline; gap:14px; padding:9px 2px; border-bottom:1px dashed var(--border); }
+  .ep-row:last-child{ border-bottom:none; }
+  .ep-method{ font-family:"IBM Plex Mono",monospace; font-size:11.5px; font-weight:600; padding:2px 7px; border-radius:5px; flex:none; min-width:46px; text-align:center; }
+  .ep-method.get{ background:var(--accent-soft); color:var(--accent); }
+  .ep-method.post{ background:var(--good-soft); color:var(--good); }
+  .ep-path{ font-family:"IBM Plex Mono",monospace; font-size:13.5px; color:var(--ink); white-space:nowrap; }
+  .ep-desc{ font-size:13px; color:var(--ink-mut); }
+
+  .decision-showcase{
+    display:grid; grid-template-columns:1.15fr 1fr; gap:0;
+    border:1px solid var(--border); border-radius:14px; overflow:hidden; box-shadow:var(--shadow);
+  }
+  @media (max-width:760px){ .decision-showcase{ grid-template-columns:1fr; } }
+  .ds-code{ background:var(--code-bg); padding:22px 22px 24px; border-right:1px solid var(--border); overflow-x:auto; }
+  .ds-code-label{ font-family:"IBM Plex Mono",monospace; font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-faint); margin-bottom:12px; }
+  pre.json{ font-family:"IBM Plex Mono",monospace; font-size:12.6px; line-height:1.65; margin:0; white-space:pre; color:var(--ink); }
+  .tok-key{ color:var(--accent); } .tok-str{ color:var(--good); } .tok-num{ color:var(--warn); } .tok-bool{ color:var(--ink-mut); font-style:italic; }
+  .ds-explain{ background:var(--surface); padding:22px 24px; display:flex; flex-direction:column; gap:16px; }
+  .gate-pill{ align-self:flex-start; font-family:"IBM Plex Mono",monospace; font-size:11.5px; font-weight:600; padding:4px 10px; border-radius:999px; background:var(--warn-soft); color:var(--warn); }
+  .conf-row{ display:flex; align-items:baseline; gap:10px; font-variant-numeric:tabular-nums; }
+  .conf-num{ font-family:"Fraunces",serif; font-size:34px; font-weight:600; }
+  .conf-label{ font-size:12.5px; color:var(--ink-faint); }
+  .explain-text{ font-size:14.5px; line-height:1.65; color:var(--ink); }
+  .explain-text .hl{ background:var(--accent-soft); color:var(--accent); padding:1px 4px; border-radius:4px; font-weight:500; }
+  .driver-bar-wrap{ display:flex; flex-direction:column; gap:5px; }
+  .driver-bar-row{ display:flex; justify-content:space-between; font-size:12px; color:var(--ink-mut); font-family:"IBM Plex Mono",monospace; }
+  .driver-bar{ height:6px; border-radius:3px; background:var(--surface-3); overflow:hidden; }
+  .driver-bar > i{ display:block; height:100%; background:var(--accent); border-radius:3px; }
+
+  .lang-tabs{ display:flex; gap:6px; margin-bottom:0; }
+  .lang-tab{ font-family:"IBM Plex Mono",monospace; font-size:12px; padding:7px 14px; border:1px solid var(--border); border-bottom:none; border-radius:8px 8px 0 0; background:var(--surface-2); color:var(--ink-mut); cursor:pointer; }
+  .lang-tab[aria-selected="true"]{ background:var(--code-bg); color:var(--ink); font-weight:600; }
+  .code-block{ background:var(--code-bg); border:1px solid var(--code-border); border-radius:0 10px 10px 10px; padding:20px 22px; overflow-x:auto; }
+  .code-block pre{ margin:0; font-family:"IBM Plex Mono",monospace; font-size:13px; line-height:1.7; color:var(--ink); }
+  .code-block[hidden]{ display:none; }
+  .cm{ color:var(--ink-faint); } .cs{ color:var(--good); } .ck{ color:var(--accent); }
+
+  .foot-note{ display:flex; gap:14px; padding:18px 20px; background:var(--surface-2); border:1px solid var(--border); border-radius:10px; font-size:13.5px; color:var(--ink-mut); }
+  .foot-note .ic{ font-family:"IBM Plex Mono",monospace; color:var(--warn); flex:none; }
+  footer{ margin-top:70px; padding-top:22px; border-top:1px solid var(--border); font-size:12.5px; color:var(--ink-faint); display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+  footer code{ font-family:"IBM Plex Mono",monospace; background:var(--surface-2); padding:2px 6px; border-radius:5px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow"><span class="dot"></span>Internal build note · api-server.js</div>
+    <h1>One API surface. Not the platform.</h1>
+    <p>UNAI Studio is the internal workbench — Agent Foundry, Playground, the login-gated UI. <code>api-server.js</code> is what a customer actually gets: a single, versioned, Bearer-token surface that runs an agent and hands back a decision with its reasoning attached, in plain English — nothing else on the platform is reachable from it.</p>
+    <div class="hero-meta">
+      <span><b>Base URL</b> /api/v1</span>
+      <span><b>Auth</b> Bearer token, no cookie fallback</span>
+      <span><b>Spec</b> /api/v1/openapi.yaml</span>
+    </div>
+  </header>
+
+  <section>
+    <h2>What's exposed, and to whom</h2>
+    <p class="dek">Same engine, same route handler (<code>api_v1.js</code>) either way — the difference is what else shares the process.</p>
+    <div class="split">
+      <div class="split-panel old">
+        <div class="panel-label">server.js</div>
+        <div class="panel-title">UNAI Studio</div>
+        <ul class="panel-list">
+          <li><span class="glyph">×</span>Agent Foundry — build &amp; convert</li>
+          <li><span class="glyph">×</span>Converted Agents Playground</li>
+          <li><span class="glyph">×</span>Login-wall HTML, session cookies</li>
+          <li><span class="glyph">×</span>Governance / observability tabs</li>
+          <li><span class="glyph">✓</span><code>/api/v1/*</code> — also mounted here, cookie-or-token</li>
+        </ul>
+        <div class="panel-foot">internal — your team's workbench</div>
+      </div>
+      <div class="split-arrow">→</div>
+      <div class="split-panel new">
+        <div class="panel-label">api-server.js</div>
+        <div class="panel-title">Customer surface</div>
+        <ul class="panel-list">
+          <li><span class="glyph">✓</span><code>/api/v1/*</code> — the only thing this process does</li>
+          <li><span class="glyph">✓</span>Bearer token only, no session cookie exists</li>
+          <li><span class="glyph">×</span>No Studio HTML, no static assets</li>
+          <li><span class="glyph">×</span>No Foundry conversion / spawn routes</li>
+          <li><span class="glyph">×</span>Nothing to browse to by accident</li>
+        </ul>
+        <div class="panel-foot">deploy this one — its own container, its own port</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Endpoint reference</h2>
+    <p class="dek">Everything a customer's backend calls. Full request/response schemas in <code>openapi.yaml</code>.</p>
+
+    <div class="ep-group">
+      <div class="ep-group-title">Agents &amp; runs — the business-decision layer</div>
+      <div class="ep-row"><span class="ep-method get">GET</span><span class="ep-path">/agents</span><span class="ep-desc">List built-in and customer-created agents</span></div>
+      <div class="ep-row"><span class="ep-method post">POST</span><span class="ep-path">/agents</span><span class="ep-desc">Create an agent from a capability manifest</span></div>
+      <div class="ep-row"><span class="ep-method post">POST</span><span class="ep-path">/agents/{id}/run</span><span class="ep-desc">Run it — returns <code>decisions[]</code>, each with a plain-English <code>explanation</code></span></div>
+      <div class="ep-row"><span class="ep-method get">GET</span><span class="ep-path">/runs</span><span class="ep-desc">Last 50 runs, summarized</span></div>
+      <div class="ep-row"><span class="ep-method get">GET</span><span class="ep-path">/runs/{id}</span><span class="ep-desc">Re-fetch one run's decisions without re-running it</span></div>
+    </div>
+
+    <div class="ep-group">
+      <div class="ep-group-title">Data foundation &amp; ontology</div>
+      <div class="ep-row"><span class="ep-method get">GET</span><span class="ep-path">/ontology</span><span class="ep-desc">Canonical concepts to author agents against</span></div>
+      <div class="ep-row"><span class="ep-method get">GET</span><span class="ep-path">/connections</span><span class="ep-desc">Data-foundation connectors + status</span></div>
+      <div class="ep-row"><span class="ep-method post">POST</span><span class="ep-path">/connections</span><span class="ep-desc">Register a connection (databricks · snowflake · bigquery · neo4j · llm)</span></div>
+    </div>
+
+    <div class="ep-group">
+      <div class="ep-group-title">Governance</div>
+      <div class="ep-row"><span class="ep-method get">GET</span><span class="ep-path">/containment</span><span class="ep-desc">Safety status + recent gated events</span></div>
+      <div class="ep-row"><span class="ep-method post">POST</span><span class="ep-path">/containment/kill</span><span class="ep-desc">Kill switch — force every action to human approval</span></div>
+      <div class="ep-row"><span class="ep-method post">POST</span><span class="ep-path">/containment/policy</span><span class="ep-desc">Set the action policy — gated · deny · allow</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>The decision layer, worked example</h2>
+    <p class="dek">A real disruption-response run: one purchase order clears the confidence bar but not the value gate. <em>Example response</em> — field names and values match <code>decisionsFromEvidence()</code> exactly.</p>
+    <div class="decision-showcase">
+      <div class="ds-code">
+        <div class="ds-code-label">POST /agents/disruption_response/run → decisions[1]</div>
+<pre class="json">{
+  <span class="tok-key">"decision"</span>: <span class="tok-str">"Raise PO for FG-1003 (586 units, $56,256)"</span>,
+  <span class="tok-key">"autonomous"</span>: <span class="tok-bool">false</span>,
+  <span class="tok-key">"confidencePct"</span>: <span class="tok-num">88</span>,
+  <span class="tok-key">"explanation"</span>: <span class="tok-str">"Confidence 88% cleared the</span>
+    <span class="tok-str">85% autonomy threshold, but a</span>
+    <span class="tok-str">policy rule applied — value</span>
+    <span class="tok-str">$56,256 &gt; $50,000 approval</span>
+    <span class="tok-str">limit — so it routed to a</span>
+    <span class="tok-str">human reviewer."</span>,
+  <span class="tok-key">"primaryDriver"</span>: {
+    <span class="tok-key">"name"</span>: <span class="tok-str">"stock-out revenue risk"</span>,
+    <span class="tok-key">"sharePct"</span>: <span class="tok-num">86</span>
+  },
+  <span class="tok-key">"gate"</span>: <span class="tok-str">"value $56,256 &gt; $50,000</span>
+    <span class="tok-str">approval limit"</span>,
+  <span class="tok-key">"recommendedAction"</span>: <span class="tok-str">"Route to</span>
+    <span class="tok-str">buyer for sign-off; PO is</span>
+    <span class="tok-str">pre-staged and executes on</span>
+    <span class="tok-str">approval."</span>
+}</pre>
+      </div>
+      <div class="ds-explain">
+        <span class="gate-pill">held for human sign-off</span>
+        <div class="conf-row">
+          <span class="conf-num">88%</span>
+          <span class="conf-label">confidence<br>(autonomy floor: 85%)</span>
+        </div>
+        <div class="driver-bar-wrap">
+          <div class="driver-bar-row"><span>stock-out revenue risk</span><span>86%</span></div>
+          <div class="driver-bar"><i style="width:86%"></i></div>
+        </div>
+        <p class="explain-text">The confidence score alone would have let this execute on its own. What actually stopped it: <span class="hl">$56,256 exceeds the $50,000 value gate</span> — a policy rule, not a confidence problem. A customer reading only the JSON gets a boolean; a customer reading <code>explanation</code> gets the sentence above, for free, in every response.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Quickstart</h2>
+    <p class="dek">No packaged SDK ships yet — these are two direct, dependency-light calls against the real endpoints above. Swap in a generated client later without changing the wire format.</p>
+    <div class="lang-tabs" role="tablist">
+      <button class="lang-tab" role="tab" aria-selected="true" data-lang="py" onclick="qsSwitch('py')">Python</button>
+      <button class="lang-tab" role="tab" aria-selected="false" data-lang="js" onclick="qsSwitch('js')">Node</button>
+    </div>
+    <div class="code-block" id="qs-py"><pre><span class="cm"># pip install requests</span>
+<span class="ck">import</span> requests
+
+BASE = <span class="cs">"https://api.yourcompany.com/api/v1"</span>
+KEY  = <span class="cs">"unai_••••••••••••••••"</span>
+
+r = requests.post(f<span class="cs">"{BASE}/agents/disruption_response/run"</span>,
+    headers={<span class="cs">"Authorization"</span>: f<span class="cs">"Bearer {KEY}"</span>})
+run = r.json()
+
+<span class="ck">for</span> d <span class="ck">in</span> run[<span class="cs">"decisions"</span>]:
+    status = <span class="cs">"autonomous"</span> <span class="ck">if</span> d[<span class="cs">"autonomous"</span>] <span class="ck">else</span> <span class="cs">"needs sign-off"</span>
+    print(f<span class="cs">"[{d['confidencePct']}% · {status}] {d['explanation']}"</span>)</pre></div>
+    <div class="code-block" id="qs-js" hidden><pre><span class="cm">// no dependency — fetch is global on Node 18+</span>
+<span class="ck">const</span> BASE = <span class="cs">"https://api.yourcompany.com/api/v1"</span>;
+<span class="ck">const</span> KEY  = <span class="cs">"unai_••••••••••••••••"</span>;
+
+<span class="ck">const</span> run = <span class="ck">await</span> fetch(`${BASE}/agents/disruption_response/run`, {
+  method: <span class="cs">"POST"</span>,
+  headers: { Authorization: `Bearer ${KEY}` },
+}).then(r =&gt; r.json());
+
+<span class="ck">for</span> (<span class="ck">const</span> d <span class="ck">of</span> run.decisions) {
+  <span class="ck">const</span> status = d.autonomous ? <span class="cs">"autonomous"</span> : <span class="cs">"needs sign-off"</span>;
+  console.log(`[${d.confidencePct}% · ${status}] ${d.explanation}`);
+}</pre></div>
+  </section>
+
+  <div class="foot-note">
+    <span class="ic">▲</span>
+    <span>Bearer keys are flat (<code>UNAI_API_KEYS</code>) — no per-key scoping, quotas, or expiry yet. Fine for a first customer or two; add a keys table before onboarding more.</span>
+  </div>
+
+  <footer>
+    <span>UNAI · Bristlecone — internal reference, not for external distribution</span>
+    <span>engine <code>api_v1.js</code> · server <code>api-server.js</code> · spec <code>openapi.yaml</code></span>
+  </footer>
+
+</div>
+
+<script>
+function qsSwitch(lang){
+  document.querySelectorAll('.lang-tab').forEach(b=>b.setAttribute('aria-selected', b.dataset.lang===lang?'true':'false'));
+  document.getElementById('qs-py').hidden = lang!=='py';
+  document.getElementById('qs-js').hidden = lang!=='js';
+}
+</script>
+</body>
+</html>

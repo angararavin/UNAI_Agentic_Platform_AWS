@@ -1,0 +1,6 @@
+{
+  "name": "Google's Agentic Control Tower",
+  "description": "Multi-agent orchestration platform for hardware RMA lifecycle management with Failure Disposition, Dwell Time Monitoring, Urgency Flagging, and Spare-Pool Reintegration agents.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

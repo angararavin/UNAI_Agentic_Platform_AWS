@@ -1,0 +1,77 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Demand Planning on UNAI</title>
+<style>
+  :root{color-scheme:dark}
+  body{margin:0;font:14px/1.5 ui-sans-serif,system-ui,Segoe UI,Roboto,sans-serif;background:#0b0e14;color:#e8ecf4}
+  header{padding:18px 22px;border-bottom:1px solid #1c2536}
+  h1{font-size:16px;margin:0}
+  .muted{color:#8b96ab}
+  main{padding:20px 22px;max-width:920px;margin:0 auto}
+  .card{background:#111831;border:1px solid #1c2536;border-radius:10px;padding:16px;margin-bottom:14px}
+  button{background:#1c2536;color:#e8ecf4;border:1px solid #2b3654;border-radius:8px;padding:8px 12px;cursor:pointer;font-size:13px;margin:0 6px 6px 0}
+  button:hover{border-color:#4a5a86}
+  pre{white-space:pre-wrap;background:#0b0e14;border:1px solid #1c2536;border-radius:8px;padding:10px;max-height:320px;overflow:auto;font-size:12px}
+  .kpis{display:flex;gap:14px;flex-wrap:wrap}
+  .kpi{flex:1;min-width:140px;background:#0b0e14;border:1px solid #1c2536;border-radius:8px;padding:10px}
+  .kpi .v{font-size:20px;font-weight:600}
+  .kpi .l{font-size:11px;color:#8b96ab}
+  .badge{display:inline-block;border:1px solid #2b3654;border-radius:999px;padding:2px 8px;font-size:11px}
+</style></head>
+<body>
+<header><h1>Demand Planning</h1><div class="muted">built from scratch -- running on the UNAI shared runtime</div></header>
+<main>
+  <div class="card"><h2 style="margin-top:0">Capabilities</h2>
+    <button class="cap" data-cap="statistical_forecast">statistical forecast</button>
+      <button class="cap" data-cap="demand_sensing">demand sensing</button>
+      <button class="cap" data-cap="consensus_demand">consensus demand</button>
+      <button class="cap" data-cap="promotions_uplift">promotions uplift</button>
+      <button class="cap" data-cap="forecast_accuracy">forecast accuracy</button>
+  </div>
+  <div class="card"><div id="runOut" class="muted">Pick a capability above to run it on the shared runtime.</div></div>
+  <div class="card"><h2 style="margin-top:0">Your app vs UNAI -- live token comparison</h2>
+    <button id="cmpBtn">Run comparison</button>
+    <div id="cmpOut" style="margin-top:10px" class="muted">Not run yet.</div>
+  </div>
+</main>
+<script>
+function esc(s){return String(s==null?'':s).replace(/[&<>]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;'}[c];});}
+function detailCard(e){
+  var d=e.detailed; var pct=Math.round((e.confidence||0)*100);
+  var head='<div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><b>'+esc(e.decision||'Decision')+'</b>'+
+    '<span class="badge">'+(e.autonomous?'autonomous':'human approval')+' · '+pct+'%</span></div>';
+  if(!d) return '<div class="card">'+head+'<div class="muted" style="margin-top:6px">'+esc(e.explanation||'')+'</div></div>';
+  var live=d.source&&d.source!=='template';
+  var steps=(d.reasoningSteps||[]).map(function(s){return '<li style="margin:2px 0">'+esc(s)+'</li>';}).join('');
+  var factors=(d.contributingFactors||[]).map(function(f){return '<span class="badge" style="margin:2px 4px 2px 0">'+esc(f.name)+' · '+f.sharePct+'%</span>';}).join('');
+  return '<div class="card">'+head+
+    '<div class="muted" style="margin:6px 0 8px">'+esc(d.summary||'')+' <span class="badge">'+(live?'live':'template')+'</span></div>'+
+    '<div style="margin:6px 0"><b style="color:#22d3aa">Root cause</b><div class="muted">'+esc(d.rootCause||'')+'</div></div>'+
+    '<div style="margin:6px 0"><b style="color:#22d3aa">Primary driver</b><div class="muted">'+esc((d.primaryDriver||{}).name||'')+' — '+((d.primaryDriver||{}).sharePct||0)+'% of the decision</div></div>'+
+    '<div style="margin:6px 0"><b style="color:#22d3aa">Step-by-step reasoning</b><ol style="margin:4px 0 0 18px;padding:0">'+steps+'</ol></div>'+
+    '<div style="margin:6px 0"><b style="color:#22d3aa">Contributing factors</b><div style="margin-top:4px">'+(factors||'<span class="muted">—</span>')+'</div></div>'+
+    '<div style="margin:6px 0"><b style="color:#22d3aa">Recommended action</b><div class="muted">'+esc(d.recommendedAction||'')+'</div></div>'+
+    '</div>';
+}
+function renderRun(j){
+  var evs=(j&&j.evidence)||[];
+  var head='<div style="margin-bottom:8px"><b>Detailed explainability</b> — '+evs.length+' decision'+(evs.length===1?'':'s')+', each with root cause, reasoning steps, drivers and recommended action.</div>';
+  var cards=evs.map(detailCard).join('');
+  return head+cards+'<details style="margin-top:6px"><summary class="muted" style="cursor:pointer">Raw run JSON</summary><pre>'+esc(JSON.stringify(j,null,2).slice(0,6000))+'</pre></details>';
+}
+document.querySelectorAll('.cap').forEach(function(b){ b.addEventListener('click', function(){
+  var out=document.getElementById('runOut'); out.textContent='Running '+b.textContent+'...';
+  fetch('/api/unai/run',{method:'POST'}).then(function(r){return r.json();}).then(function(j){
+    out.innerHTML=renderRun(j);
+  }).catch(function(e){ out.textContent='Error: '+e.message; });
+});});
+document.getElementById('cmpBtn').addEventListener('click', function(){
+  var out=document.getElementById('cmpOut'); out.textContent='Running your app + UNAI...';
+  fetch('/api/unai/compare',{method:'POST'}).then(function(r){return r.json();}).then(function(j){
+    out.innerHTML='<div class="kpis">'+
+      '<div class="kpi"><div class="v">'+j.yourApp.tokensTotal+'</div><div class="l">your app tokens <span class="badge">'+(j.yourApp.measured?'measured':'modeled')+'</span></div></div>'+
+      '<div class="kpi"><div class="v">'+j.unai.tokensTotal+'</div><div class="l">UNAI tokens <span class="badge">'+(j.unai.measured?'measured':'modeled')+'</span></div></div>'+
+      '<div class="kpi"><div class="v">-'+j.savingsPct+'%</div><div class="l">token reduction</div></div>'+
+    '</div>';
+  }).catch(function(e){ out.textContent='Error: '+e.message; });
+});
+</script>
+</body></html>

@@ -1,0 +1,28 @@
+.bqconfig.json
+node_modules/
+systems_of_record.db
+.env
+
+# old snapshot/backup folders — not part of the app
+_pre_*_backup_*/
+_design_backup/
+*.zip
+
+# runtime cognition state (regenerated at run time)
+# NOTE: this file lives INSIDE unai-app/, so patterns here are relative to
+# unai-app/ already -- a "unai-app/" prefix here only matches a nonexistent
+# unai-app/unai-app/... path and silently never fires. (The two sibling-folder
+# rules this used to have -- supply-chain-workbench/coworkers -- can't be
+# expressed from inside this file at all; a per-directory .gitignore can't
+# reach outside its own tree. They'd need to live in unai-consolidated/.gitignore.)
+cognition_learned.json
+cognition_systems.json
+
+# convert-folder pipeline: working copies of converted apps + last-conversion pointer
+.converted/
+.conversions.json
+.foundry_running.json
+
+# decision + outcome ledger / self-heal overrides (persisted state, not source)
+decision_ledger.jsonl
+autonomy_overrides.json

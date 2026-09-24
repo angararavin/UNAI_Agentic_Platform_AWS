@@ -1,0 +1,2 @@
+id,event_type,location,severity,supplier,description,date
+E-999,Earthquake,Tokyo,High,Test Vendor,Test event,2026-09-11

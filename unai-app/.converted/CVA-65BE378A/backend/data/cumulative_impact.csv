@@ -1,0 +1,5 @@
+scope,fg_at_risk_raw,fg_at_risk_deduped,plants_hit,customers_exposed,open_so_musd,otif_trough_pt,margin_trough_pt,working_capital_peak_musd,longest_recovery_weeks
+SIG-2026-0912 only,412,412,7,128,84,-9,-2.1,11,14
+0912 + 0913,470,385,9,159,93,-12,-2.6,14,14
+0912 + 0913 + 0914,680,558,12,223,131,-14,-3,21,14
+all five,940,771,15,275,164,-14,-4.1,22,14

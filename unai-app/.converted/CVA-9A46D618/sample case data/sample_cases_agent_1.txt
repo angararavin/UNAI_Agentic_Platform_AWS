@@ -1,0 +1,54 @@
+
+    {
+        "tray_id": "GF-10002",
+        "mpn": "GF-H100-REV2",
+        "failure_code": "MEM-001",
+
+        "failure_description":
+            "GPU memory ECC failures detected.",
+
+        "dcha_log":
+        """
+        ECC error count exceeded threshold.
+        Memory bank 3 reporting faults.
+        Temperature normal.
+        Persistent failure across reboots.
+        """
+    },
+
+    {
+        "tray_id": "GF-10003",
+        "mpn": "GF-H100-REV3",
+        "failure_code": "NTF-001",
+
+        "failure_description":
+            "Reported failure could not be reproduced.",
+
+        "dcha_log":
+        """
+        No active errors.
+        Diagnostics passed.
+        Thermal normal.
+        PCIe healthy.
+        Memory healthy.
+        """
+    }
+{
+        "tray_id": "GF-10001",
+        "mpn": "GF-H100-REV2",
+        "failure_code": "PCIE-002",
+
+        "failure_description":
+            "Intermittent PCIe link instability detected.",
+
+        "dcha_log":
+        """
+        PCIe retraining events detected.
+        Link degraded from x16 to x8.
+        Multiple correctable PCIe errors.
+        No thermal violations.
+        GPU memory healthy.
+        """
+    }
+
+

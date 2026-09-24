@@ -1,0 +1,78 @@
+{
+  "hasFrontend": true,
+  "uiNote": "retained and launched the app's own full-stack server (frontend + API routes), live",
+  "backendSwapped": false,
+  "agentGroups": [
+    {
+      "name": "Client",
+      "sourceFile": "agents/client.ts",
+      "capabilityIds": [
+        "generate_structured_json",
+        "get_nvidia_client"
+      ]
+    },
+    {
+      "name": "Demand Forecast",
+      "sourceFile": "agents/demandForecast.ts",
+      "capabilityIds": [
+        "run_demand_forecast"
+      ]
+    },
+    {
+      "name": "Demand Sensing",
+      "sourceFile": "agents/demandSensing.ts",
+      "capabilityIds": [
+        "run_demand_sensing"
+      ]
+    },
+    {
+      "name": "Forecast Agent Npi",
+      "sourceFile": "agents/forecastAgentNpi.ts",
+      "capabilityIds": [
+        "run_forecast_npi"
+      ]
+    },
+    {
+      "name": "Orchestrator",
+      "sourceFile": "agents/orchestrator.ts",
+      "capabilityIds": [
+        "run_orchestrator"
+      ]
+    },
+    {
+      "name": "Refurb Repair",
+      "sourceFile": "agents/refurbRepair.ts",
+      "capabilityIds": [
+        "run_refurb_repair"
+      ]
+    },
+    {
+      "name": "Rma Triage",
+      "sourceFile": "agents/rmaTriage.ts",
+      "capabilityIds": [
+        "build_case_specific_failure_repair_analysis"
+      ]
+    },
+    {
+      "name": "Server",
+      "sourceFile": "server.ts",
+      "capabilityIds": [
+        "start_server"
+      ]
+    },
+    {
+      "name": "Api",
+      "sourceFile": "src/lib/api.ts",
+      "capabilityIds": [
+        "call_nvidia_api",
+        "call_ollama_api"
+      ]
+    }
+  ],
+  "capabilitiesFound": 11,
+  "llmCallSitesFound": 5,
+  "usedLLM": false,
+  "llmProvider": null,
+  "llmError": null,
+  "measurementHarness": "not generated -- no LLM call sites found, comparison will use modeled numbers for your app"
+}

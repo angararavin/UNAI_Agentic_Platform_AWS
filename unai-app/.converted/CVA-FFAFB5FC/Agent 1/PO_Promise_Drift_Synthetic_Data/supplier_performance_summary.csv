@@ -1,0 +1,9 @@
+supplier_id,historical_pos,avg_delay_days,median_delay_days,p90_delay_days,late_rate,severe_late_rate,supplier_name,behavior_profile
+SUP001,252,1.124,1.015,3.032,0.766,0.103,Apex Components,Stable
+SUP002,232,4.855,4.83,8.078,0.974,0.776,Bharat Precision,Late-Prone
+SUP003,220,2.077,2.095,3.72,0.927,0.227,CoreMotion Systems,Stable
+SUP004,218,4.074,4.085,8.802,0.83,0.601,Delta Industrial,Volatile
+SUP005,231,2.412,2.55,4.86,0.909,0.39,Evergreen Plastics,Improving
+SUP006,194,5.674,5.56,9.741,0.974,0.778,Futura Electronics,Late-Prone
+SUP007,238,1.562,1.525,3.406,0.832,0.164,Global Fasteners,Stable
+SUP008,215,4.722,4.61,8.526,0.949,0.712,Horizon Metals,Volatile

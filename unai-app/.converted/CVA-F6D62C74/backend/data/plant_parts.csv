@@ -1,0 +1,14 @@
+plant_id,plant_name,part_id,units_per_month
+PL-01,Austin Super-Giga Plant (USA),P-101,15000
+PL-01,Austin Super-Giga Plant (USA),P-105,18000
+PL-01,Austin Super-Giga Plant (USA),P-108,30000
+PL-01,Austin Super-Giga Plant (USA),P-109,15000
+PL-02,Monterrey Automotive Complex (Mexico),P-102,25000
+PL-02,Monterrey Automotive Complex (Mexico),P-106,20000
+PL-02,Monterrey Automotive Complex (Mexico),P-107,22000
+PL-02,Monterrey Automotive Complex (Mexico),P-110,24000
+PL-03,Chennai High-Tech Assembly Plant (India),P-103,45000
+PL-03,Chennai High-Tech Assembly Plant (India),P-104,120000
+PL-03,Chennai High-Tech Assembly Plant (India),P-102,15000
+PL-04,Dresden Advanced Silicon Facility (Germany),P-101,8000
+PL-04,Dresden Advanced Silicon Facility (Germany),P-110,12000

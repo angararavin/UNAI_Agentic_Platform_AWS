@@ -1,0 +1,9 @@
+{
+  "name": "unai-openai-tools",
+  "version": "1.0.0",
+  "description": "UNAI agents exposed as OpenAI function-calling tools (Chat Completions / Assistants), plus a runnable CLI demo",
+  "type": "commonjs",
+  "bin": { "unai-openai-cli": "openai-agent-cli.js" },
+  "scripts": { "start": "node openai-agent-cli.js" },
+  "engines": { "node": ">=18" }
+}

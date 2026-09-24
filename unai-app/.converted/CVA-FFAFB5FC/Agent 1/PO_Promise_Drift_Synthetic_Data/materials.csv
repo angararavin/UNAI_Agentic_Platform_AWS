@@ -1,0 +1,11 @@
+material_id,material_description,material_group,base_uom,criticality
+MAT1001,Brake Assembly,MRO,EA,Critical
+MAT1002,Control Module,Electronics,EA,Critical
+MAT1003,Bearing 6205,Mechanical,EA,High
+MAT1004,Copper Cable,Electrical,M,High
+MAT1005,Polymer Housing,Plastics,EA,Medium
+MAT1006,Steel Bracket,Metal,EA,Medium
+MAT1007,Sensor Unit,Electronics,EA,Critical
+MAT1008,Fastener M8,Fasteners,EA,Low
+MAT1009,Hydraulic Seal,MRO,EA,High
+MAT1010,Power Connector,Electrical,EA,High

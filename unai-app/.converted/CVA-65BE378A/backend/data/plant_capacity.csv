@@ -1,0 +1,5 @@
+plant_id,plant_name,baseline_capacity_units_per_day,recovery_days_base,redundancy_factor
+PL-01,Austin Super-Giga Plant (USA),1200,18,0.35
+PL-02,Monterrey Automotive Complex (Mexico),1800,14,0.40
+PL-03,Chennai High-Tech Assembly Plant (India),3200,12,0.25
+PL-04,Dresden Advanced Silicon Facility (Germany),650,21,0.50

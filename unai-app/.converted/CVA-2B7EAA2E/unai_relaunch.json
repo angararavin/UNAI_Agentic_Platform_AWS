@@ -1,0 +1,6 @@
+{
+  "kind": "node",
+  "entry": "server.ts",
+  "cmd": "tsx",
+  "sourceFolder": "C:\\Users\\Tejaswini.angadi\\Downloads\\google's-agentic-control-tower"
+}

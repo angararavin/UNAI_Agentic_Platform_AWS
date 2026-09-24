@@ -1,0 +1,7 @@
+supplier_id,supplier_name,country,category,supplier_tier,criticality
+SUP1001,Apex Components Pvt Ltd,India,ELECTRONICS,A,High
+SUP1002,Nova Industrial Systems,India,MECHANICAL,B,Medium
+SUP1003,Prime Castings,India,MECHANICAL,C,Medium
+SUP1004,Orbit Controls,India,ELECTRONICS,A,High
+SUP1005,Delta Packaging,India,PACKAGING,B,Low
+SUP1006,Zenith Fasteners,India,MECHANICAL,C,Low

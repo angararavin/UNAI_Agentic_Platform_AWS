@@ -1,0 +1,8 @@
+{
+  "active_mode": "SYNTHETIC",
+  "active_folder_path": null,
+  "active_db_url": "sqlite:///data/demo_sap.db",
+  "db_table_mappings": {},
+  "db_custom_queries": {},
+  "saved_db_profiles": []
+}

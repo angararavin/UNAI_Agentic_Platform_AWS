@@ -1,0 +1,5 @@
+supplier,baseline_revenue_usd,margin_pct,penalty_cost_usd,expedite_cost_usd,stockout_risk_days
+Kyoto Electronics,2500000,14.0,200000,150000,12
+Pacific Logistics,1200000,18.5,80000,45000,6
+Vanguard Microchips,3800000,11.2,350000,220000,18
+Dragon Semiconductor,1950000,16.0,120000,85000,9

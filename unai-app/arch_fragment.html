@@ -1,0 +1,205 @@
+<!--
+  UNAI - Universal Supply-Chain Agent (Cognitive Runtime)
+  Copyright (c) 2026 Ravin Angara / Bristlecone. All rights reserved.
+  
+  PROPRIETARY & CONFIDENTIAL. This file, and the architecture, methods and
+  ideas it embodies, are the exclusive property of the copyright holders.
+  No part may be copied, reproduced, modified, distributed, reverse-engineered,
+  or used to create derivative works without prior written permission.
+  Shared under confidentiality; unauthorized use or disclosure is prohibited.
+  See LICENSE. Integrity: this file is listed in copyright/MANIFEST.sha256.
+  SPDX-License-Identifier: LicenseRef-UNAI-Proprietary   [UNAI-COPYRIGHT v1]
+-->
+  <div class="page">
+    <h2 class="vh">UNAI Architecture</h2>
+    <p class="lead">One adaptive agent, seven shared layers, a Mistral-centric and cloud-neutral stack. Domain behaviour is added as lightweight tool packs — never as new agents.</p>
+    <div class="explainer" style="border-left-color:var(--accent2)">
+      <div class="eh"><span class="ic" style="background:var(--accent2)">U</span>The name — UNAI (oo-NYE)</div>
+      <p>Basque for <b>“shepherd” — one who guides the many</b>; it also reads literally as <b>“one + AI.”</b> And as two words, <b>“Un AI” = “One AI”</b> (in French/Spanish <i>un</i> = one) — reinforcing the thesis. Four readings, one idea: many become one. Brand rule: always one word, <b>UNAI</b>, so it never reads as the prefix “un-”. “UNAI” is always written as one word.</p>
+    </div>
+    <div class="explainer">
+      <div class="eh"><span class="ic">?</span>How to read this — where the "many → one" saving comes from</div>
+      <p>Every AI agent secretly does the <b>same seven things</b>: senses data, remembers, reasons, weighs evidence, acts, talks to peers, and explains itself. In the old way, each new agent re-builds all seven. Here the seven are the <span class="an">green layer row</span> — <b>built once and shared</b>. The only thing that changes per use case is a small <b>purple tool pack</b> (e.g. "inventory"). The <b>amber ontology bar</b> is the universal translator: it learns each system's field names once (MATNR, sku_id…), so the agent speaks one language to every system. That's the whole trick — the expensive 90% is shared; only the cheap 10% is per task.</p>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <h2>Platform architecture — current build</h2>
+      <p class="muted" style="margin-top:0">The full runtime: the <b>Agent Foundry</b> (build · convert · compose · marketplace) registers agents onto a <b>single shared cognitive runtime</b> (seven layers, built once) with thin tool packs; a <b>model-neutral LLM router + economizer</b>; the <b>canonical ontology</b> plus a persisted <b>Neo4j ontology store</b>; the <b>Supply-Chain Cognition Layer</b> (learning ontology library · causal world model · self-onboarding — the differentiation moat); and governed <b>warehouse &amp; live-tool connectors</b>. Governance, explainability and observability wrap every layer.</p>
+      <div style="background:#fff;border-radius:12px;padding:12px;overflow:auto">
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="auto" style="max-width:1200px;display:block;margin:0 auto" viewBox="0 0 1680 1120">
+<rect x="0" y="0" width="1680" height="1120" rx="0" fill="#FFFFFF"/>
+<text x="36" y="44" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="26" fill="#1F3556" font-weight="700">UNAI — Platform Architecture</text>
+<text x="36" y="68" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="13.5" fill="#5A6472">One shared cognitive runtime · agents added by configuration · model-, warehouse- and cloud-neutral · SAP-compliant</text>
+<rect x="1464" y="92" width="180" height="870" rx="12" fill="#1F3556"/>
+<text x="1486" y="527" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="12.5" font-weight="700" fill="#0F9D8C" transform="rotate(-90 1486 527)" text-anchor="middle" letter-spacing="1.3">GOVERNANCE · EXPLAINABILITY · OBSERVABILITY</text>
+<circle cx="1504" cy="168" r="4" fill="#0F9D8C"/>
+<text x="1515" y="172" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="11" fill="#EAF1F8" text-anchor="start">Autonomy gates</text>
+<circle cx="1504" cy="274" r="4" fill="#0F9D8C"/>
+<text x="1515" y="278" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="11" fill="#EAF1F8" text-anchor="start">Value limits ($)</text>
+<circle cx="1504" cy="380" r="4" fill="#0F9D8C"/>
+<text x="1515" y="384" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="11" fill="#EAF1F8" text-anchor="start">Evidence + conf.</text>
+<circle cx="1504" cy="486" r="4" fill="#0F9D8C"/>
+<text x="1515" y="490" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="11" fill="#EAF1F8" text-anchor="start">Human gates (HITL)</text>
+<circle cx="1504" cy="592" r="4" fill="#0F9D8C"/>
+<text x="1515" y="596" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="11" fill="#EAF1F8" text-anchor="start">One audit trail</text>
+<circle cx="1504" cy="698" r="4" fill="#0F9D8C"/>
+<text x="1515" y="702" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="11" fill="#EAF1F8" text-anchor="start">Live exec. trace</text>
+<circle cx="1504" cy="804" r="4" fill="#0F9D8C"/>
+<text x="1515" y="808" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="11" fill="#EAF1F8" text-anchor="start">Token / cost meter</text>
+<rect x="36" y="92" width="1410" height="86" rx="12" fill="#F5F8FC" stroke="#C9D2DE" stroke-width="1.2"/>
+<rect x="36" y="92" width="9" height="86" rx="5" fill="#0F9D8C"/>
+<text x="62" y="119" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="14" fill="#1F3556" font-weight="700" letter-spacing="0.4">EXPERIENCE</text>
+<text x="62" y="139" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="11" fill="#5A6472">what users see</text>
+<rect x="226" y="122" width="189.33333333333334" height="42" rx="8" fill="#FFFFFF" stroke="#C9D2DE" stroke-width="1.2"/>
+<text x="320.6666666666667" y="148.25" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="12.5" fill="#1E2733" font-weight="700" text-anchor="middle">Guided flow</text>
+<rect x="427.33333333333337" y="122" width="189.33333333333334" height="42" rx="8" fill="#FFFFFF" stroke="#C9D2DE" stroke-width="1.2"/>
+<text x="522" y="148.25" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="12.5" fill="#1E2733" font-weight="700" text-anchor="middle">Build &amp; Run</text>
+<rect x="628.6666666666667" y="122" width="189.33333333333334" height="42" rx="8" fill="#FFFFFF" stroke="#C9D2DE" stroke-width="1.2"/>
+<text x="723.3333333333334" y="148.25" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="12.5" fill="#1E2733" font-weight="700" text-anchor="middle">Agent Foundry</text>
+<rect x="830" y="122" width="189.33333333333334" height="42" rx="8" fill="#FFFFFF" stroke="#C9D2DE" stroke-width="1.2"/>
+<text x="924.6666666666666" y="148.25" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="12.5" fill="#1E2733" font-weight="700" text-anchor="middle">Data Assistant</text>
+<rect x="1031.3333333333335" y="122" width="189.33333333333334" height="42" rx="8" fill="#FFFFFF" stroke="#C9D2DE" stroke-width="1.2"/>
+<text x="1126.0000000000002" y="148.25" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="12.5" fill="#1E2733" font-weight="700" text-anchor="middle">Execution view</text>
+<rect x="1232.6666666666667" y="122" width="189.33333333333334" height="42" rx="8" fill="#FFFFFF" stroke="#C9D2DE" stroke-width="1.2"/>
+<text x="1327.3333333333335" y="148.25" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="12.5" fill="#1E2733" font-weight="700" text-anchor="middle">Governance / FinOps</text>
+<rect x="36" y="192" width="1410" height="104" rx="12" fill="#F5F8FC" stroke="#C9D2DE" stroke-width="1.2"/>
+<rect x="36" y="192" width="9" height="104" rx="5" fill="#0F9D8C"/>
+<text x="62" y="219" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="14" fill="#1F3556" font-weight="700" letter-spacing="0.4">AGENT FOUNDRY</text>
+<text x="62" y="239" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="11" fill="#5A6472">create an agent</text>
+<rect x="226" y="218" width="290" height="40" rx="8" fill="#E4F3F0" stroke="#0F9D8C" stroke-width="1.2"/>
+<text x="371" y="243.25" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="12.5" fill="#1F3556" font-weight="700" text-anchor="middle">① Build</text>
+<rect x="528" y="218" width="290" height="40" rx="8" fill="#E4F3F0" stroke="#0F9D8C" stroke-width="1.2"/>
+<text x="673" y="243.25" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="12.5" fill="#1F3556" font-weight="700" text-anchor="middle">② Convert</text>
+<rect x="830" y="218" width="290" height="40" rx="8" fill="#E4F3F0" stroke="#0F9D8C" stroke-width="1.2"/>
+<text x="975" y="243.25" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="12.5" fill="#1F3556" font-weight="700" text-anchor="middle">③ Compose a team</text>
+<rect x="1132" y="218" width="290" height="40" rx="8" fill="#E4F3F0" stroke="#0F9D8C" stroke-width="1.2"/>
+<text x="1277" y="243.25" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="12.5" fill="#1F3556" font-weight="700" text-anchor="middle">④ Marketplace</text>
+<rect x="226" y="266" width="1196" height="22" rx="6" fill="#1F3556"/>
+<text x="824" y="281" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="11.5" fill="#FFFFFF" font-weight="700" text-anchor="middle">→ registered as one governed, runnable Agent Manifest (agent-as-configuration)</text>
+<rect x="36" y="310" width="1410" height="190" rx="12" fill="#F5F8FC" stroke="#C9D2DE" stroke-width="1.2"/>
+<rect x="36" y="310" width="9" height="190" rx="5" fill="#0F9D8C"/>
+<text x="62" y="337" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="14" fill="#1F3556" font-weight="700" letter-spacing="0.4">SHARED COGNITIVE</text>
+<text x="62" y="354" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="14" fill="#1F3556" font-weight="700" letter-spacing="0.4">RUNTIME</text>
+<text x="62" y="374" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="11" fill="#5A6472">cognition once</text>
+<rect x="226" y="346" width="160.57142857142858" height="44" rx="8" fill="#E4F3F0" stroke="#0F9D8C" stroke-width="1.2"/>
+<text x="306.2857142857143" y="373" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="12" fill="#1F3556" font-weight="700" text-anchor="middle">Perception</text>
+<rect x="398.57142857142856" y="346" width="160.57142857142858" height="44" rx="8" fill="#E4F3F0" stroke="#0F9D8C" stroke-width="1.2"/>
+<text x="478.85714285714283" y="373" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="12" fill="#1F3556" font-weight="700" text-anchor="middle">Memory</text>
+<rect x="571.1428571428571" y="346" width="160.57142857142858" height="44" rx="8" fill="#E4F3F0" stroke="#0F9D8C" stroke-width="1.2"/>
+<text x="651.4285714285714" y="373" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="12" fill="#1F3556" font-weight="700" text-anchor="middle">Reasoning</text>
+<rect x="743.7142857142858" y="346" width="160.57142857142858" height="44" rx="8" fill="#E4F3F0" stroke="#0F9D8C" stroke-width="1.2"/>
+<text x="824.0000000000001" y="373" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="12" fill="#1F3556" font-weight="700" text-anchor="middle">Evidence</text>
+<rect x="916.2857142857143" y="346" width="160.57142857142858" height="44" rx="8" fill="#E4F3F0" stroke="#0F9D8C" stroke-width="1.2"/>
+<text x="996.5714285714287" y="373" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="12" fill="#1F3556" font-weight="700" text-anchor="middle">Action</text>
+<rect x="1088.857142857143" y="346" width="160.57142857142858" height="44" rx="8" fill="#E4F3F0" stroke="#0F9D8C" stroke-width="1.2"/>
+<text x="1169.142857142857" y="373" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="12" fill="#1F3556" font-weight="700" text-anchor="middle">Collaboration</text>
+<rect x="1261.4285714285716" y="346" width="160.57142857142858" height="44" rx="8" fill="#E4F3F0" stroke="#0F9D8C" stroke-width="1.2"/>
+<text x="1341.7142857142858" y="373" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="12" fill="#1F3556" font-weight="700" text-anchor="middle">Explainability</text>
+<text x="226" y="406" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="11" fill="#5A6472" font-style="italic">Seven shared layers — built once, reused by every capability</text>
+<rect x="226" y="418" width="160.57142857142858" height="44" rx="8" fill="#ECE7F7" stroke="#6B54B0" stroke-width="1.2"/>
+<text x="306.2857142857143" y="445" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="12" fill="#3E2E70" font-weight="700" text-anchor="middle">Disruption</text>
+<rect x="398.57142857142856" y="418" width="160.57142857142858" height="44" rx="8" fill="#ECE7F7" stroke="#6B54B0" stroke-width="1.2"/>
+<text x="478.85714285714283" y="445" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="12" fill="#3E2E70" font-weight="700" text-anchor="middle">Demand</text>
+<rect x="571.1428571428571" y="418" width="160.57142857142858" height="44" rx="8" fill="#ECE7F7" stroke="#6B54B0" stroke-width="1.2"/>
+<text x="651.4285714285714" y="445" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="12" fill="#3E2E70" font-weight="700" text-anchor="middle">Inventory</text>
+<rect x="743.7142857142858" y="418" width="160.57142857142858" height="44" rx="8" fill="#ECE7F7" stroke="#6B54B0" stroke-width="1.2"/>
+<text x="824.0000000000001" y="445" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="12" fill="#3E2E70" font-weight="700" text-anchor="middle">Spares</text>
+<rect x="916.2857142857143" y="418" width="160.57142857142858" height="44" rx="8" fill="#ECE7F7" stroke="#6B54B0" stroke-width="1.2"/>
+<text x="996.5714285714287" y="445" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="12" fill="#3E2E70" font-weight="700" text-anchor="middle">RMA</text>
+<rect x="1088.857142857143" y="418" width="160.57142857142858" height="44" rx="8" fill="#ECE7F7" stroke="#6B54B0" stroke-width="1.2"/>
+<text x="1169.142857142857" y="445" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="12" fill="#3E2E70" font-weight="700" text-anchor="middle">Logistics</text>
+<rect x="1261.4285714285716" y="418" width="160.57142857142858" height="44" rx="8" fill="#ECE7F7" stroke="#6B54B0" stroke-width="1.2"/>
+<text x="1341.7142857142858" y="445" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="12" fill="#3E2E70" font-weight="700" text-anchor="middle">+ more</text>
+<text x="226" y="478" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="11" fill="#5A6472" font-style="italic">Lightweight tool packs — the only domain-specific code (the “thin executors”)</text>
+<rect x="36" y="514" width="1410" height="92" rx="12" fill="#F5F8FC" stroke="#C9D2DE" stroke-width="1.2"/>
+<rect x="36" y="514" width="9" height="92" rx="5" fill="#0F9D8C"/>
+<text x="62" y="541" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="14" fill="#1F3556" font-weight="700" letter-spacing="0.4">INTELLIGENCE</text>
+<text x="62" y="558" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="14" fill="#1F3556" font-weight="700" letter-spacing="0.4">&amp; COST</text>
+<text x="62" y="578" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="11" fill="#5A6472">model-neutral</text>
+<rect x="226" y="548" width="290" height="44" rx="8" fill="#FFFFFF" stroke="#C9D2DE" stroke-width="1.2"/>
+<text x="371" y="568" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="11.5" fill="#1E2733" font-weight="700" text-anchor="middle">LLM Router</text>
+<text x="371" y="581.5" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="11.5" fill="#1E2733" font-weight="700" text-anchor="middle">(quota-aware failover)</text>
+<rect x="528" y="548" width="290" height="44" rx="8" fill="#FFFFFF" stroke="#C9D2DE" stroke-width="1.2"/>
+<text x="673" y="568" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="11.5" fill="#1E2733" font-weight="700" text-anchor="middle">Tier routing</text>
+<text x="673" y="581.5" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="11.5" fill="#1E2733" font-weight="700" text-anchor="middle">(simple · medium · complex)</text>
+<rect x="830" y="548" width="290" height="44" rx="8" fill="#E4F3F0" stroke="#0F9D8C" stroke-width="1.2"/>
+<text x="975" y="568" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="11.5" fill="#1F3556" font-weight="700" text-anchor="middle">Economizer</text>
+<text x="975" y="581.5" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="11.5" fill="#1F3556" font-weight="700" text-anchor="middle">(prompt caching ~90% off)</text>
+<rect x="1132" y="548" width="290" height="44" rx="8" fill="#FFFFFF" stroke="#C9D2DE" stroke-width="1.2"/>
+<text x="1277" y="568" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="11.5" fill="#1E2733" font-weight="700" text-anchor="middle">OpenAI · Mistral · Claude</text>
+<text x="1277" y="581.5" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="11.5" fill="#1E2733" font-weight="700" text-anchor="middle">· any gateway</text>
+<rect x="36" y="620" width="1410" height="96" rx="12" fill="#F5F8FC" stroke="#C9D2DE" stroke-width="1.2"/>
+<rect x="36" y="620" width="9" height="96" rx="5" fill="#0F9D8C"/>
+<text x="62" y="647" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="14" fill="#1F3556" font-weight="700" letter-spacing="0.4">SEMANTIC LAYER</text>
+<text x="62" y="667" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="11" fill="#5A6472">one language</text>
+<rect x="226" y="648" width="592" height="48" rx="8" fill="#FBF0DE" stroke="#D98E2B" stroke-width="1.2"/>
+<text x="522" y="670" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="11.5" fill="#6B4708" font-weight="700" text-anchor="middle">Canonical Ontology</text>
+<text x="522" y="683.5" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="11.5" fill="#6B4708" font-weight="700" text-anchor="middle">MATNR→sku · EBELN→purchase_order · WERKS→plant</text>
+<rect x="830" y="648" width="592" height="48" rx="8" fill="#FBF0DE" stroke="#D98E2B" stroke-width="1.2"/>
+<text x="1126" y="670" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="11.5" fill="#6B4708" font-weight="700" text-anchor="middle">Ontology Store — Neo4j</text>
+<text x="1126" y="683.5" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="11.5" fill="#6B4708" font-weight="700" text-anchor="middle">persisted canonical graph, reusable across sessions</text>
+<rect x="36" y="730" width="1410" height="100" rx="12" fill="#F5F8FC" stroke="#C9D2DE" stroke-width="1.2"/>
+<rect x="36" y="730" width="9" height="100" rx="5" fill="#0F9D8C"/>
+<text x="62" y="757" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="14" fill="#1F3556" font-weight="700" letter-spacing="0.4">SUPPLY-CHAIN</text>
+<text x="62" y="774" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="14" fill="#1F3556" font-weight="700" letter-spacing="0.4">COGNITION</text>
+<text x="62" y="794" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="11" fill="#5A6472">the moat  ★</text>
+<rect x="226" y="766" width="390.6666666666667" height="50" rx="8" fill="#E4F3F0" stroke="#0F9D8C" stroke-width="1.2"/>
+<text x="421.33333333333337" y="789" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="11" fill="#1F3556" font-weight="700" text-anchor="middle">Learning ontology library</text>
+<text x="421.33333333333337" y="802" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="11" fill="#1F3556" font-weight="700" text-anchor="middle">(field aliases compound across deployments)</text>
+<rect x="628.6666666666667" y="766" width="390.6666666666667" height="50" rx="8" fill="#E4F3F0" stroke="#0F9D8C" stroke-width="1.2"/>
+<text x="824.0000000000001" y="789" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="11" fill="#1F3556" font-weight="700" text-anchor="middle">Causal world model</text>
+<text x="824.0000000000001" y="802" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="11" fill="#1F3556" font-weight="700" text-anchor="middle">(reasons like a supply-chain expert)</text>
+<rect x="1031.3333333333335" y="766" width="390.6666666666667" height="50" rx="8" fill="#E4F3F0" stroke="#0F9D8C" stroke-width="1.2"/>
+<text x="1226.6666666666667" y="789" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="11" fill="#1F3556" font-weight="700" text-anchor="middle">Self-onboarding</text>
+<text x="1226.6666666666667" y="802" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="11" fill="#1F3556" font-weight="700" text-anchor="middle">(schema → concepts, confidence-scored)</text>
+<rect x="36" y="844" width="1410" height="118" rx="12" fill="#F5F8FC" stroke="#C9D2DE" stroke-width="1.2"/>
+<rect x="36" y="844" width="9" height="118" rx="5" fill="#0F9D8C"/>
+<text x="62" y="871" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="14" fill="#1F3556" font-weight="700" letter-spacing="0.4">DATA &amp; TOOLS</text>
+<text x="62" y="891" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="11" fill="#5A6472">governed, read-only</text>
+<rect x="226" y="872" width="229.6" height="44" rx="8" fill="#FFFFFF" stroke="#C9D2DE" stroke-width="1.2"/>
+<text x="340.8" y="899" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="12" fill="#1E2733" font-weight="700" text-anchor="middle">Databricks</text>
+<rect x="467.6" y="872" width="229.6" height="44" rx="8" fill="#FFFFFF" stroke="#C9D2DE" stroke-width="1.2"/>
+<text x="582.4" y="899" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="12" fill="#1E2733" font-weight="700" text-anchor="middle">Snowflake</text>
+<rect x="709.2" y="872" width="229.6" height="44" rx="8" fill="#FFFFFF" stroke="#C9D2DE" stroke-width="1.2"/>
+<text x="824" y="899" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="12" fill="#1E2733" font-weight="700" text-anchor="middle">BigQuery</text>
+<rect x="950.8" y="872" width="229.6" height="44" rx="8" fill="#FFFFFF" stroke="#C9D2DE" stroke-width="1.2"/>
+<text x="1065.6" y="885.75" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="10.5" fill="#1E2733" font-weight="700" text-anchor="middle">Live tools</text>
+<text x="1065.6" y="898.25" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="10.5" fill="#1E2733" font-weight="700" text-anchor="middle">(OpenStreetMap / OSRM,</text>
+<text x="1065.6" y="910.75" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="10.5" fill="#1E2733" font-weight="700" text-anchor="middle">feasibility-aware)</text>
+<rect x="1192.4" y="872" width="229.6" height="44" rx="8" fill="#FFFFFF" stroke="#C9D2DE" stroke-width="1.2"/>
+<text x="1307.2" y="885.75" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="10.5" fill="#1E2733" font-weight="700" text-anchor="middle">SAP-compliant lakehouse</text>
+<text x="1307.2" y="898.25" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="10.5" fill="#1E2733" font-weight="700" text-anchor="middle">(BDC → warehouse,</text>
+<text x="1307.2" y="910.75" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="10.5" fill="#1E2733" font-weight="700" text-anchor="middle">read-only)</text>
+<text x="226" y="948" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="11" fill="#5A6472" font-style="italic">Warehouse connectors are read-only &amp; guarded (SELECT-only); writes are governed and human-gated. Same ontology across all three = zero re-mapping.</text>
+<rect x="36" y="980" width="1410" height="54" rx="10" fill="#1F3556"/>
+<text x="58" y="1003" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="14" fill="#0F9D8C" font-weight="700">Model-neutral · warehouse-neutral · SAP-compliant · cloud-portable · self-improving</text>
+<text x="58" y="1023" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="12" fill="#EAF1F8">Build cognition once; attach thin executors. Every deployment teaches the ontology library — so onboarding gets faster and smarter over time.</text>
+<text x="36" y="1106" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="10" fill="#5A6472">UNAI · Universal Agentic Runtime — Bristlecone · Confidential</text>
+</svg>
+      </div>
+    </div>
+    <div class="arch" id="archDiagram"></div>
+    <div class="card" style="margin-top:18px">
+      <h2>Canonical ontology layer — many dialects, one shared language</h2>
+      <div id="ontologyViz"></div>
+      <div class="ontlegend" id="ontLegend"></div>
+      <p class="muted" id="ontCap" style="margin-top:10px">Each system speaks its own dialect; every native field is mapped once into a shared canonical concept. Hover a concept to isolate its sources. The agent only ever asks for the canonical concept — so moving between systems costs no re-mapping.</p>
+      <div id="ontExport" style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center"></div>
+    </div>
+    <div class="twocol" style="margin-top:18px">
+      <div class="card"><h2>Lookup table — concept → native field</h2><div id="archOntology"></div></div>
+      <div class="card"><h2>Why it collapses to one agent</h2>
+        <div class="muted" id="archWhy"></div></div>
+    </div>
+    <div class="card" style="margin-top:18px;border-color:var(--accent2)">
+      <h2>Still unique after Databricks' 2026 agent-cost push — different axis, and we absorb their levers</h2>
+      <p class="muted" style="margin-top:0">Databricks' 2026 features (GEPA prompt optimization, progressive disclosure, Unity AI Gateway model routing, prompt caching) all attack <b>cost-per-call on the Databricks platform</b>. UNAI attacks a <b>different axis — architectural consolidation</b> (many agents → one runtime, one canonical ontology, warehouse- and model-neutral). They're <b>complementary</b>, and UNAI now applies the same per-call levers so it's never behind.</p>
+      <table>
+        <tr><th>Databricks 2026 lever</th><th>What it does</th><th>UNAI's position</th></tr>
+        <tr><td><b>GEPA / MLflow Prompt Optimization</b></td><td>Evolves prompts to cut tokens, ~match fine-tuning.</td><td><b>Complementary — integration hook.</b> UNAI has <i>one</i> shared prompt/plan per goal, so optimizing it improves every capability at once (best ROI target). Wire MLflow Prompt Optimization to UNAI's shared plan; modeled as an additive multiplier in <code>token_benchmark.py</code>.</td></tr>
+        <tr><td><b>Progressive disclosure</b></td><td>Query a lean tool/skill registry; load only what a step needs.</td><td><span style="color:var(--good)">✓ Native now.</span> The runtime pulls only the concepts/tools a step touches (lean registry ~180 tok + scoped concepts) instead of dumping the full schema — see the <b>progressive-disclosure</b> tile in Observability (further −5–8% on top of consolidation).</td></tr>
+        <tr><td><b>Intelligent model routing</b> (Unity AI Gateway)</td><td>Route light tasks to smaller/cheaper models.</td><td><span style="color:var(--good)">✓ Native now.</span> UNAI's <b>complexity router</b> tiers each task (simple/medium/complex) and the <b>LLM router</b> maps tier → model (light → cheaper), across any provider with quota-aware failover. Model- and gateway-neutral (works with Databricks' gateway too).</td></tr>
+        <tr><td><b>Prompt caching</b></td><td>Reuse repeated prompt prefixes on serving infra.</td><td><span style="color:var(--good)">✓ Native.</span> Cache-aware prefix (<code>cache_control</code>) via <code>GATEWAY_PROMPT_CACHE</code>; the token model already credits cache hits, and the shared prefix is what makes caching pay off.</td></tr>
+      </table>
+      <p class="muted" style="margin-top:8px"><b>Net:</b> Databricks makes <i>each call</i> cheaper on <i>their</i> platform; UNAI makes the <i>task need fewer calls and fewer agents</i> on <i>any</i> platform — and now also does progressive disclosure, tier-based routing and caching. The moat that stays exclusive: the <b>canonical ontology</b> (semantic zero-re-map across SAP/Snowflake/Databricks/BigQuery), <b>agent consolidation</b>, and <b>SAP-compliant, model-neutral, cloud-portable</b> deployment. Run UNAI <i>on</i> Databricks and the savings compound.</p>
+    </div>
+  </div>

@@ -1,0 +1,9 @@
+po_number,po_item,supplier_id,material_id,plant_id,demo_scenario,expected_agent_behavior,demo_purpose
+450010000,00010,SUP1004,MAT1006,PL01,STABLE,Expected low risk,Show normal supplier behavior.
+450010001,00020,SUP1003,MAT1002,PL02,CHRONIC_LATE,Expected high risk,Supplier historically late despite current confirmation.
+450010002,00030,SUP1001,MAT1007,PL03,RECENT_DETERIORATION,Expected elevated risk,Recent performance deteriorated versus baseline.
+450010003,00040,SUP1008,MAT1001,PL04,NEW_SUPPLIER,Low-confidence case,No meaningful history; fallback policy should apply.
+450010004,00050,SUP1007,MAT1001,PL01,HIGH_IMPACT,High business priority,Delay affects multiple production/customer commitments.
+450010005,00060,SUP1005,MAT1005,PL02,PARTIAL_CONFIRMATION,Quantity risk,Supplier confirmed materially less than ordered quantity.
+450010006,00070,SUP1002,MAT1003,PL03,MULTIPLE_CHANGES,Escalation candidate,Confirmation has changed repeatedly.
+450010007,00080,SUP1006,MAT1004,PL04,NORMAL_VARIANCE,Moderate/low risk,Normal historical variance.

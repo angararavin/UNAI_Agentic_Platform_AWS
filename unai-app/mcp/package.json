@@ -1,0 +1,9 @@
+{
+  "name": "unai-mcp-server",
+  "version": "1.0.0",
+  "description": "MCP server exposing UNAI agents as tools for Claude and other MCP clients",
+  "type": "commonjs",
+  "bin": { "unai-mcp": "mcp-server.js" },
+  "scripts": { "start": "node mcp-server.js" },
+  "dependencies": { "@modelcontextprotocol/sdk": "^1.30.0", "zod": "^3.23.0" }
+}

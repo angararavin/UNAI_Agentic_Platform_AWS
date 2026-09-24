@@ -1,0 +1,63 @@
+{
+  "hasFrontend": true,
+  "uiNote": "retained and launched the app's own Streamlit UI, live -- its orchestrator's per-agent calls now run through UNAI instead of their original pipeline",
+  "backendSwapped": true,
+  "agentGroups": [
+    {
+      "name": "Failure",
+      "sourceFile": "agent_1_failure/agent.py",
+      "capabilityIds": [
+        "extract_llm_tokens",
+        "analyze_failure",
+        "repair_recommendation"
+      ]
+    },
+    {
+      "name": "Dwell",
+      "sourceFile": "agent_2_dwell/agent.py",
+      "capabilityIds": [
+        "analyze_dwell",
+        "predict_sla_breach",
+        "classify_root_cause"
+      ]
+    },
+    {
+      "name": "Urgency",
+      "sourceFile": "agent_3_urgency/agent.py",
+      "capabilityIds": [
+        "analyze_urgency",
+        "generate_dynamic_rdd"
+      ]
+    },
+    {
+      "name": "Return",
+      "sourceFile": "agent_4_return/agent.py",
+      "capabilityIds": [
+        "validate_return",
+        "reconcile_serials"
+      ]
+    },
+    {
+      "name": "Orchestrator",
+      "sourceFile": "orchestrator.py",
+      "capabilityIds": [
+        "extract_tokens",
+        "build_output"
+      ]
+    },
+    {
+      "name": "Streamlit App",
+      "sourceFile": "streamlit_app.py",
+      "capabilityIds": [
+        "render_output",
+        "render_html"
+      ]
+    }
+  ],
+  "capabilitiesFound": 14,
+  "llmCallSitesFound": 6,
+  "usedLLM": false,
+  "llmProvider": null,
+  "llmError": "no LLM response",
+  "measurementHarness": "generated (unai_measure.py) -- best-effort, falls back to modeled if it captures no real usage"
+}

@@ -1,0 +1,36 @@
+# ==============================================================================
+# RMA AGENTIC CONTROL TOWER - SYSTEM REQUIREMENTS & DEPENDENCIES
+# ==============================================================================
+# This specification defines all packages and services for the multi-agent
+# autonomous RMA control tower, supporting both Cloud Gemini & Local Ollama.
+# ==============================================================================
+
+# Node.js Full-Stack Dependencies (package.json specification)
+@google/genai>=0.1.1
+express>=4.19.2
+cors>=2.8.5
+dotenv>=16.4.5
+react>=18.3.1
+react-dom>=18.3.1
+lucide-react>=0.344.0
+recharts>=2.12.2
+tailwindcss>=4.0.0
+vite>=5.1.6
+tsx>=4.7.1
+esbuild>=0.20.2
+typescript>=5.2.2
+
+# Optional Python Interop & Agent Automation Frameworks
+# (If extending via Python microservices or local LangChain / LlamaIndex):
+# python>=3.10
+# langchain>=0.2.0
+# google-genai>=0.1.1
+# pydantic>=2.7.0
+# fastapi>=0.111.0
+# uvicorn>=0.30.0
+# ollama>=0.2.0
+# requests>=2.31.0
+
+# Local LLM Engine (Optional $0 Cloud-Free Inference):
+# Ollama >= 0.1.30 (https://ollama.ai)
+# Recommended models: llama3:8b, mistral:7b, qwen2.5:7b

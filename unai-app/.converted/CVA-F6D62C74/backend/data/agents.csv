@@ -1,0 +1,8 @@
+agent_id,agent_name,role,primary_inputs,primary_outputs,systems_touched,autonomy
+AG-01,Sensing agent,Detect internal and external change signals,"news, weather, port feeds, vendor portals, financial data, IBP actuals",normalised signal records with confidence,—,autonomous
+AG-02,Exposure agent,Trace a signal through the multi-tier network,"signals, vendor graph, BOM, inventory","exposed vendors, parts, FG, plants, customers","SAP ERP, MES",autonomous
+AG-03,Capacity agent,Test line-level feasibility and re-sequencing,"exposure, capacity, MES calendars","capacity gap, re-sequence options","SAP MES, IBP",recommend
+AG-04,Sourcing agent,"Find alternate parts, vendors and regions","exposure, part_vendor, alt_sources",alternate source options with PPAP and lead time,SAP Ariba,recommend
+AG-05,Logistics agent,Expedite and re-route inbound and outbound,"exposure, lanes, freight rates",mode shift and expedite options,SAP TMS,recommend
+AG-06,Commercial agent,"Score allocation, margin, penalties, working capital","sales orders, contracts, cost data","margin and working capital impact, allocation plan","SAP ERP, IBP",recommend
+AG-07,Orchestrator,"Compose plays, resolve agent conflicts, score and rank","all agent outputs, constraints",ranked scenario plays with full trace,all,recommend / human gate

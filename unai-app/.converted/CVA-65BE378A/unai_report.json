@@ -1,0 +1,82 @@
+{
+  "hasFrontend": true,
+  "uiNote": "retained and launched the app's own Python full-stack server (frontend + API routes), live",
+  "backendSwapped": false,
+  "agentGroups": [
+    {
+      "name": "Capacity Agent",
+      "sourceFile": "backend/agents/capacity_agent.py",
+      "capabilityIds": [
+        "init",
+        "calculate_capacity_impact",
+        "assess_plant"
+      ]
+    },
+    {
+      "name": "Customer Impact Agent",
+      "sourceFile": "backend/agents/customer_impact_agent.py",
+      "capabilityIds": [
+        "calculate_commercial_impact"
+      ]
+    },
+    {
+      "name": "Exposure Agent",
+      "sourceFile": "backend/agents/exposure_agent.py",
+      "capabilityIds": [
+        "reload_data",
+        "suggest_suppliers"
+      ]
+    },
+    {
+      "name": "Financial Agent",
+      "sourceFile": "backend/agents/financial_agent.py",
+      "capabilityIds": [
+        "calculate_impact"
+      ]
+    },
+    {
+      "name": "Inventory Agent",
+      "sourceFile": "backend/agents/inventory_agent.py",
+      "capabilityIds": [
+        "assess_inventory_risk",
+        "assess_part"
+      ]
+    },
+    {
+      "name": "Manager Agent",
+      "sourceFile": "backend/agents/manager_agent.py",
+      "capabilityIds": [
+        "run_pipeline"
+      ]
+    },
+    {
+      "name": "Qa Copilot Agent",
+      "sourceFile": "backend/agents/qa_copilot_agent.py",
+      "capabilityIds": [
+        "answer_question"
+      ]
+    },
+    {
+      "name": "Recommendation Agent",
+      "sourceFile": "backend/agents/recommendation_agent.py",
+      "capabilityIds": [
+        "is_catastrophic_disaster",
+        "generate_recommendations"
+      ]
+    },
+    {
+      "name": "Sensing Agent",
+      "sourceFile": "backend/agents/sensing_agent.py",
+      "capabilityIds": [
+        "detect_disruptions",
+        "get_healthy_baseline_event"
+      ]
+    }
+  ],
+  "capabilitiesFound": 15,
+  "llmCallSitesFound": 7,
+  "usedLLM": false,
+  "llmProvider": null,
+  "llmError": null,
+  "measurementHarness": "not generated -- no LLM call sites found, comparison will use modeled numbers for your app"
+}

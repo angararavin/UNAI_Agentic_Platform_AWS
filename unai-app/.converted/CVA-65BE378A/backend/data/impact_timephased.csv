@@ -1,0 +1,106 @@
+signal_id,impact_domain,unit,week_bucket,value
+SIG-2026-0912,Customer fulfilment,OTIF pt,wk1-2,-2
+SIG-2026-0912,Customer fulfilment,OTIF pt,wk3-6,-9
+SIG-2026-0912,Customer fulfilment,OTIF pt,wk7+,-3
+SIG-2026-0912,Manufacturing capacity,lines idle,wk1-2,0
+SIG-2026-0912,Manufacturing capacity,lines idle,wk3-6,3
+SIG-2026-0912,Manufacturing capacity,lines idle,wk7+,1
+SIG-2026-0912,Inventory cover,days,wk1-2,19
+SIG-2026-0912,Inventory cover,days,wk3-6,4
+SIG-2026-0912,Inventory cover,days,wk7+,9
+SIG-2026-0912,Transportation premium,$M,wk1-2,0.2
+SIG-2026-0912,Transportation premium,$M,wk3-6,0.6
+SIG-2026-0912,Transportation premium,$M,wk7+,0.1
+SIG-2026-0912,Parts to re-source,Parts to re-source,wk1-2,0
+SIG-2026-0912,Parts to re-source,Parts to re-source,wk3-6,38
+SIG-2026-0912,Parts to re-source,Parts to re-source,wk7+,12
+SIG-2026-0912,Margin,pt,wk1-2,-0.4
+SIG-2026-0912,Margin,pt,wk3-6,-2.1
+SIG-2026-0912,Margin,pt,wk7+,-0.6
+SIG-2026-0912,Working capital,$M,wk1-2,2
+SIG-2026-0912,Working capital,$M,wk3-6,11
+SIG-2026-0912,Working capital,$M,wk7+,4
+SIG-2026-0913,Customer fulfilment,OTIF pt,wk1-2,-1
+SIG-2026-0913,Customer fulfilment,OTIF pt,wk3-6,-3
+SIG-2026-0913,Customer fulfilment,OTIF pt,wk7+,0
+SIG-2026-0913,Manufacturing capacity,lines idle,wk1-2,0
+SIG-2026-0913,Manufacturing capacity,lines idle,wk3-6,1
+SIG-2026-0913,Manufacturing capacity,lines idle,wk7+,0
+SIG-2026-0913,Inventory cover,days,wk1-2,12
+SIG-2026-0913,Inventory cover,days,wk3-6,7
+SIG-2026-0913,Inventory cover,days,wk7+,14
+SIG-2026-0913,Transportation premium,$M,wk1-2,0.3
+SIG-2026-0913,Transportation premium,$M,wk3-6,0.2
+SIG-2026-0913,Transportation premium,$M,wk7+,0
+SIG-2026-0913,Parts to re-source,Parts to re-source,wk1-2,0
+SIG-2026-0913,Parts to re-source,Parts to re-source,wk3-6,0
+SIG-2026-0913,Parts to re-source,Parts to re-source,wk7+,0
+SIG-2026-0913,Margin,pt,wk1-2,-0.2
+SIG-2026-0913,Margin,pt,wk3-6,-0.5
+SIG-2026-0913,Margin,pt,wk7+,0
+SIG-2026-0913,Working capital,$M,wk1-2,1
+SIG-2026-0913,Working capital,$M,wk3-6,3
+SIG-2026-0913,Working capital,$M,wk7+,1
+SIG-2026-0914,Customer fulfilment,OTIF pt,wk1-2,0
+SIG-2026-0914,Customer fulfilment,OTIF pt,wk3-6,-2
+SIG-2026-0914,Customer fulfilment,OTIF pt,wk7+,-6
+SIG-2026-0914,Manufacturing capacity,lines idle,wk1-2,0
+SIG-2026-0914,Manufacturing capacity,lines idle,wk3-6,0
+SIG-2026-0914,Manufacturing capacity,lines idle,wk7+,2
+SIG-2026-0914,Inventory cover,days,wk1-2,22
+SIG-2026-0914,Inventory cover,days,wk3-6,16
+SIG-2026-0914,Inventory cover,days,wk7+,6
+SIG-2026-0914,Transportation premium,$M,wk1-2,0
+SIG-2026-0914,Transportation premium,$M,wk3-6,0.1
+SIG-2026-0914,Transportation premium,$M,wk7+,0.2
+SIG-2026-0914,Parts to re-source,Parts to re-source,wk1-2,0
+SIG-2026-0914,Parts to re-source,Parts to re-source,wk3-6,26
+SIG-2026-0914,Parts to re-source,Parts to re-source,wk7+,140
+SIG-2026-0914,Margin,pt,wk1-2,-0.1
+SIG-2026-0914,Margin,pt,wk3-6,-0.4
+SIG-2026-0914,Margin,pt,wk7+,-1.3
+SIG-2026-0914,Working capital,$M,wk1-2,0
+SIG-2026-0914,Working capital,$M,wk3-6,2
+SIG-2026-0914,Working capital,$M,wk7+,7
+SIG-2026-0915,Customer fulfilment,OTIF pt,wk1-2,0
+SIG-2026-0915,Customer fulfilment,OTIF pt,wk3-6,0
+SIG-2026-0915,Customer fulfilment,OTIF pt,wk7+,0
+SIG-2026-0915,Manufacturing capacity,lines idle,wk1-2,0
+SIG-2026-0915,Manufacturing capacity,lines idle,wk3-6,2
+SIG-2026-0915,Manufacturing capacity,lines idle,wk7+,4
+SIG-2026-0915,Inventory cover,days,wk1-2,24
+SIG-2026-0915,Inventory cover,days,wk3-6,31
+SIG-2026-0915,Inventory cover,days,wk7+,38
+SIG-2026-0915,Transportation premium,$M,wk1-2,0
+SIG-2026-0915,Transportation premium,$M,wk3-6,0
+SIG-2026-0915,Transportation premium,$M,wk7+,0
+SIG-2026-0915,Parts to re-source,Parts to re-source,wk1-2,0
+SIG-2026-0915,Parts to re-source,Parts to re-source,wk3-6,0
+SIG-2026-0915,Parts to re-source,Parts to re-source,wk7+,0
+SIG-2026-0915,Margin,pt,wk1-2,-0.2
+SIG-2026-0915,Margin,pt,wk3-6,-0.7
+SIG-2026-0915,Margin,pt,wk7+,-1.1
+SIG-2026-0915,Working capital,$M,wk1-2,0
+SIG-2026-0915,Working capital,$M,wk3-6,-4
+SIG-2026-0915,Working capital,$M,wk7+,-9
+SIG-2026-0916,Customer fulfilment,OTIF pt,wk1-2,0
+SIG-2026-0916,Customer fulfilment,OTIF pt,wk3-6,0
+SIG-2026-0916,Customer fulfilment,OTIF pt,wk7+,0
+SIG-2026-0916,Manufacturing capacity,lines idle,wk1-2,0
+SIG-2026-0916,Manufacturing capacity,lines idle,wk3-6,0
+SIG-2026-0916,Manufacturing capacity,lines idle,wk7+,0
+SIG-2026-0916,Inventory cover,days,wk1-2,20
+SIG-2026-0916,Inventory cover,days,wk3-6,20
+SIG-2026-0916,Inventory cover,days,wk7+,20
+SIG-2026-0916,Transportation premium,$M,wk1-2,0.1
+SIG-2026-0916,Transportation premium,$M,wk3-6,0.1
+SIG-2026-0916,Transportation premium,$M,wk7+,0.1
+SIG-2026-0916,Parts to re-source,Parts to re-source,wk1-2,0
+SIG-2026-0916,Parts to re-source,Parts to re-source,wk3-6,6
+SIG-2026-0916,Parts to re-source,Parts to re-source,wk7+,6
+SIG-2026-0916,Margin,pt,wk1-2,-0.3
+SIG-2026-0916,Margin,pt,wk3-6,-0.3
+SIG-2026-0916,Margin,pt,wk7+,-0.3
+SIG-2026-0916,Working capital,$M,wk1-2,1
+SIG-2026-0916,Working capital,$M,wk3-6,1
+SIG-2026-0916,Working capital,$M,wk7+,1

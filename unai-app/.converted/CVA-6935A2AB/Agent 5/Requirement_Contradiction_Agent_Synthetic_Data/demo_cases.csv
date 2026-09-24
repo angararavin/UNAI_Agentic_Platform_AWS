@@ -1,0 +1,7 @@
+case_id,plant_id,material_id,requirement_ids,contradiction_type,rationale,recommended_action,material_name,uom,material_group,criticality
+CASE01,PL01,MAT2001,REQ2001|REQ2002|REQ2003,DUPLICATE_OVERLAP,Multiple open requirements collectively overlap the same material and horizon; confirm distinct business objects.,REVIEW_DEDUPLICATION,Industrial Pump Seal,EA,MRO,HIGH
+CASE02,PL02,MAT2002,REQ2004|REQ2005,VALID_COMPETING_DEMAND,Two distinct firm requirements; no contradiction if supply is allocated correctly.,KEEP_BOTH,Servo Motor,EA,ELECTROMECHANICAL,HIGH
+CASE03,PL02,MAT2003,REQ2006|REQ2007,FIRM_FORECAST_COLLISION,Firm and forecast requirements overlap and may double-count demand.,REVIEW_DEMAND_PRIORITY,Control PCB,EA,ELECTRONICS,HIGH
+CASE04,PL03,MAT2004,REQ2008|REQ2009,CANCELLED_REQUIREMENT_CONFLICT,Cancelled requirement must not consume supply or be treated as active demand.,REMOVE_CANCELLED_DEMAND,Aluminium Housing,EA,MECHANICAL,MEDIUM
+CASE05,PL01,MAT2005,REQ2010|REQ2011,DOUBLE_COUNTING_RISK,Sales and MRP requirements appear to represent the same underlying need.,RECONCILE_REQUIREMENT_LINK,Packaging Tray,EA,PACKAGING,LOW
+CASE06,PL03,MAT2006,REQ2012|REQ2013,FIRM_FORECAST_COLLISION,Maintenance and forecast overlap; validate whether forecast already includes maintenance need.,REVIEW_DEMAND_PRIORITY,Bearing Kit,EA,MRO,MEDIUM

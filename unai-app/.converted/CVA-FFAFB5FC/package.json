@@ -1,0 +1,8 @@
+{
+  "name": "bcone-sap-agents-unai-bridge",
+  "private": true,
+  "description": "Node-side dependency for agents/unai/bridge.cjs (real BPE tokenization for the token-economics comparison). The app itself is Python/Streamlit/FastAPI -- this package.json exists only so `npm install` can resolve gpt-tokenizer for the bridge.",
+  "dependencies": {
+    "gpt-tokenizer": "^3.4.0"
+  }
+}

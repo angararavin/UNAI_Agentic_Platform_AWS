@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: rma-control-tower
+    env: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DEFAULT_AI_ENGINE
+        value: custom
+      - key: CUSTOM_API_URL
+        value: https://integrate.api.nvidia.com/v1
+      - key: CUSTOM_API_KEY
+        sync: false
+      - key: CUSTOM_MODEL
+        value: meta/llama-3.1-70b-instruct
+      - key: AGENT_1_THRESHOLD
+        value: "85"
+      - key: AGENT_2_THRESHOLD
+        value: "80"
+      - key: AGENT_3_THRESHOLD
+        value: "90"
+      - key: AGENT_4_THRESHOLD
+        value: "95"

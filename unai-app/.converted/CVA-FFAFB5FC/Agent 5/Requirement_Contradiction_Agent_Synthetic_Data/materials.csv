@@ -1,0 +1,7 @@
+material_id,material_name,uom,material_group,criticality
+MAT2001,Industrial Pump Seal,EA,MRO,HIGH
+MAT2002,Servo Motor,EA,ELECTROMECHANICAL,HIGH
+MAT2003,Control PCB,EA,ELECTRONICS,HIGH
+MAT2004,Aluminium Housing,EA,MECHANICAL,MEDIUM
+MAT2005,Packaging Tray,EA,PACKAGING,LOW
+MAT2006,Bearing Kit,EA,MRO,MEDIUM

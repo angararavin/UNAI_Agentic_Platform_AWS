@@ -1,0 +1,9 @@
+supplier_id,supplier_name,country,risk_segment
+SUP1001,Apex Components,India,High
+SUP1002,Nova Industrial,India,Medium
+SUP1003,Vertex Electronics,India,High
+SUP1004,Orion Metals,India,Low
+SUP1005,Prime Plastics,India,Medium
+SUP1006,Zenith Bearings,India,High
+SUP1007,Delta Cables,India,Medium
+SUP1008,Titan Fasteners,India,Low

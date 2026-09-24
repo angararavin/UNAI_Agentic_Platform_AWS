@@ -1,0 +1,6 @@
+event_id,timestamp,po_id,event_type,description
+EVT0001,2026-09-16T08:00:00,PO100002,CONFIRMATION_RECEIVED,Supplier confirmation received
+EVT0002,2026-09-16T08:05:00,PO100003,SUPPLIER_RISK_DETECTED,Historical delay pattern detected
+EVT0003,2026-09-16T08:10:00,PO100004,CONFIRMATION_CHANGED,Supplier moved promise date
+EVT0004,2026-09-16T08:15:00,PO100006,IMPACT_DETECTED,Critical production requirement within 1 day
+EVT0005,2026-09-16T08:20:00,PO100009,RISK_ALERT_CREATED,Potential production shortage

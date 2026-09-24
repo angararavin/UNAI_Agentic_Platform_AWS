@@ -1,0 +1,6 @@
+{
+  "name": "Order Surge Impact Analysis",
+  "description": "Multi-agent supply chain intelligence system powered by LangChain and LangGraph for real-time demand surge, supply constraint, and planner recommendation analysis.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

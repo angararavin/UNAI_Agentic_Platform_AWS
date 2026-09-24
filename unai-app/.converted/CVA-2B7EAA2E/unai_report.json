@@ -1,0 +1,70 @@
+{
+  "hasFrontend": true,
+  "uiNote": "retained and launched the app's own full-stack server (frontend + API routes), live",
+  "backendSwapped": false,
+  "agentGroups": [
+    {
+      "name": "Disposition",
+      "sourceFile": "server/agents/agent1Disposition.ts",
+      "capabilityIds": [
+        "execute_agent1"
+      ]
+    },
+    {
+      "name": "Dwell Time",
+      "sourceFile": "server/agents/agent2DwellTime.ts",
+      "capabilityIds": [
+        "execute_agent2"
+      ]
+    },
+    {
+      "name": "Urgency",
+      "sourceFile": "server/agents/agent3Urgency.ts",
+      "capabilityIds": [
+        "execute_agent3"
+      ]
+    },
+    {
+      "name": "Spare Pool",
+      "sourceFile": "server/agents/agent4SparePool.ts",
+      "capabilityIds": [
+        "execute_agent4"
+      ]
+    },
+    {
+      "name": "Agents",
+      "sourceFile": "server/agents/common.ts",
+      "capabilityIds": [
+        "get_ai_client",
+        "compute_token_usage"
+      ]
+    },
+    {
+      "name": "Records Store",
+      "sourceFile": "server/recordsStore.ts",
+      "capabilityIds": [
+        "get_all_records",
+        "add_record",
+        "get_record_by_id",
+        "update_record_review",
+        "reset_records",
+        "clear_records",
+        "calculate_analytics"
+      ]
+    },
+    {
+      "name": "Server",
+      "sourceFile": "server.ts",
+      "capabilityIds": [
+        "resolve_model_name",
+        "start_server"
+      ]
+    }
+  ],
+  "capabilitiesFound": 15,
+  "llmCallSitesFound": 15,
+  "usedLLM": false,
+  "llmProvider": null,
+  "llmError": "LLM did not return the expected JSON shape",
+  "measurementHarness": "not generated -- no LLM call sites found, comparison will use modeled numbers for your app"
+}

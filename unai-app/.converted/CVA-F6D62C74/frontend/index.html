@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supply Chain Control Tower | Autonomous Multi-Agent Decision Intelligence</title>
+    <link rel="stylesheet" href="/static/styles.css?v=3.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        .param-inputs-bar { position: relative !important; z-index: 9000 !important; overflow: visible !important; }
+        .input-group { position: relative !important; z-index: 9001 !important; }
+        .suggestions-dropdown { position: absolute !important; z-index: 999999 !important; transform: translateZ(0) !important; }
+        .agent-pipeline-bar { position: relative !important; z-index: 1 !important; display: flex !important; align-items: center !important; justify-content: space-between !important; gap: 8px !important; margin-bottom: 16px !important; padding: 10px 16px !important; border-radius: 12px !important; }
+        .pipeline-step { display: flex !important; align-items: center !important; gap: 10px !important; padding: 8px 12px !important; border-radius: 10px !important; flex: 1 !important; min-width: 0 !important; position: relative !important; z-index: 2 !important; }
+        .step-num { display: inline-flex !important; align-items: center !important; justify-content: center !important; width: 32px !important; height: 32px !important; min-width: 32px !important; border-radius: 8px !important; font-weight: 700 !important; gap: 2px !important; }
+        .step-info { display: flex !important; flex-direction: column !important; min-width: 0 !important; }
+        .step-label { font-size: 12px !important; font-weight: 600 !important; white-space: nowrap !important; }
+        .step-sub { font-size: 10px !important; white-space: nowrap !important; opacity: 0.75 !important; }
+        .step-connector { flex: 0 0 14px !important; height: 2px !important; border-radius: 1px !important; opacity: 0.7 !important; }
+    </style>
+</head>
+<body data-theme="dark">
+    <div class="app-container">
+        <!-- Top Navbar -->
+        <header class="top-nav">
+            <div class="nav-brand">
+                <div class="logo-badge">UNAI</div>
+                <div class="brand-title">
+                    <h1>Supply Chain Risk & Decision Intelligence Copilot</h1>
+                    <span class="subtitle">Autonomous Multi-Agent Architecture • Exposure • Operations • Commercial • SME Trade-offs</span>
+                </div>
+            </div>
+            <div class="nav-actions">
+                <button class="btn btn-secondary" id="openUploadModalBtn" title="Upload Enterprise CSV Datasets">
+                    <span class="btn-icon">📁</span> Upload Datasets
+                </button>
+                <button class="btn btn-theme" id="themeToggleBtn" title="Toggle Light / Dark Theme">
+                    <span id="themeIcon">☀️</span> <span id="themeText">Light Mode</span>
+                </button>
+                <button class="btn btn-primary" id="runPipelineBtn">
+                    <span class="btn-icon">⚡</span> Run Agentic Pipeline
+                </button>
+            </div>
+        </header>
+
+        <!-- Dynamic Parameter & Shipment Route Inputs Bar -->
+        <div class="param-inputs-bar">
+            <div class="input-group" style="position: relative;">
+                <label for="inputSupplier">Supplier / Vendor</label>
+                <input type="text" id="inputSupplier" placeholder="e.g. Foxconn, TSMC, Kia, Apple, Shin-Etsu (or leave blank to auto-discover)" value="" autocomplete="off">
+                <div id="supplierSuggestionsDropdown" class="suggestions-dropdown" style="display: none;"></div>
+            </div>
+            <div class="input-group">
+                <label for="inputOrigin">Origin Port / Plant</label>
+                <input type="text" id="inputOrigin" placeholder="e.g. Yantian Port, Hsinchu (or auto-infer)" value="">
+            </div>
+            <div class="input-group">
+                <label for="inputDestination">Destination Hub / Customer</label>
+                <input type="text" id="inputDestination" placeholder="e.g. Austin, Texas, USA or Chennai, India" value="">
+            </div>
+            <div class="input-group">
+                <label for="selectTransportMode">Logistics Mode</label>
+                <select id="selectTransportMode" class="input-select">
+                    <option value="Ocean Freight" selected>🚢 Ocean Freight</option>
+                    <option value="Air Freight">✈️ Air Freight</option>
+                    <option value="Road & Rail Logistics">🚚 Road & Rail Logistics</option>
+                </select>
+            </div>
+            <div class="input-group btn-group" style="display: flex; gap: 6px;">
+                <button class="btn btn-secondary" id="applyParamsBtn">Calculate Route Risk</button>
+                <button class="btn btn-healthy" id="healthyStateBtn" title="Test normal baseline ($0 risk / healthy)">🟢 Test Healthy</button>
+            </div>
+        </div>
+
+        <!-- Multi-Agent Orchestration Status Pipeline -->
+        <div class="agent-pipeline-bar" id="agentPipelineBar">
+            <div class="pipeline-step active" id="step1" title="Team 1: Event Intelligence & Disruption Sensing">
+                <span class="step-num"><span class="step-icon">📡</span>1</span>
+                <div class="step-info">
+                    <span class="step-label">Event Intelligence</span>
+                    <span class="step-sub">Sensing & Weather</span>
+                </div>
+            </div>
+            <div class="step-connector"></div>
+            <div class="pipeline-step active" id="step2" title="Team 2: Multi-Tier BOM & Supply Network Exposure">
+                <span class="step-num"><span class="step-icon">🌐</span>2</span>
+                <div class="step-info">
+                    <span class="step-label">BOM & Topology</span>
+                    <span class="step-sub">Exposure & Regional Blobs</span>
+                </div>
+            </div>
+            <div class="step-connector"></div>
+            <div class="pipeline-step active" id="step3" title="Team 3: Operations (Manufacturing Capacity & Inventory DOS)">
+                <span class="step-num"><span class="step-icon">🏭</span>3</span>
+                <div class="step-info">
+                    <span class="step-label">Operations Lead</span>
+                    <span class="step-sub">Capacity Loss & DOS</span>
+                </div>
+            </div>
+            <div class="step-connector"></div>
+            <div class="pipeline-step active" id="step4" title="Team 4: Commercial Impact & Customer Order Analysis">
+                <span class="step-num"><span class="step-icon">💼</span>4</span>
+                <div class="step-info">
+                    <span class="step-label">Commercial Impact</span>
+                    <span class="step-sub">OTIF, Revenue & SLA</span>
+                </div>
+            </div>
+            <div class="step-connector"></div>
+            <div class="pipeline-step active" id="step5" title="Team 5: Response Lead & SME Decision Engine (Groq LLM)">
+                <span class="step-num"><span class="step-icon">🏆</span>5</span>
+                <div class="step-info">
+                    <span class="step-label">SME Decision Engine</span>
+                    <span class="step-sub">Trade-offs & Groq AI</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Workspace Grid -->
+        <main class="dashboard-grid">
+            
+            <!-- Left Column: Disruption Feed & Global Sensing Telemetry -->
+            <section class="panel panel-left">
+                <!-- Agent 1: Event Intelligence -->
+                <div class="panel-header">
+                    <h2><span class="dot live-dot"></span> 1. Event Intelligence</h2>
+                    <span class="badge badge-info" id="sensingSource">Live Market & Weather</span>
+                </div>
+                <div class="disruption-list" id="disruptionFeed">
+                    <div class="idle-feed-msg">
+                        <div class="idle-icon">📡</div>
+                        <h4>System Standby</h4>
+                        <p>Enter a supplier and shipment route above, then click <strong>"Run Agentic Pipeline"</strong> to sense live global logistics disruptions.</p>
+                    </div>
+                </div>
+
+                <!-- Supplier Live News & Raw Material Shortage Radar -->
+                <div class="panel-subcard" id="supplierNewsCard" style="margin-top: 14px;">
+                    <div class="panel-header-sm" style="display: flex; justify-content: space-between; align-items: center;">
+                        <h3>📰 Supplier News & Material Radar</h3>
+                        <span class="badge badge-info" id="shortageBadge">Standby</span>
+                    </div>
+                    <div class="supplier-news-container" id="supplierNewsContainer">
+                        <div class="signal-item" style="font-size: 11px; color: var(--text-dim);">
+                            <span>Run assessment pipeline to analyze upstream raw material bottlenecks, component shortages, and real-time vendor news.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Corridor Quick Stats & Seismic/Weather Indicators -->
+                <div class="panel-subcard" style="margin-top: 14px;">
+                    <div class="panel-header-sm">
+                        <h3>🌍 Active Environmental Sensing</h3>
+                        <span class="badge badge-success" id="envStatusBadge">Live Feeds Active</span>
+                    </div>
+                    <div class="marketaux-feed" id="envFeedList">
+                        <div class="signal-item">
+                            <span class="signal-badge">WEATHER</span>
+                            <span>Open-Meteo live wind, precipitation, and typhoon tracking enabled.</span>
+                        </div>
+                        <div class="signal-item">
+                            <span class="signal-badge" style="background: rgba(239, 68, 68, 0.2); color: #FCA5A5;">SEISMIC</span>
+                            <span>USGS real-time earthquake fault line monitoring (Magnitude > 4.0).</span>
+                        </div>
+                        <div class="signal-item">
+                            <span class="signal-badge" style="background: rgba(59, 130, 246, 0.2); color: #93C5FD;">MARITIME</span>
+                            <span>Tavily & Marketaux port dwell and canal chokepoint sentiment sensing.</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Center Column: Executive Summary, Wide Network Topology, Operations & Comparison -->
+            <section class="panel panel-center">
+                
+                <!-- Dynamic Post-Mitigation Risk Score Gauge Card -->
+                <div class="risk-score-card" id="riskScoreCard">
+                    <div class="risk-score-header">
+                        <div>
+                            <div class="risk-score-tag" id="riskScoreCardTitle">SYSTEM STANDBY • READY TO ANALYZE</div>
+                            <div class="risk-score-val" id="riskScorePctVal">--%</div>
+                        </div>
+                        <div class="risk-badge-box">
+                            <span class="badge badge-info" id="riskLevelBadge">STANDBY</span>
+                        </div>
+                    </div>
+                    <!-- Progress Meter -->
+                    <div class="risk-progress-track">
+                        <div class="risk-progress-fill" id="riskProgressFill" style="width: 0%;"></div>
+                    </div>
+                    <div class="risk-breakdown-sub" id="riskScoreSub">
+                        <span>Enter vendor & route parameters above to activate multi-agent risk calculations.</span>
+                    </div>
+                </div>
+
+                <div class="exec-summary-card">
+                    <div class="card-tag" id="execCardTag">WELCOME TO UNAI CONTROL TOWER</div>
+                    <h2 id="execTitle">Supply Chain Risk & Decision Intelligence Copilot</h2>
+                    <p id="execDesc" class="exec-desc">Enter any supplier (e.g. <em>Foxconn, TSMC, Kia, Apple, BMW, Shin-Etsu</em>) and corridor above, then click <strong>Run Agentic Pipeline</strong> to activate live multi-agent intelligence and generate tailored mitigation trade-offs.</p>
+                    
+                    <div class="supplier-pill-row">
+                        <span class="pill">Supplier: <strong id="execSupplier">--</strong></span>
+                        <span class="pill">Location: <strong id="execLocation">--</strong></span>
+                        <span class="pill">Severity: <strong id="execSeverity" class="text-info">Standby</strong></span>
+                        <span class="pill">Engine: <strong id="execEngine">Autonomous Multi-Agent Architecture</strong></span>
+                    </div>
+                </div>
+
+                <!-- Interactive KPI Cards Grid -->
+                <div class="kpi-grid">
+                    <div class="kpi-card danger-glow">
+                        <div class="kpi-label">Remaining Risk (Selected)</div>
+                        <div class="kpi-value" id="kpiRevRisk">$0</div>
+                        <div class="kpi-sub" id="kpiRevSub">Awaiting Route Analysis</div>
+                    </div>
+                    <div class="kpi-card emerald-glow">
+                        <div class="kpi-label">Revenue Protected</div>
+                        <div class="kpi-value" id="kpiRevProtected">$0</div>
+                        <div class="kpi-sub" id="kpiProtectedSub">Awaiting Route Analysis</div>
+                    </div>
+                    <div class="kpi-card info-glow">
+                        <div class="kpi-label">Projected OTIF Target</div>
+                        <div class="kpi-value" id="kpiOtif">--%</div>
+                        <div class="kpi-sub" id="kpiOtifSub">Baseline OTIF</div>
+                    </div>
+                    <div class="kpi-card purple-glow">
+                        <div class="kpi-label">Recovery Window & Cost</div>
+                        <div class="kpi-value" id="kpiTimeline">-- Weeks</div>
+                        <div class="kpi-sub" id="kpiTimelineSub">Strategy Cost: $0</div>
+                    </div>
+                </div>
+
+                <!-- Premier Wide Center: Supply Chain Network Topology Console -->
+                <div class="panel-subcard topology-center-card" style="margin-top: 14px;">
+                    <div class="panel-header-sm topology-center-header">
+                        <div class="topology-title-box">
+                            <h3 style="display: flex; align-items: center; gap: 8px; margin: 0; font-size: 13px; font-weight: 700;">
+                                <span>🌐 2. Supply Chain Network Topology & Exposure Console</span>
+                            </h3>
+                            <span class="badge badge-info" id="exposureBadge">0 Nodes</span>
+                        </div>
+                        <div class="topology-controls-row">
+                            <div class="exposure-tabs">
+                                <button class="tab-btn active" id="tabTopologyBtn">🌐 Network Topology Map</button>
+                                <button class="tab-btn" id="tabBomBtn">📋 Multi-Tier BOM List</button>
+                            </div>
+                            <div class="topology-filter-pills">
+                                <button class="filter-pill active" id="filterAllNodes">All Nodes</button>
+                                <button class="filter-pill filter-affected" id="filterAffectedNodes">🔴 Affected</button>
+                                <button class="filter-pill filter-safe" id="filterSafeNodes">🟢 Safe Nodes</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Canvas Graph Container -->
+                    <div id="topologyViewContainer" class="topology-container-center">
+                        <div class="topology-legend-center">
+                            <span class="legend-item"><span class="legend-dot dot-tier2"></span> Tier-2 Raw Materials</span>
+                            <span class="legend-item"><span class="legend-dot dot-tier1"></span> Tier-1 Prime Vendors</span>
+                            <span class="legend-item"><span class="legend-dot dot-affected"></span> Disrupted / Affected (🔴)</span>
+                            <span class="legend-item"><span class="legend-dot dot-safe"></span> Operational / Safe (🟢)</span>
+                            <span class="legend-item"><span class="legend-dot dot-plant"></span> Assembly Plants (🏭)</span>
+                            <span class="legend-item"><span class="legend-dot dot-hub"></span> Customer Hubs (🏢)</span>
+                        </div>
+                        <div id="topologyCanvasWrapper" class="topology-canvas-center-box">
+                            <canvas id="topologyCanvas" width="760" height="340"></canvas>
+                        </div>
+                        <div id="topologyStats" class="topology-stats-bar-center">
+                            <span id="topologySummaryText">Ready to map supply chain network topology</span>
+                            <span id="topologyHintText" style="color: var(--text-dim); font-size: 10px;">💡 Hover to inspect node metrics • Click any supplier node to select & run pipeline</span>
+                        </div>
+                    </div>
+
+                    <!-- BOM Hierarchy List View -->
+                    <div id="exposureContainer" class="exposure-content" style="display: none; padding: 10px 0;">
+                        <div class="signal-item">
+                            <p style="font-size: 12px;">BOM traversal maps Tier 1/2 dependencies, affected components, and exposed final assembly plants.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Operations & Commercial Telemetry Dual Grid -->
+                <div class="telemetry-dual-grid">
+                    <!-- Agent 3: Operations (Capacity & Inventory) -->
+                    <div class="panel-subcard">
+                        <div class="panel-header-sm">
+                            <h3>🏭 3. Operations Team (Capacity & DOS)</h3>
+                        </div>
+                        <div class="ops-telemetry-body" id="opsTelemetryBody">
+                            <div class="telemetry-metric-row">
+                                <span class="t-label">Plant Capacity Loss:</span>
+                                <strong id="opsCapacityLoss" class="text-amber">--%</strong>
+                            </div>
+                            <div class="telemetry-metric-row">
+                                <span class="t-label">Max Plant Recovery:</span>
+                                <strong id="opsRecoveryDays">-- Days</strong>
+                            </div>
+                            <div class="telemetry-metric-row">
+                                <span class="t-label">Days of Supply (DOS):</span>
+                                <strong id="opsDos">-- Days</strong>
+                            </div>
+                            <div class="telemetry-metric-row">
+                                <span class="t-label">Safety Stock Breaches:</span>
+                                <strong id="opsSafetyBreaches">0 Parts</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Agent 4: Commercial Lead (Customer Orders & OTIF) -->
+                    <div class="panel-subcard">
+                        <div class="panel-header-sm">
+                            <h3>💼 4. Commercial Lead (Customer Impact)</h3>
+                        </div>
+                        <div class="ops-telemetry-body" id="commTelemetryBody">
+                            <div class="telemetry-metric-row">
+                                <span class="t-label">Impacted Customers:</span>
+                                <strong id="commCustomersCount">--</strong>
+                            </div>
+                            <div class="telemetry-metric-row">
+                                <span class="t-label">Delayed Sales Orders:</span>
+                                <strong id="commOrdersCount">-- Orders</strong>
+                            </div>
+                            <div class="telemetry-metric-row">
+                                <span class="t-label">Projected OTIF Drop:</span>
+                                <strong id="commOtifDrop" class="text-danger">--%</strong>
+                            </div>
+                            <div class="telemetry-metric-row">
+                                <span class="t-label">Contract SLA Penalties:</span>
+                                <strong id="commSlaPenalties" class="text-danger">$0</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recommended vs User Selected Comparison Card -->
+                <div class="comparison-panel-card">
+                    <div class="panel-header-sm">
+                        <h3>⚖️ Recommended Strategy vs User Selected Strategy</h3>
+                    </div>
+                    <div class="comparison-table-wrapper">
+                        <table class="comparison-table">
+                            <thead>
+                                <tr>
+                                    <th>Metric</th>
+                                    <th>🏆 AI Recommended</th>
+                                    <th>👉 User Selected</th>
+                                    <th>Variance (Delta)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Strategy Name</strong></td>
+                                    <td id="cmpRecName" class="text-emerald">--</td>
+                                    <td id="cmpSelName">--</td>
+                                    <td id="cmpNameDelta"><span class="delta-tag neutral">Standby</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Operational Health / Risk %</strong></td>
+                                    <td id="cmpRecRisk" class="text-emerald">--</td>
+                                    <td id="cmpSelRisk">--</td>
+                                    <td id="cmpRiskDelta"><span class="delta-tag neutral">0.0%</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Revenue Protected</strong></td>
+                                    <td id="cmpRecRev" class="text-emerald">$0.00M</td>
+                                    <td id="cmpSelRev">$0.00M</td>
+                                    <td id="cmpRevDelta"><span class="delta-tag neutral">$0.00M</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Mitigation Cost</strong></td>
+                                    <td id="cmpRecCost">$0</td>
+                                    <td id="cmpSelCost">$0</td>
+                                    <td id="cmpCostDelta"><span class="delta-tag neutral">$0</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Projected OTIF %</strong></td>
+                                    <td id="cmpRecOtif" class="text-emerald">--%</td>
+                                    <td id="cmpSelOtif">--%</td>
+                                    <td id="cmpOtifDelta"><span class="delta-tag neutral">0%</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Recovery Window</strong></td>
+                                    <td id="cmpRecTimeline" class="text-emerald">-- Weeks</td>
+                                    <td id="cmpSelTimeline">-- Weeks</td>
+                                    <td id="cmpTimelineDelta"><span class="delta-tag neutral">0 Wks</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Column: Response Lead & Groq SME Recommendations -->
+            <section class="panel panel-right">
+                <div class="panel-header">
+                    <h2>5. Response Lead & SME Comparator</h2>
+                    <span class="badge badge-success" id="recEngineBadge">Groq LLM Decision Intelligence</span>
+                </div>
+
+                <!-- Active Selected Option Highlight Box -->
+                <div class="recommendation-highlight" id="activeOptionCard">
+                    <div class="highlight-label" id="recHighlightBadge">STANDBY • AWAITING ANALYSIS</div>
+                    <h3 id="recTitle">Ready to Evaluate Mitigation Options</h3>
+                    <p id="recDetails" class="rec-desc">Click "Run Agentic Pipeline" or "Calculate Route Risk" above to simulate tailored mitigation playbooks.</p>
+
+                    <div class="benefit-box">
+                        <div class="benefit-item">
+                            <span class="b-label">Strategy Cost:</span>
+                            <span class="b-val rec-cost-val" id="recCost">$0</span>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="b-label">Recovery Window:</span>
+                            <span class="b-val" id="recTimeline">-- Weeks</span>
+                        </div>
+                    </div>
+
+                    <div class="tradeoff-box">
+                        <strong>Trade-off Analysis:</strong>
+                        <p id="recTradeoff">Smart SME trade-off reasoning comparing capital cost vs revenue protected will appear here once triggered.</p>
+                    </div>
+                </div>
+
+                <!-- Interactive Trade-Off Options List -->
+                <div class="options-section">
+                    <h3>Click Any Option to Compare Against AI Recommendation</h3>
+                    <div class="options-list" id="optionsList">
+                        <div class="idle-options-msg">
+                            <p>💡 <em>Tip: You can evaluate any global supplier. If origin port/plant is left blank, the system automatically finds the closest qualified supplier to your destination hub.</em></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Floating AI Copilot Trigger Button -->
+    <button class="floating-copilot-btn" id="copilotToggleBtn" title="Ask Supply Chain Copilot">
+        <span class="copilot-icon">🧠</span>
+        <span class="copilot-label">Ask Copilot</span>
+        <span class="copilot-pulse"></span>
+    </button>
+
+    <!-- Smart Q&A Copilot Chat Drawer / Window -->
+    <div class="copilot-drawer" id="copilotDrawer">
+        <div class="copilot-header">
+            <div class="copilot-header-title">
+                <span class="copilot-avatar">🧠</span>
+                <div>
+                    <h4>Smart Supply Chain Copilot</h4>
+                    <span class="copilot-sub">Token-Optimized SME Intelligence</span>
+                </div>
+            </div>
+            <button class="copilot-close-btn" id="closeCopilotBtn">&times;</button>
+        </div>
+
+        <!-- Suggested Prompt Chips -->
+        <div class="copilot-chips-container">
+            <span class="chips-label">Quick Prompts:</span>
+            <div class="copilot-chips">
+                <button class="chip-btn" data-prompt="Why is Option 3 recommended over Option 2?">⚡ Why Option 3?</button>
+                <button class="chip-btn" data-prompt="What is our total revenue at risk and SLA penalties?">⚡ Revenue & Penalties?</button>
+                <button class="chip-btn" data-prompt="What is the manufacturing capacity loss and Days of Supply?">⚡ Capacity & DOS?</button>
+                <button class="chip-btn" data-prompt="How does the Exposure Agent traverse the BOM?">⚡ BOM Traversal?</button>
+            </div>
+        </div>
+
+        <!-- Chat Messages Stream -->
+        <div class="copilot-messages" id="copilotMessages">
+            <div class="copilot-msg assistant">
+                <div class="msg-bubble">
+                    👋 <strong>Hello!</strong> I am your <strong>Supply Chain Risk & Decision Intelligence Copilot</strong>. Ask me anything about multi-tier BOM exposure, plant capacity loss, Days of Supply, customer OTIF drops, or mitigation trade-offs.
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Input Footer -->
+        <div class="copilot-footer">
+            <input type="text" id="copilotInput" placeholder="Ask anything (e.g., 'What is the plant capacity loss?')..." autocomplete="off" />
+            <button id="copilotSendBtn" class="copilot-send-btn">
+                <span>Send</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Custom CSV Dataset Uploader Modal -->
+    <div class="modal-backdrop" id="uploadModal" style="display: none;">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <span class="modal-icon">📁</span>
+                    <div>
+                        <h3>Upload Custom Enterprise Datasets (CSV)</h3>
+                        <p class="modal-sub">Upload your proprietary enterprise disruption feeds, BOM ledgers, plant capacity, or customer orders</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" id="closeUploadModalBtn">&times;</button>
+            </div>
+
+            <div class="upload-grid">
+                <!-- Card 1: Suppliers Ledger -->
+                <div class="upload-card">
+                    <div class="upload-card-header">
+                        <span class="upload-badge">Multi-Tier Network</span>
+                        <h4>1. Suppliers Ledger</h4>
+                        <p class="upload-desc">Upload <code>suppliers.csv</code> (Columns: supplier_id, supplier_name, tier, depends_on_supplier_id, country)</p>
+                    </div>
+                    <div class="upload-dropzone">
+                        <input type="file" id="fileSuppliers" accept=".csv" class="file-input" />
+                        <label for="fileSuppliers" class="file-label">
+                            <span class="file-icon">🏭</span>
+                            <span class="file-name" id="nameSuppliers">Choose suppliers.csv</span>
+                        </label>
+                    </div>
+                    <button class="btn btn-sm btn-primary upload-action-btn" id="btnUploadSuppliers" disabled>
+                        <span>Upload Suppliers</span>
+                    </button>
+                    <div class="upload-status" id="statusSuppliers"></div>
+                </div>
+
+                <!-- Card 2: BOM Ledger -->
+                <div class="upload-card">
+                    <div class="upload-card-header">
+                        <span class="upload-badge">Bill of Materials</span>
+                        <h4>2. BOM Ledger</h4>
+                        <p class="upload-desc">Upload <code>bom.csv</code> (Columns: part_id, part_name, supplier_id, product_id, criticality)</p>
+                    </div>
+                    <div class="upload-dropzone">
+                        <input type="file" id="fileBom" accept=".csv" class="file-input" />
+                        <label for="fileBom" class="file-label">
+                            <span class="file-icon">🔩</span>
+                            <span class="file-name" id="nameBom">Choose bom.csv</span>
+                        </label>
+                    </div>
+                    <button class="btn btn-sm btn-primary upload-action-btn" id="btnUploadBom" disabled>
+                        <span>Upload BOM</span>
+                    </button>
+                    <div class="upload-status" id="statusBom"></div>
+                </div>
+
+                <!-- Card 3: Plant Capacity -->
+                <div class="upload-card">
+                    <div class="upload-card-header">
+                        <span class="upload-badge">Operations</span>
+                        <h4>3. Plant Capacity</h4>
+                        <p class="upload-desc">Upload <code>plant_capacity.csv</code> (Columns: plant_id, plant_name, baseline_capacity, recovery_days, redundancy)</p>
+                    </div>
+                    <div class="upload-dropzone">
+                        <input type="file" id="fileCapacity" accept=".csv" class="file-input" />
+                        <label for="fileCapacity" class="file-label">
+                            <span class="file-icon">⚙️</span>
+                            <span class="file-name" id="nameCapacity">Choose plant_capacity.csv</span>
+                        </label>
+                    </div>
+                    <button class="btn btn-sm btn-primary upload-action-btn" id="btnUploadCapacity" disabled>
+                        <span>Upload Capacity</span>
+                    </button>
+                    <div class="upload-status" id="statusCapacity"></div>
+                </div>
+
+                <!-- Card 4: Inventory -->
+                <div class="upload-card">
+                    <div class="upload-card-header">
+                        <span class="upload-badge">Inventory</span>
+                        <h4>4. Inventory Stock</h4>
+                        <p class="upload-desc">Upload <code>inventory.csv</code> (Columns: part_id, part_name, on_hand_qty, avg_daily_consumption, safety_stock)</p>
+                    </div>
+                    <div class="upload-dropzone">
+                        <input type="file" id="fileInventory" accept=".csv" class="file-input" />
+                        <label for="fileInventory" class="file-label">
+                            <span class="file-icon">📦</span>
+                            <span class="file-name" id="nameInventory">Choose inventory.csv</span>
+                        </label>
+                    </div>
+                    <button class="btn btn-sm btn-primary upload-action-btn" id="btnUploadInventory" disabled>
+                        <span>Upload Inventory</span>
+                    </button>
+                    <div class="upload-status" id="statusInventory"></div>
+                </div>
+
+                <!-- Card 5: Customer Orders -->
+                <div class="upload-card">
+                    <div class="upload-card-header">
+                        <span class="upload-badge">Commercial</span>
+                        <h4>5. Customer Orders</h4>
+                        <p class="upload-desc">Upload <code>customer_orders.csv</code> (Columns: order_id, customer_name, product_id, order_qty, unit_price, promised_date)</p>
+                    </div>
+                    <div class="upload-dropzone">
+                        <input type="file" id="fileOrders" accept=".csv" class="file-input" />
+                        <label for="fileOrders" class="file-label">
+                            <span class="file-icon">💼</span>
+                            <span class="file-name" id="nameOrders">Choose customer_orders.csv</span>
+                        </label>
+                    </div>
+                    <button class="btn btn-sm btn-primary upload-action-btn" id="btnUploadOrders" disabled>
+                        <span>Upload Orders</span>
+                    </button>
+                    <div class="upload-status" id="statusOrders"></div>
+                </div>
+
+                <!-- Card 6: Risk Events -->
+                <div class="upload-card">
+                    <div class="upload-card-header">
+                        <span class="upload-badge">Risk Feed</span>
+                        <h4>6. Disruption Events</h4>
+                        <p class="upload-desc">Upload <code>risk_events.csv</code> (Columns: id, event_type, location, severity, supplier, description, date)</p>
+                    </div>
+                    <div class="upload-dropzone">
+                        <input type="file" id="fileRiskEvents" accept=".csv" class="file-input" />
+                        <label for="fileRiskEvents" class="file-label">
+                            <span class="file-icon">📄</span>
+                            <span class="file-name" id="nameRiskEvents">Choose risk_events.csv</span>
+                        </label>
+                    </div>
+                    <button class="btn btn-sm btn-primary upload-action-btn" id="btnUploadEvents" disabled>
+                        <span>Upload Risk Events</span>
+                    </button>
+                    <div class="upload-status" id="statusRiskEvents"></div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="modal-note">
+                    ℹ️ Uploaded CSVs are ingested into the live multi-agent pipeline and automatically trigger real-time BOM traversal, capacity recalculation, and customer impact updates.
+                </div>
+                <button class="btn btn-secondary" id="closeUploadModalFooterBtn">Done / Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/app.js?v=3.0"></script>
+</body>
+</html>

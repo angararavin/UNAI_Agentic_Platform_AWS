@@ -1,0 +1,7 @@
+material_id,material_name,uom,material_group,criticality,mrp_type
+MAT1001,Pressure Sensor,EA,ELECTRONICS,HIGH,L
+MAT1002,Servo Motor,EA,ELECTROMECHANICAL,HIGH,L
+MAT1003,Aluminium Housing,EA,MECHANICAL,MEDIUM,L
+MAT1004,Packaging Tray,EA,PACKAGING,LOW,L
+MAT1005,Control PCB,EA,ELECTRONICS,HIGH,L
+MAT1006,Fastener Kit,EA,MECHANICAL,LOW,L

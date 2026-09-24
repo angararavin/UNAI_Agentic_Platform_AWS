@@ -1,0 +1,4 @@
+conflict_id,signal_a,signal_b,contested_resource,description,resolution_options
+CFL-01,SIG-2026-0912,SIG-2026-0913,air freight capacity / freight budget,Both plays claim the same trans-Pacific air lane in weeks 2-5; combined spend breaches the $1M freight cap,prioritise P1 customers|split lane 60/40|raise cap
+CFL-02,SIG-2026-0912,SIG-2026-0914,plant PL-04 line re-sequencing,Re-sequencing PL-04 is claimed by the earthquake play and the tier-1 financial play,sequence earthquake first|split by week|overtime shift
+CFL-03,SIG-2026-0915,SIG-2026-0914,inventory buffer,Trimming releases for the demand drop removes buffer the pre-buy play depends on,exempt 26 dual-source parts|stage the trim

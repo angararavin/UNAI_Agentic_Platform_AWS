@@ -1,0 +1,5 @@
+risk_band,probability_range,default_action
+LOW,0.00-0.29,No action; informational monitoring
+MEDIUM,0.30-0.59,Buyer review / supplier follow-up
+HIGH,0.60-0.79,Prioritized exception + impact assessment
+CRITICAL,0.80-1.00,Approval workflow for intervention

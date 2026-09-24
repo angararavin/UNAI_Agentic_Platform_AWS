@@ -1,0 +1,11 @@
+supplier_id,activity_date,activity_type,activity_note,po_number
+SUP1001,2026-08-20,EMAIL,Supplier confirmed revised date,45001001
+SUP1002,2026-08-15,PORTAL,Confirmation received,45001008
+SUP1003,2026-07-01,EMAIL,Partial shipment acknowledged,45001003
+SUP1004,2026-05-20,PORTAL,PO release received; no confirmation,45001004
+SUP1006,2026-02-18,EMAIL,No confirmation received,45001006
+SUP1001,2026-08-01,EMAIL,Supplier pushed delivery,45001007
+SUP1004,2026-03-01,PORTAL,PO blocked notice,45001009
+SUP1003,2026-04-15,EMAIL,Confirmed delivery,45001010
+SUP1001,2026-03-15,EMAIL,Confirmed delivery,45001011
+SUP1005,2026-08-01,PORTAL,Confirmed delivery,45001012

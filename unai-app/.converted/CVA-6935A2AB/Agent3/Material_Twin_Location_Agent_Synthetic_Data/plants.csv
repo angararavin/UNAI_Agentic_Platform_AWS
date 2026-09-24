@@ -1,0 +1,7 @@
+plant_id,plant_name,region,currency
+PL01,Bangalore Plant,South,INR
+PL02,Pune Plant,West,INR
+PL03,Chennai Plant,South,INR
+PL04,Hyderabad Plant,South,INR
+PL05,Gurgaon Plant,North,INR
+PL06,Ahmedabad Plant,West,INR

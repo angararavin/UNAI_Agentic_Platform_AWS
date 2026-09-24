@@ -1,0 +1,58 @@
+{
+  "hasFrontend": false,
+  "uiNote": "no frontend detected -- generated a minimal UI",
+  "backendSwapped": false,
+  "agentGroups": [
+    {
+      "name": "1",
+      "sourceFile": "Agent 1/agent.py",
+      "capabilityIds": [
+        "init",
+        "load_csv",
+        "build_graph",
+        "node_ingest"
+      ]
+    },
+    {
+      "name": "Tools",
+      "sourceFile": "Agent 1/tools.py",
+      "capabilityIds": [
+        "compute_supplier_stats",
+        "calculate_downstream_exposure"
+      ]
+    },
+    {
+      "name": "2",
+      "sourceFile": "Agent 2/agent.py",
+      "capabilityIds": [
+        "fetch_inventory_state",
+        "reconcile_usable_stock",
+        "evaluate_demand_coverage",
+        "formulate_disposition"
+      ]
+    },
+    {
+      "name": "Tools",
+      "sourceFile": "Agent 2/tools.py",
+      "capabilityIds": [
+        "calculate_usable_stock",
+        "map_inventory_action"
+      ]
+    },
+    {
+      "name": "4",
+      "sourceFile": "Agent 4/agent.py",
+      "capabilityIds": [
+        "fetch_po_context",
+        "compute_aging_metrics",
+        "diagnose_root_cause"
+      ]
+    }
+  ],
+  "capabilitiesFound": 15,
+  "llmCallSitesFound": 18,
+  "usedLLM": false,
+  "llmProvider": null,
+  "llmError": null,
+  "measurementHarness": "generated (unai_measure.py) -- best-effort, falls back to modeled if it captures no real usage"
+}

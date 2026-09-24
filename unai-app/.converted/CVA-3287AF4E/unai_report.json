@@ -1,0 +1,74 @@
+{
+  "hasFrontend": true,
+  "uiNote": "retained and launched the app's own full-stack server (frontend + API routes), live",
+  "backendSwapped": false,
+  "agentGroups": [
+    {
+      "name": "Demand Agent",
+      "sourceFile": "server/agents/demand-agent.ts",
+      "capabilityIds": [
+        "demand_analyst_node"
+      ]
+    },
+    {
+      "name": "Hitl Agent",
+      "sourceFile": "server/agents/hitl-agent.ts",
+      "capabilityIds": [
+        "human_review_init_node",
+        "process_human_decision"
+      ]
+    },
+    {
+      "name": "Planner Agent",
+      "sourceFile": "server/agents/planner-agent.ts",
+      "capabilityIds": [
+        "planner_recommendation_node"
+      ]
+    },
+    {
+      "name": "Supply Agent",
+      "sourceFile": "server/agents/supply-agent.ts",
+      "capabilityIds": [
+        "supply_impact_analyst_node"
+      ]
+    },
+    {
+      "name": "Graph",
+      "sourceFile": "server/workflow/graph.ts",
+      "capabilityIds": [
+        "run_order_surge_analysis",
+        "create_order_surge_graph"
+      ]
+    },
+    {
+      "name": "Llm Client",
+      "sourceFile": "server/workflow/llm-client.ts",
+      "capabilityIds": [
+        "call_llm",
+        "is_custom_api_configured",
+        "is_gemini_configured",
+        "get_llmclient"
+      ]
+    },
+    {
+      "name": "Server",
+      "sourceFile": "server.ts",
+      "capabilityIds": [
+        "determine_initial_provider"
+      ]
+    },
+    {
+      "name": "App",
+      "sourceFile": "src/App.tsx",
+      "capabilityIds": [
+        "load_data"
+      ]
+    }
+  ],
+  "capabilitiesFound": 13,
+  "llmCallSitesFound": 10,
+  "usedLLM": false,
+  "llmProvider": null,
+  "llmError": "LLM did not return the expected JSON shape",
+  "measurementHarness": "not generated -- no LLM call sites found, comparison will use modeled numbers for your app"
+}

@@ -1,0 +1,121 @@
+openapi: 3.0.3
+info:
+  title: UNAI API
+  version: "1.0.0"
+  description: >
+    Productized API for the UNAI shared cognitive runtime. Author agents against
+    the canonical ontology, run them, connect your data foundation, and operate
+    the Agent Safety & Containment controls. Agents are created and can run
+    against seeded systems-of-record with no data connection; connect real
+    systems later by adapter with no change to the agent (zero re-map).
+servers:
+  - url: /api/v1
+security:
+  - bearerAuth: []
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    Capability:
+      type: object
+      required: [label, kind]
+      properties:
+        id: { type: string, description: "optional slug; derived from label if omitted" }
+        label: { type: string }
+        kind: { type: string, enum: [perception, action], description: "perception = read/lookup; action = write/execute" }
+        system: { type: string, nullable: true, description: "canonical system, e.g. SAP_MM, ANALYTICS" }
+    Agent:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        capabilities: { type: array, items: { $ref: '#/components/schemas/Capability' } }
+        source: { type: string, enum: [builtin, converted, api] }
+paths:
+  /:
+    get: { summary: API index, security: [], responses: { '200': { description: ok } } }
+  /openapi.yaml:
+    get: { summary: This spec, security: [], responses: { '200': { description: ok } } }
+  /health:
+    get: { summary: Health + containment summary, responses: { '200': { description: ok } } }
+  /ontology:
+    get:
+      summary: Canonical ontology (the concepts you author agents against)
+      responses: { '200': { description: ok } }
+  /agents:
+    get:
+      summary: List agents (built-in use cases + created)
+      responses: { '200': { description: ok } }
+    post:
+      summary: Create an agent from a manifest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, capabilities]
+              properties:
+                name: { type: string }
+                capabilities: { type: array, items: { $ref: '#/components/schemas/Capability' } }
+      responses: { '201': { description: created }, '400': { description: invalid } }
+  /agents/{id}/run:
+    post:
+      summary: Run an agent (built-in key or a created manifest)
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                config: { type: object, description: "optional run config (e.g. autonomyThreshold)" }
+      responses: { '200': { description: run result — evidence, observability, containment }, '404': { description: unknown agent } }
+  /connections:
+    get:
+      summary: List data-foundation connectors + status
+      responses: { '200': { description: ok } }
+    post:
+      summary: Register / configure a connection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [type]
+              properties:
+                type: { type: string, enum: [databricks, snowflake, bigquery, neo4j, llm] }
+                config: { type: object }
+      responses: { '200': { description: registered }, '400': { description: invalid } }
+  /containment:
+    get:
+      summary: Agent Safety & Containment status + recent events
+      responses: { '200': { description: ok } }
+  /containment/kill:
+    post:
+      summary: Kill switch — force every action to human approval (safe mode)
+      requestBody:
+        content:
+          application/json:
+            schema: { type: object, properties: { on: { type: boolean } } }
+      responses: { '200': { description: ok } }
+  /containment/egress:
+    post:
+      summary: Set the outbound egress allowlist (hostnames)
+      requestBody:
+        content:
+          application/json:
+            schema: { type: object, properties: { allowlist: { type: array, items: { type: string } } } }
+      responses: { '200': { description: ok } }
+  /containment/policy:
+    post:
+      summary: Set the action policy (gated | deny | allow)
+      requestBody:
+        content:
+          application/json:
+            schema: { type: object, properties: { policy: { type: string, enum: [gated, deny, allow] } } }
+      responses: { '200': { description: ok } }

@@ -1,0 +1,5 @@
+supplier,affected_customers_count,impacted_plants_count,otif_baseline_pct,otif_projected_pct,recovery_timeline_weeks
+Kyoto Electronics,42,4,96,84,6
+Pacific Logistics,15,2,98,91,3
+Vanguard Microchips,61,5,94,76,8
+Dragon Semiconductor,28,3,97,88,4

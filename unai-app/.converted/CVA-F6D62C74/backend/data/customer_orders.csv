@@ -1,0 +1,9 @@
+order_id,customer_id,customer_name,product_id,order_qty,unit_price_usd,promised_date,sla_penalty_rate_daily,is_strategic_tier1
+ORD-9001,CUST-01,Microsoft Cloud Infrastructure,PROD-AI-SERVER,1200,18500,2026-09-28,0.015,True
+ORD-9002,CUST-02,Tesla Motors Powertrain Division,PROD-AUTO-EV,2500,8200,2026-09-30,0.020,True
+ORD-9003,CUST-03,Amazon Web Services (AWS),PROD-AI-SERVER,1800,19000,2026-10-05,0.015,True
+ORD-9004,CUST-04,Apple Enterprise Channels,PROD-SMARTPHONE,35000,450,2026-10-02,0.010,True
+ORD-9005,CUST-05,Hyundai Motor Group,PROD-AUTO-EV,1500,7900,2026-10-08,0.018,False
+ORD-9006,CUST-06,Google Cloud TPU Systems,PROD-AI-SERVER,950,21000,2026-09-26,0.025,True
+ORD-9007,CUST-07,Mercedes-Benz AG,PROD-AUTO-EV,1100,9100,2026-10-12,0.015,False
+ORD-9008,CUST-08,Dell Technologies Enterprise,PROD-AI-SERVER,1400,16500,2026-10-15,0.012,False

@@ -1,0 +1,13 @@
+case_id,po_number,remaining_qty,root_cause,recommended_action,rationale,priority
+CASE01,45001001,60,VALID_FUTURE_DEMAND,KEEP_OPEN,Open residual is linked to future production requirement.,MEDIUM
+CASE02,45001002,50,VALID_FUTURE_DEMAND,KEEP_OPEN,Aged PO but required for near-term production; confirmed future date.,HIGH
+CASE03,45001003,80,PARTIAL_DELIVERY_RESIDUAL,REVIEW_REMAINING_QTY,Partial GR exists; residual needs demand and supplier review.,MEDIUM
+CASE04,45001004,80,REQUIREMENT_CANCELLED,CLOSE_OR_CANCEL_WORKFLOW,No active requirement supports the open quantity.,HIGH
+CASE05,45001005,0,FULLY_RECEIVED,CLOSE_PO,PO is operationally complete; residual is zero.,LOW
+CASE06,45001006,1000,REQUIREMENT_CLOSED,CLOSE_OR_CANCEL_WORKFLOW,Maintenance requirement closed and supplier never confirmed.,HIGH
+CASE07,45001007,60,REPEATED_RESCHEDULE,SUPPLIER_REVIEW,Multiple date pushes make the open commitment stale and unreliable.,HIGH
+CASE08,45001008,20,VALID_FUTURE_DEMAND,KEEP_OPEN,Young PO with valid future requirement and confirmation.,LOW
+CASE09,45001009,40,PO_BLOCKED,RELEASE_OR_BLOCK_RESOLUTION,Open supply cannot progress while PO is blocked.,HIGH
+CASE10,45001010,150,VALID_FUTURE_DEMAND,KEEP_OPEN,Long-aged PO is still backed by future forecast requirement.,MEDIUM
+CASE11,45001011,0,REQUIREMENT_CANCELLED,CLOSE_PO,Receipt completed; linked requirement later cancelled.,LOW
+CASE12,45001012,300,VALID_FUTURE_DEMAND,KEEP_OPEN,Recent PO supports active sales requirement.,LOW
